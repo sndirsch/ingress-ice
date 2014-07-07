@@ -19,7 +19,7 @@ On windows all included, on linux to install the dependences on Red Hat based sy
 ```
 sudo yum install fontconfig freetype libfreetype.so.6 libfontconfig.so.1 libstdc++.so.6
 ```
-For Ubuntu use apt-get instead of yum, on Arch use pacman -S, etc. Pachages may differ in different distros, and they may be already installed.
+For Ubuntu use apt-get instead of yum, on Arch use pacman -S, etc. Package names may differ in different distros, and they may be already installed.
 
 Usage
 =====
