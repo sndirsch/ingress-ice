@@ -34,7 +34,7 @@ The link contains your longitude and latitude and zoom level. For Tokyo it is ht
 
 When the variables are set, run the file:
 - On windows run `start.cmd`
-- On linux run `./phantomjs ice.js' from the console
+- On linux run `./phantomjs ice.js` from the console
 
 If you use 2-factor authentication, you will be prompted for the code.
 
