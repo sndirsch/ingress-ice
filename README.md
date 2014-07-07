@@ -10,10 +10,16 @@ Features:
  - Supports 2-step authentication
  - Doesn't require X server to be run.
 
-Download
+[Download](https://github.com/nibogd/ingress-ice/releases)
 ========
 - [Windows](https://github.com/nibogd/ingress-ice/releases/tag/v1-win32)
 - [Linux](https://github.com/nibogd/ingress-ice/releases/tag/v1-linux)
+
+On windows all included, on linux to install the dependences on Red Hat based system run:
+```
+sudo yum install fontconfig freetype libfreetype.so.6 libfontconfig.so.1 libstdc++.so.6
+```
+For Ubuntu use apt-get instead of yum, on Arch use pacman -S, etc. Pachages may differ in different distros, and they may be already installed.
 
 Usage
 =====
