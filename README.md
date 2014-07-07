@@ -9,6 +9,7 @@ Features:
  - Set your location 
  - Supports 2-step authentication
  - Doesn't require X server to be run.
+ - [Linux only] Run `./make_video.sh` to make a video. This script original is [here](https://github.com/schinken/ingress-screenshot/blob/master/make_video.sh).
 
 [Download](https://github.com/nibogd/ingress-ice/releases)
 ========
