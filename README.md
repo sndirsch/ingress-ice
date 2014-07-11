@@ -9,18 +9,19 @@ Features:
  - Set your location 
  - Supports 2-step authentication
  - Doesn't require X server to be run.
- - [Linux only] [Download](https://raw.githubusercontent.com/nibogd/ingress-ice/master/make_video.sh) and run `./make_video.sh` to make a video. This script original is [here](https://github.com/schinken/ingress-screenshot/blob/master/make_video.sh).
+ - [Linux only] Run `./make_video.sh` to make a video.
+ - Checks if there is a new version.
 
 [Download](https://github.com/nibogd/ingress-ice/releases)
 ========
-- [Windows](https://github.com/nibogd/ingress-ice/releases/download/v1-win32/ice-win32.zip)
-- [Linux](https://github.com/nibogd/ingress-ice/releases/download/v1-linux/ice-linux.tar)
+- [Windows](https://github.com/nibogd/ingress-ice/releases/download/v1.0.1-win32/ice-win32.zip)
+- [Linux](https://github.com/nibogd/ingress-ice/releases/download/v1.0.1-linux/ice-linux.tar)
 
-On windows all included, on linux to install the dependences on Red Hat based system run:
+On Red Hat based linux to install the dependences run:
 ```
 sudo yum install fontconfig freetype libfreetype.so.6 libfontconfig.so.1 libstdc++.so.6
 ```
-For Ubuntu use apt-get instead of yum, on Arch use pacman -S, etc. Package names may differ in different distros, and they may be already installed.
+Package names may differ in different distros, and they may be already installed.
 
 Usage
 =====
@@ -34,13 +35,13 @@ Change the variables in the script. Open `ice.js` with your favourite editor and
 The link contains your longitude and latitude and zoom level. For Tokyo it is https://www.ingress.com/intel?ll=35.682398,139.693909&z=11 . In the 4th line set the delay between screenshot captures in milliseconds (1s = 1000ms). 
 
 When the variables are set, run the file:
-- On windows run `start.cmd`
+- On windows start `start.cmd`
 - On linux run `./phantomjs ice.js` from the console
 
 If you use 2-factor authentication, you will be prompted for the code.
 
 It will save captured screenshots with into `Ice0.png`, `Ice1.png`...
 
-ICE uses [PhantomJS](http://phantomjs.org/), it's binary is packed with the script.
+ICE uses [PhantomJS](http://phantomjs.org/), it's binary is packed with the script. The video script was taken from [here](https://github.com/schinken/ingress-screenshot/blob/master/make_video.sh).
 <hr>
 Ingress trademark belongs to Google, Inc.
