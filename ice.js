@@ -10,7 +10,7 @@ var system = require('system');
 var twostep = 0;
 var fs = require('fs');
 var max = 0;
-var val;
+var val, message;
 fs.list('.').forEach(function (e) {
   if(e.substring(0,3) == 'Ice') {
     val = e.substring(3,Infinity).replace('.png', '');
@@ -19,6 +19,10 @@ fs.list('.').forEach(function (e) {
   };
 });
 var V = max + 1;
+
+var Version = '1.0.1'
+var version = Version + '\n';
+
 
 function s() {
  console.log('Capturing screen #' + V + '...');
@@ -39,13 +43,16 @@ if (!l | !p) {
  quit('you haven\'t entered your login and/or password');
 };
 
-if (system.args.length >= 2) {
-   console.log("\nBy the way, you shouldn't give the second argument to phantomjs. Only the path to the script.\n");
-};
+console.log('\n ___   _______  _______ \n|   | |       ||       |\n|   | |       ||    ___|\n|   | |       ||   |___ \n|   | |      _||    ___|\n|   | |     |_ |   |___ \n|___| |_______||_______|\n\n Welcome to ICE v' + Version + ', automated screenshooter for Ingress Intel!\n\n Press Ctrl + C or Ctrl + D to exit\n\n Author: Nikitakun (Nikita Bogdanov), MIT License\n\n Project Homepage: https://github.com/nibogd/ingress-ice\n\n\nLog:\nConnecting...');
 
-console.log('\n ___   _______  _______ \n|   | |       ||       |\n|   | |       ||    ___|\n|   | |       ||   |___ \n|   | |      _||    ___|\n|   | |     |_ |   |___ \n|___| |_______||_______|\n\n Welcome to ICE, automated screenshooter for Ingress Intel!\n\n Press Ctrl + C or Ctrl + D to exit\n\n Author: Nikitakun (Nikita Bogdanov), MIT License\n\n Project Homepage: https://github.com/nibogd/ingress-ice\n\n\nLog:\nConnecting...');
+page.open('https://raw.githubusercontent.com/nibogd/ingress-ice/version-check/version', function(){
+   var serverversion = page.evaluate(function() {
+    return document.body.textContent;
+   });
+   if (serverversion !== version){console.log('New version of the script is available at https://github.com/nibogd/ingress-ice')};
+});
 
-page.open('https://www.ingress.com/intel', function (status) {
+window.setTimeout(function () {page.open('https://www.ingress.com/intel', function (status) {
  
  if (status !== 'success') {quit('cannot connect to remote server')};
 
@@ -77,6 +84,14 @@ page.open('https://www.ingress.com/intel', function (status) {
 
        if (page.url.substring(0,40) == 'https://accounts.google.com/ServiceLogin') {quit('login failed: wrong email and/or password')};
        
+       if (page.url.substring(0,40) == 'https://appengine.google.com/_ah/loginfo') {
+          console.log('Accepting appEngine request...');
+          page.evaluate(function () {
+            document.getElementById('persist_checkbox').checked = true;
+            document.getElementsByTagName('form').submit();
+          });
+       };
+
        if (page.url.substring(0,40) == 'https://accounts.google.com/SecondFactor') {
           console.log('Using two-step verification, please enter your code:');
           twostep = system.stdin.readLine();
@@ -92,7 +107,7 @@ page.open('https://www.ingress.com/intel', function (status) {
        };
         window.setTimeout(function () {
           page.open(area, function () {
-           console.log('Authenticated successfully, starting screenshotting...');
+           console.log('Authenticated successfully, starting screenshotting every ' + v + 'ms...');
             setInterval(function () {
               page.evaluate(function () {
                document.querySelector('#filters_container').style.display = 'none';
@@ -135,3 +150,4 @@ page.open('https://www.ingress.com/intel', function (status) {
 
  });
 });
+}, 5000);
