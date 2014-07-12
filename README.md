@@ -2,7 +2,7 @@ ingress-ice
 ===========
 
 Automatic screenshooter for ingress intel map.
-
+![ice0](https://cloud.githubusercontent.com/assets/2771136/3548090/6441370c-08a6-11e4-9b0a-84a2992af060.png)
 Features:
 =========
  - Captures screenshots of ingress intel map every *n* seconds
