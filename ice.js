@@ -2,7 +2,9 @@
 var l = '';     //google login or email
 var p = ''; //google password
 var area = 'https://www.ingress.com/intel?ll=53.22792,50.203829&z=16';
-var v = 30000;      //Delay between capturing screenshots, in milliseconds (1000 ms = 1 s)
+var v = 30000;     //Delay between capturing screenshots, in milliseconds (1000 ms = 1 s)
+var width = 900;   //Picture width
+var height = 500; //Picture height
 /* SGNITTES       */
 
 var page = require('webpage').create();
@@ -20,9 +22,14 @@ fs.list('.').forEach(function (e) {
 });
 var V = max + 1;
 
-var Version = '1.0.1'
+var Version = '1.1.0'
 var version = Version + '\n';
 
+
+page.viewportSize = {
+   width: width + 42,
+   height: height + 167
+};
 
 function s() {
  console.log('Capturing screen #' + V + '...');
@@ -119,7 +126,7 @@ window.setTimeout(function () {page.open('https://www.ingress.com/intel', functi
                document.querySelector('#header').style.display = 'none';
                document.querySelector('#footer').style.display = 'none';
                document.querySelector('#snapcontrol').style.display = 'none';
-               document.querySelector('div.gm-style-cc:nth-child(8)').style.display = 'none';
+               //document.querySelector('div.gm-style-cc:nth-child(8)').style.display = 'none';
               });
               page.evaluate(function () {
                var hide = document.querySelectorAll('.gmnoprint');
