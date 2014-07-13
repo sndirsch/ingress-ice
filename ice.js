@@ -10,19 +10,10 @@ var height = 500; //Picture height
 var page = require('webpage').create();
 var system = require('system');
 var twostep = 0;
-var fs = require('fs');
-var max = 0;
-var val, message;
-fs.list('.').forEach(function (e) {
-  if(e.substring(0,3) == 'Ice') {
-    val = e.substring(3,Infinity).replace('.png', '');
-    val = +val;
-    if (val > max) {max=val};
-  };
-});
-var V = max + 1;
+var val, message, Le;
 
-var Version = '1.1.0'
+
+var Version = '1.2.0'
 var version = Version + '\n';
 
 
@@ -31,10 +22,37 @@ page.viewportSize = {
    height: height + 167
 };
 
+function getDateTime() {
+    var now     = new Date(); 
+    var year    = now.getFullYear();
+    var month   = now.getMonth()+1; 
+    var day     = now.getDate();
+    var hour    = now.getHours();
+    var minute  = now.getMinutes();
+    var second  = now.getSeconds(); 
+    if(month.toString().length == 1) {
+        var month = '0'+month;
+    }
+    if(day.toString().length == 1) {
+        var day = '0'+day;
+    }   
+    if(hour.toString().length == 1) {
+        var hour = '0'+hour;
+    }
+    if(minute.toString().length == 1) {
+        var minute = '0'+minute;
+    }
+    if(second.toString().length == 1) {
+        var second = '0'+second;
+    }   
+    var dateTime = year+'-'+month+'-'+day+'--'+hour+'-'+minute+'-'+second;   
+    return dateTime;
+};
+
+
 function s() {
- console.log('Capturing screen #' + V + '...');
- page.render('Ice' + V + '.png');
- V++;
+  console.log('Capturing screen from ' + getDateTime() + '...');
+  page.render('Ice-' + getDateTime() + '.png');
 };
 
 function quit(err) {
@@ -50,7 +68,8 @@ if (!l | !p) {
  quit('you haven\'t entered your login and/or password');
 };
 
-console.log('\n ___   _______  _______ \n|   | |       ||       |\n|   | |       ||    ___|\n|   | |       ||   |___ \n|   | |      _||    ___|\n|   | |     |_ |   |___ \n|___| |_______||_______|\n\n Welcome to ICE v' + Version + ', automated screenshooter for Ingress Intel!\n\n Press Ctrl + C or Ctrl + D to exit\n\n Author: Nikitakun (Nikita Bogdanov), MIT License\n\n Project Homepage: https://github.com/nibogd/ingress-ice\n\n\nLog:\nConnecting...');
+
+console.log('\n ___   _______  _______ \n|   | |       ||       |\n|   | |       ||    ___|\n|   | |       ||   |___ \n|   | |      _||    ___|\n|   | |     |_ |   |___ \n|___| |_______||_______| v' + Version + '\n\n Press Ctrl + C or Ctrl + D to exit\n\n Author: Nikitakun (Nikita Bogdanov), MIT License (https://github.com/nibogd/ingress-ice)\n\nLog:\nConnecting...');
 
 page.open('https://raw.githubusercontent.com/nibogd/ingress-ice/version-check/version', function(){
    var serverversion = page.evaluate(function() {
