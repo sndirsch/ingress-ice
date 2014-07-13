@@ -42,7 +42,7 @@ When the variables are set, run the file:
 
 If you use 2-factor authentication, you will be prompted for the code.
 
-It will save captured screenshots with into `Ice0.png`, `Ice1.png`...
+It will save captured screenshots with into `Ice-2014-07-13--09-13-37.png`, `Ice-2014-07-13--09-14-07.png`...
 
 ICE uses [PhantomJS](http://phantomjs.org/), it's binary is packed with the script. The video script was taken from [here](https://github.com/schinken/ingress-screenshot/blob/master/make_video.sh).
 <hr>
