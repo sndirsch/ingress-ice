@@ -5,6 +5,7 @@ var area = 'https://www.ingress.com/intel?ll=53.22792,50.203829&z=16';
 var v = 30000;     //Delay between capturing screenshots, in milliseconds (1000 ms = 1 s)
 var width = 900;   //Picture width
 var height = 500; //Picture height
+var folder = './'; //Folder where to save screenshots, with / (or \) on the end. '.' means current folder.
 /* SGNITTES       */
 
 var page = require('webpage').create();
@@ -13,7 +14,7 @@ var twostep = 0;
 var val, message, Le;
 
 
-var Version = '1.2.0'
+var Version = '1.3.0'
 var version = Version + '\n';
 
 
@@ -52,7 +53,7 @@ function getDateTime() {
 
 function s() {
   console.log('Capturing screen from ' + getDateTime() + '...');
-  page.render('Ice-' + getDateTime() + '.png');
+  page.render(folder + 'Ice-' + getDateTime() + '.png');
 };
 
 function quit(err) {
