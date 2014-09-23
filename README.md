@@ -14,9 +14,9 @@ Features:
 
 [Download](https://github.com/nibogd/ingress-ice/releases)
 ========
-- [Windows32](https://github.com/nibogd/ingress-ice/releases/download/v1.2.0/ice-win32.zip)
-- [Linux32](https://github.com/nibogd/ingress-ice/releases/download/v1.2.0/ice-linux32.tar.gz)
-- [Linux64](https://github.com/nibogd/ingress-ice/releases/download/v1.2.0/ice-linux64.tar.gz)
+- [Windows32](https://github.com/nibogd/ingress-ice/releases/download/v1.3.0/ice-win32.zip)
+- [Linux32](https://github.com/nibogd/ingress-ice/releases/download/v1.3.0/ice-linux32.tar.gz)
+- [Linux64](https://github.com/nibogd/ingress-ice/releases/download/v1.3.0/ice-linux64.tar.gz)
 
 
 On Red Hat based linux to install the dependences run:
