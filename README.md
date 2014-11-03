@@ -9,17 +9,15 @@ Features:
  - Set your location 
  - Supports 2-step authentication
  - Doesn't require X server to be run.
- - Checks if there is a new version.
 
 [Download](https://github.com/nibogd/ingress-ice/releases)
 ========
 [Download here](https://github.com/nibogd/ingress-ice/releases/
 
-On Red Hat based linux to install the dependences run:
+On Red Hat based linux run the following to install the dependences:
 ```
 sudo yum install fontconfig freetype libfreetype.so.6 libfontconfig.so.1 libstdc++.so.6
 ```
-Package names may differ in different distros, and they may be already installed.
 
 Usage
 =====
