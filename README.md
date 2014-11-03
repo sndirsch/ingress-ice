@@ -12,7 +12,7 @@ Features:
 
 [Download](https://github.com/nibogd/ingress-ice/releases)
 ========
-[Download here](https://github.com/nibogd/ingress-ice/releases/
+[Download here](https://github.com/nibogd/ingress-ice/releases/)
 
 On Red Hat based linux run the following to install the dependences:
 ```
