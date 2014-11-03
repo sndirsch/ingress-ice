@@ -13,11 +13,8 @@ Features:
 
 [Download](https://github.com/nibogd/ingress-ice/releases)
 ========
-- [Windows32](https://github.com/nibogd/ingress-ice/releases/download/v1.3.0/ice-win32.tar.gz)
-- [Linux32](https://github.com/nibogd/ingress-ice/releases/download/v1.3.0/ice-linux32.tar.gz)
-- [Linux64](https://github.com/nibogd/ingress-ice/releases/download/v1.3.0/ice-linux64.tar.gz)
+[Download here](https://github.com/nibogd/ingress-ice/releases/
 
-To unzip archive on windows, install 7zip
 On Red Hat based linux to install the dependences run:
 ```
 sudo yum install fontconfig freetype libfreetype.so.6 libfontconfig.so.1 libstdc++.so.6
