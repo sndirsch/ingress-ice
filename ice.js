@@ -68,7 +68,7 @@ if (!l | !p) {
 };
 
 
-console.log('\n ___   _______  _______ \n|   | |       ||       |\n|   | |       ||    ___|\n|   | |       ||   |___ \n|   | |      _||    ___|\n|   | |     |_ |   |___ \n|___| |_______||_______| v' + Version + '\ (https://github.com/nibogd/ingress-ice)\n\nConnecting...');
+console.log('\n ___   _______  _______ \n|   | |       ||       |\n|   | |       ||    ___|\n|   | |       ||   |___ \n|   | |      _||    ___|\n|   | |     |_ |   |___ \n|___| |_______||_______| v' + Version + ' (https://github.com/nibogd/ingress-ice)\n\nConnecting...');
 
 
 window.setTimeout(function () {page.open('https://www.ingress.com/intel', function (status) {
