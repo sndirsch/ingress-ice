@@ -14,9 +14,7 @@ var twostep = 0;
 var val, message, Le;
 
 
-var Version = '1.3.0'
-var version = Version + '\n';
-
+var Version = '1.3.1';
 
 page.viewportSize = {
    width: width + 42,
@@ -70,14 +68,8 @@ if (!l | !p) {
 };
 
 
-console.log('\n ___   _______  _______ \n|   | |       ||       |\n|   | |       ||    ___|\n|   | |       ||   |___ \n|   | |      _||    ___|\n|   | |     |_ |   |___ \n|___| |_______||_______| v' + Version + '\n\n Press Ctrl + C or Ctrl + D to exit\n\n Author: Nikitakun (Nikita Bogdanov), MIT License (https://github.com/nibogd/ingress-ice)\n\nLog:\nConnecting...');
+console.log('\n ___   _______  _______ \n|   | |       ||       |\n|   | |       ||    ___|\n|   | |       ||   |___ \n|   | |      _||    ___|\n|   | |     |_ |   |___ \n|___| |_______||_______| v' + Version + '\n\n Press Ctrl + D to exit\n\n Licensed by MIT (https://github.com/nibogd/ingress-ice)\n\nConnecting...');
 
-page.open('https://raw.githubusercontent.com/nibogd/ingress-ice/version-check/version', function(){
-   var serverversion = page.evaluate(function() {
-    return document.body.textContent;
-   });
-   if (serverversion !== version){console.log('New version of the script is available at https://github.com/nibogd/ingress-ice')};
-});
 
 window.setTimeout(function () {page.open('https://www.ingress.com/intel', function (status) {
  
@@ -87,7 +79,7 @@ window.setTimeout(function () {page.open('https://www.ingress.com/intel', functi
    return document.getElementsByTagName('a')[0].href; 
  });
  
- console.log('Got a login link. Logging in...');
+ console.log('Logging in...');
  page.open(inglink, function () {
    
    page.evaluate(function (l) {
