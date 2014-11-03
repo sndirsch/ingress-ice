@@ -9,7 +9,6 @@ Features:
  - Set your location 
  - Supports 2-step authentication
  - Doesn't require X server to be run.
- - [Linux only] Run `./make_video.sh` to make a video.
  - Checks if there is a new version.
 
 [Download](https://github.com/nibogd/ingress-ice/releases)
@@ -18,7 +17,7 @@ Features:
 - [Linux32](https://github.com/nibogd/ingress-ice/releases/download/v1.3.0/ice-linux32.tar.gz)
 - [Linux64](https://github.com/nibogd/ingress-ice/releases/download/v1.3.0/ice-linux64.tar.gz)
 
-To unpack archive on windows, install 7zip
+To unzip archive on windows, install 7zip
 On Red Hat based linux to install the dependences run:
 ```
 sudo yum install fontconfig freetype libfreetype.so.6 libfontconfig.so.1 libstdc++.so.6
@@ -44,6 +43,6 @@ If you use 2-factor authentication, you will be prompted for the code.
 
 It will save captured screenshots with into `Ice-2014-07-13--09-13-37.png`, `Ice-2014-07-13--09-14-07.png`...
 
-ICE uses [PhantomJS](http://phantomjs.org/), it's binary is packed with the script. The video script was taken from [here](https://github.com/schinken/ingress-screenshot/blob/master/make_video.sh).
+ICE uses [PhantomJS](http://phantomjs.org/), it's binary is packed with the script.
 <hr>
 Ingress trademark belongs to Google, Inc.
