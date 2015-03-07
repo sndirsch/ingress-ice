@@ -1,4 +1,4 @@
-ingress-ice
+ingress-ice [![GratiPay](//img.shields.io/gratipay/ni_bogd.svg)](https://gratipay.com/ni_bogd/)
 ===========
 
 Automatic screenshooter for ingress intel map.
