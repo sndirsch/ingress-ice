@@ -37,8 +37,6 @@ If you use 2-factor authentication, you will be prompted for the code.
 
 It will save captured screenshots with into `Ice-2014-07-13--09-13-37.png`, `Ice-2014-07-13--09-14-07.png`...
 
-[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/nibogd/ingress-ice/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
-
 ICE uses [PhantomJS](http://phantomjs.org/), it's binary is packed with the script.
 <hr>
 Ingress trademark belongs to Google, Inc.
