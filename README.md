@@ -1,4 +1,4 @@
-ingress-ice [![GratiPay](http://img.shields.io/gratipay/ni_bogd.svg)](https://gratipay.com/ni_bogd/)
+ingress-ice [![GratiPay](http://img.shields.io/gratipay/ni_bogd.svg)](https://gratipay.com/ni_bogd/) [![GitHub stars](https://img.shields.io/github/stars/nibogd/ingress-ice.svg)](https://github.com/nibogd/ingress-ice) [![](https://img.shields.io/github/issues-raw/nibogd/ingress-ice.svg)](https://github.com/nibogd/ingress-ice) 
 ===========
 
 Automatic screenshooter for ingress intel map.
@@ -10,7 +10,7 @@ Features:
  - Supports 2-step authentication
  - Doesn't require X server to be run.
 
-[Download](https://github.com/nibogd/ingress-ice/releases)
+[Download](https://github.com/nibogd/ingress-ice/releases) [![GitHub release](https://img.shields.io/github/release/nibogd/ingress-ice.svg)](https://github.com/nibogd/ingress-ice/releases/)
 ========
 
 On Red Hat based linux run the following to install the dependences:
