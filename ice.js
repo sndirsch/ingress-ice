@@ -195,6 +195,10 @@ window.setTimeout(function () {page.open('https://www.ingress.com/intel', functi
               
               if ((minlevel>1)|(maxlevel<8)){
                 setminmax(minlevel,maxlevel);
+              } else {
+                  page.evaluate(function () {
+                     document.querySelector("#filters_container").style.display= 'none';
+                  });
               }
   
               page.evaluate(function () {
