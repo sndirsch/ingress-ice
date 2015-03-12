@@ -1,20 +1,27 @@
 /* SETTINGS          */
-var l = '';     //google login or email
-var p = ''; //google password
-var area = 'https://www.ingress.com/intel?ll=53.22792,50.203829&z=16';
-var v = 30000;     //Delay between capturing screenshots, in milliseconds (1000 ms = 1 s)
-var width = 900;   //Picture width
-var height = 500; //Picture height
+var l = '';     //google login or email (in quotation marks)
+var p = ''; //google password (in quotation marks)
+var area = 'https://www.ingress.com/intel?ll=35.682398,139.693909&z=11'; //link to your location (in quotation marks)
+var minlevel = 1; //minimal portal level, only portals with level >= (higher or equal than) this will be displayed, set to 1 to display all available portals (without quotation marks)
+var maxlevel = 8; //highest portal level, only portals with level <= (lower or equal than) this will be displayed, set to 8 to display all (without quotation marks)
+var v = 30;     //Delay between capturing screenshots in seconds (without quotation marks)
+var width = 900;   //Picture width (without quotation marks)
+var height = 500; //Picture height (without quotation marks)
 var folder = './'; //Folder where to save screenshots, with / (or \) on the end. '.' means current folder.
 /* SGNITTES       */
+
+/* Ingress ICE by Nikitakun (https://github.com/nibogd/ingress-ice), distributed under the MIT License
+ * 
+ * DO NOT EDIT BELOW THIS LINE IF YOU DON'T KNOW JAVASCRIPT
+ */
 
 var page = require('webpage').create();
 var system = require('system');
 var twostep = 0;
 var val, message, Le;
+v = 1000*v;
 
-
-var Version = '1.3.1';
+var Version = '1.4.0';
 
 page.viewportSize = {
    width: width + 42,
@@ -48,10 +55,41 @@ function getDateTime() {
     return dateTime;
 };
 
+function setminmax(min, max) {
+  //console.log("Setting portals level range from " + min + " to " + max);
+  var minAvailable = page.evaluate(function () { return document.querySelectorAll('.level_notch.selected')[0]});
+  var maxAvailable = page.evaluate(function () { return document.querySelectorAll('.level_notch.selected')[1]});
+  if (parseInt(minAvailable.id[10], 10)>min) {
+      console.log('The minimal portal level is too low, using default. Consider setting it higher.');
+  } else {
+    var rect = page.evaluate(function() {
+        return document.querySelectorAll('.level_notch.selected')[0].getBoundingClientRect();
+    });
+    page.sendEvent('click', rect.left + rect.width / 2, rect.top + rect.height / 2);
+    //page.render('debug0.png');
+    var rect1 = page.evaluate(function(min) {
+        return document.querySelector('#level_low' + min).getBoundingClientRect();
+    }, min);
+    page.sendEvent('click', rect1.left + rect1.width / 2, rect1.top + rect1.height / 2);
+    //page.render('debug1.png');
+  };
+  
+  var rect2 = page.evaluate(function() {
+    return document.querySelectorAll('.level_notch.selected')[1].getBoundingClientRect();
+  });
+  page.sendEvent('click', rect2.left + rect2.width / 2, rect2.top + rect2.height / 2);
+  //page.render('debug2.png');
+  var rect3 = page.evaluate(function(min) {
+    return document.querySelector('#level_high' + min).getBoundingClientRect();
+  }, max);
+  page.sendEvent('click', rect3.left + rect3.width / 2, rect3.top + rect3.height / 2);
+  page.evaluate(function () {document.querySelector('#filters_container').style.display = 'none'}); 
+  //page.render('debug.png');
+};
 
 function s() {
   console.log('Capturing screen from ' + getDateTime() + '...');
-  page.render(folder + 'Ice-' + getDateTime() + '.png');
+  page.render(folder + 'ice-' + getDateTime() + '.png');
 };
 
 function quit(err) {
@@ -66,9 +104,17 @@ function quit(err) {
 if (!l | !p) {
  quit('you haven\'t entered your login and/or password');
 };
+if ((minlevel < 0 | minlevel > 8) | (maxlevel < 0 | maxlevel > 8) | (!minlevel | !maxlevel)) {
+ quit('the lowest and/or highest portal levels were not set or were set wrong');
+};
+if (minlevel>maxlevel) {
+    quit('lowest portal level is higher than highest. Isn\'t that impossible?!');
+};
+if (!area | area == 0) {
+ quit('you forgot to set the location link, didn\'t you?');
+};
 
-
-console.log('\n ___   _______  _______ \n|   | |       ||       |\n|   | |       ||    ___|\n|   | |       ||   |___ \n|   | |      _||    ___|\n|   | |     |_ |   |___ \n|___| |_______||_______| v' + Version + ' (https://github.com/nibogd/ingress-ice)\n\nConnecting...');
+console.log('     _____ )   ___      _____) \n    (, /  (__/_____)  /        \n      /     /         )__      \n  ___/__   /        /          \n(__ /     (______) (_____)  v' + Version + ' (https://github.com/nibogd/ingress-ice)\n\nConnecting...');
 
 
 window.setTimeout(function () {page.open('https://www.ingress.com/intel', function (status) {
@@ -126,26 +172,27 @@ window.setTimeout(function () {page.open('https://www.ingress.com/intel', functi
        };
         window.setTimeout(function () {
           page.open(area, function () {
-           console.log('Authenticated successfully, starting screenshotting every ' + v + 'ms...');
+           console.log('Authenticated successfully, starting screenshotting portals in range between levels '+ minlevel + ' and '+ maxlevel + ' every ' + v\1000 + 's...');
             setInterval(function () {
               page.evaluate(function () {
-               document.querySelector('#filters_container').style.display = 'none';
+               //document.querySelector('#filters_container').style.display = 'none';
                document.querySelector('#comm').style.display = 'none';
                document.querySelector('#player_stats').style.display = 'none';
                document.querySelector('#game_stats').style.display = 'none';
                document.querySelector('#geotools').style.display = 'none';
-               document.querySelector('#bottom_right_stack').style.display = 'none';
                document.querySelector('#header').style.display = 'none';
-               document.querySelector('#footer').style.display = 'none';
                document.querySelector('#snapcontrol').style.display = 'none';
-               //document.querySelector('div.gm-style-cc:nth-child(8)').style.display = 'none';
+               document.querySelectorAll('.img_snap')[0].style.display = 'none';
               });
+              setminmax(minlevel,maxlevel);
+  
               page.evaluate(function () {
                var hide = document.querySelectorAll('.gmnoprint');
                for (index = 0; index < hide.length; ++index) {
                  hide[index].style.display = 'none';
               }});
               
+              window.setTimeout(function () {
               var mySelector = "#map_canvas";
               var elementBounds = page.evaluate(function(selector) {
                 var clipRect = document.querySelector(selector).getBoundingClientRect();
@@ -162,6 +209,7 @@ window.setTimeout(function () {page.open('https://www.ingress.com/intel', functi
              s();
 
              page.reload();
+              }, v/2);
             }, v);
           });
         }, 10000);
