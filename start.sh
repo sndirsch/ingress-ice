@@ -1,6 +1,6 @@
 #!/bin/sh
 
-# ingress-ice start script by Nikitakun (http://github.com/nibogd/ingress-ice
+# ingress-ice start script by Nikitakun (http://github.com/nibogd/ingress-ice)
 #               SETTINGS          
 L=''            #google login or email
 P=''            #google password
