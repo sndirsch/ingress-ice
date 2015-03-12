@@ -66,13 +66,13 @@ function setminmax(min, max) {
         return document.querySelectorAll('.level_notch.selected')[0].getBoundingClientRect();
     });
     page.sendEvent('click', rect.left + rect.width / 2, rect.top + rect.height / 2);
-    page.render('debug0.png');
+    //page.render('debug0.png');
     window.setTimeout(function() { 
         var rect1 = page.evaluate(function(min) {
             return document.querySelector('#level_low' + min).getBoundingClientRect();
         }, min);
         page.sendEvent('click', rect1.left + rect1.width / 2, rect1.top + rect1.height / 2);
-        page.render('debug1.png');
+        //page.render('debug1.png');
     }, v/30);
   };
   if (v<90000) {
@@ -84,15 +84,15 @@ function setminmax(min, max) {
     return document.querySelectorAll('.level_notch.selected')[1].getBoundingClientRect();
   });
   page.sendEvent('click', rect2.left + rect2.width / 2, rect2.top + rect2.height / 2);
-  page.render('debug2.png');
+  //page.render('debug2.png');
   window.setTimeout(function() { 
     var rect3 = page.evaluate(function(min) {
         return document.querySelector('#level_high' + min).getBoundingClientRect();
     }, max);
     page.sendEvent('click', rect3.left + rect3.width / 2, rect3.top + rect3.height / 2);
-    page.render('debug3.png');
+    //page.render('debug3.png');
     page.evaluate(function () {document.querySelector('#filters_container').style.display = 'none'});
-    page.render('debug4.png');
+    //page.render('debug4.png');
   }, v/30)}, v/20)};
 };
 
