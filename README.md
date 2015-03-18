@@ -1,4 +1,4 @@
-ingress-ice [![GratiPay](http://img.shields.io/gratipay/ni_bogd.svg)](https://gratipay.com/ni_bogd/) [![GitHub stars](https://img.shields.io/github/stars/nibogd/ingress-ice.svg)](https://github.com/nibogd/ingress-ice) [![](https://img.shields.io/github/issues-raw/nibogd/ingress-ice.svg)](https://github.com/nibogd/ingress-ice/issues) 
+ingress-ice [![](https://img.shields.io/github/issues-raw/nibogd/ingress-ice.svg)](https://github.com/nibogd/ingress-ice/issues)
 ===========
 
 Automatic screenshooter for ingress intel map.
@@ -11,7 +11,7 @@ Features:
  - Doesn't require X server to be run
  - Set portal levels to display
 
-[Download](https://github.com/nibogd/ingress-ice/releases) [![GitHub release](https://img.shields.io/github/release/nibogd/ingress-ice.svg)](https://github.com/nibogd/ingress-ice/releases/)
+[Download](https://github.com/nibogd/ingress-ice/archive/master.zip) [![GitHub release](https://img.shields.io/github/release/nibogd/ingress-ice.svg)](https://github.com/nibogd/ingress-ice/releases/)
 ========
 
 On Red Hat based linux run the following to install the dependences:
