@@ -19,7 +19,7 @@ var v        = parseInt(args[6], 10);
 var width    = parseInt(args[7], 10);
 var height   = parseInt(args[8], 10);
 var folder   = args[9];
-var Version  = '2.0.0';
+var Version  = '2.0.2';
 v            = 1000 * v;
 
 var val, message, Le;

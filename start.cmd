@@ -1,5 +1,6 @@
 @echo off
-REM ingress-ice start script by Nikitakun (http://github.com/nibogd/ingress-ice)
+REM ingress-ice start script by Nikitakun
+REM (http://github.com/nibogd/ingress-ice)
 REM               SETTINGS 
 REM Set GOOGLELOGIN to your google login,
 REM PASSWORD to your password, AREA to yo
@@ -16,7 +17,7 @@ REM . means current folder)
 
 set GOOGLELOGIN=changeThisToYourGoogleLogin
 set PASSWORD=setThisToYourPassword
-set AREA=https://www.ingress.com/intel?ll=35.682398,139.693909&z=11
+set AREA="https://www.ingress.com/intel?ll=35.682398,139.693909&z=11"
 set MINLEVEL=1
 set MAXLEVEL=8
 set DELAY=60
