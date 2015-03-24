@@ -1,4 +1,4 @@
-ingress-ice [![](https://img.shields.io/github/issues-raw/nibogd/ingress-ice.svg)](https://github.com/nibogd/ingress-ice/issues)
+[ingress-ice](http://ingress.divshot.io/) [![](https://img.shields.io/github/issues-raw/nibogd/ingress-ice.svg)](https://github.com/nibogd/ingress-ice/issues)
 ===========
 
 Automatic screenshooter for ingress intel map.
@@ -22,6 +22,7 @@ sudo yum install fontconfig freetype libfreetype.so.6 libfontconfig.so.1 libstdc
 Usage
 =====
 Unpack the archieve wherever you want.
+View a beutiful instruction [here](http://ingress.divshot.io/)
 
 ### Windows
 
