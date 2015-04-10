@@ -186,7 +186,7 @@ window.setTimeout(function () {page.open('https://www.ingress.com/intel', functi
            //console.log('Authenticated successfully, starting screenshotting portals in range between levels '+ minlevel + ' and '+ maxlevel + ' every ' + v/1000 + 's...');
             setInterval(function () {
 	      if ((curnum>=ssnum)&&(ssnum!=0)) {
-		console.log('Finished sucessfully. Exiting...\nThanks for using ingress-ice! If you want to leave feedback, please visit https://github.com/nibogd/ingress-ice/issues');
+		console.log('Finished sucessfully. Exiting...\nThanks for using ingress-ice!');
 		phantom.exit();
 	      } else if (ssnum!=0) {
 		console.log('Screen #'+(curnum+1)+'/'+ssnum+' captured');
