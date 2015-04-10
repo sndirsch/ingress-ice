@@ -11,8 +11,9 @@ V='60'          #Delay between capturing screenshots in seconds
 WIDTH='900'     #Picture width
 HEIGHT='500'    #Picture height
 FOLDER='./'     #Folder where to save screenshots with \ (or /) in the end. '.' means current folder. 
+NUMBER='0'      #Number of screenshots to take. 0 for infinity.
 #DO NOT EDIT ANYTHING BELOW THIS LINE
-ARGS="$L $P $AREA $MINLEVEL $MAXLEVEL $V $WIDTH $HEIGHT $FOLDER"
+ARGS="$L $P $AREA $MINLEVEL $MAXLEVEL $V $WIDTH $HEIGHT $FOLDER $NUMBER"
 for arg
 do
     if [ "$arg" = --help ]

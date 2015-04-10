@@ -7,7 +7,7 @@ var page     = require('webpage').create();
 var system   = require('system');
 var args     = system.args;
 var twostep  = 0;
-if (!args[9]) {
+if (!args[10]) {
     console.log("Please set all variables, visit http://github.com/nibogd/ingress-ice for help");
 }
 var l        = args[1];
@@ -19,7 +19,9 @@ var v        = parseInt(args[6], 10);
 var width    = parseInt(args[7], 10);
 var height   = parseInt(args[8], 10);
 var folder   = args[9];
-var Version  = '2.0.2';
+var ssnum    = args[10];
+var curnum   = 0;
+var Version  = '2.0.3';
 v            = 1000 * v;
 
 var val, message, Le;
@@ -183,6 +185,13 @@ window.setTimeout(function () {page.open('https://www.ingress.com/intel', functi
           page.open(area, function () {
            //console.log('Authenticated successfully, starting screenshotting portals in range between levels '+ minlevel + ' and '+ maxlevel + ' every ' + v/1000 + 's...');
             setInterval(function () {
+	      if ((curnum>=ssnum)&&(ssnum!=0)) {
+		console.log('Finished sucessfully. Exiting...\nThanks for using ingress-ice! If you want to leave feedback, please visit https://github.com/nibogd/ingress-ice/issues');
+		phantom.exit();
+	      } else if (ssnum!=0) {
+		console.log('Screen #'+(curnum+1)+'/'+ssnum+' captured');
+		curnum++;
+	      }
               page.evaluate(function () {
                document.querySelector('#comm').style.display = 'none';
                document.querySelector('#player_stats').style.display = 'none';

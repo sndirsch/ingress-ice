@@ -13,7 +13,9 @@ REM l (highest portal level, set to 8 to
 REM display all), DELAY to delay between 
 REM capturing screenshots, FOLDER to fold
 REM er where to save (with \ on the end, 
-REM . means current folder)
+REM . means current folder), NUMBER to nu
+REM of screenshots to take (0 for infinit
+REM y)
 
 set GOOGLELOGIN=changeThisToYourGoogleLogin
 set PASSWORD=setThisToYourPassword
@@ -24,8 +26,9 @@ set DELAY=60
 set WIDTH=900
 set HEIGHT=500
 set FOLDER=.\
+set NUMBER=0
 
 rem DO NOT EDIT ANYTHING BELOW THIS LINE
 
-phantomjs.exe ice.js %GOOGLELOGIN% %PASSWORD% %AREA% %MINLEVEL% %MAXLEVEL% %DELAY% %WIDTH% %HEIGHT% %FOLDER%
+phantomjs.exe ice.js %GOOGLELOGIN% %PASSWORD% %AREA% %MINLEVEL% %MAXLEVEL% %DELAY% %WIDTH% %HEIGHT% %FOLDER% %NUMBER%
 pause
