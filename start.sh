@@ -12,8 +12,9 @@ WIDTH='900'     #Picture width
 HEIGHT='500'    #Picture height
 FOLDER='./'     #Folder where to save screenshots with \ (or /) in the end. '.' means current folder. 
 NUMBER='0'      #Number of screenshots to take. 0 for infinity.
+LOGLEVEL='3'    #Log level. 0 = silence, 1 = only short welcome, two-factor code and errors, 2 = everything from 1 + every screenshot announced, 3 = beautiful welcome + everything from 2, 4 = all logs including debug messages, short welcome
 #DO NOT EDIT ANYTHING BELOW THIS LINE
-ARGS="$L $P $AREA $MINLEVEL $MAXLEVEL $V $WIDTH $HEIGHT $FOLDER $NUMBER"
+ARGS="$L $P $AREA $MINLEVEL $MAXLEVEL $V $WIDTH $HEIGHT $FOLDER $NUMBER $LOGLEVEL"
 for arg
 do
     if [ "$arg" = --help ]

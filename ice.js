@@ -7,7 +7,7 @@ var page     = require('webpage').create();
 var system   = require('system');
 var args     = system.args;
 var twostep  = 0;
-if (!args[10]) {
+if (!args[11]) {
     console.log("Please set all variables, visit http://github.com/nibogd/ingress-ice for help");
 }
 var l        = args[1];
@@ -15,14 +15,14 @@ var p        = args[2];
 var area     = args[3];
 var minlevel = parseInt(args[4], 10);
 var maxlevel = parseInt(args[5], 10);
-var v        = parseInt(args[6], 10);
+var v        = 1000 * parseInt(args[6], 10);
 var width    = parseInt(args[7], 10);
 var height   = parseInt(args[8], 10);
 var folder   = args[9];
 var ssnum    = args[10];
+var loglevel = args[11];
 var curnum   = 0;
-var Version  = '2.0.3';
-v            = 1000 * v;
+var version  = '2.0.4';
 
 var val, message, Le;
 
@@ -30,7 +30,11 @@ page.viewportSize = {
    width: width + 42,
    height: height + 167
 };
-
+function announce(str, priority) {
+  if (loglevel>=priority) {
+    console.log(str);
+  }
+}
 function getDateTime() {
     var now     = new Date(); 
     var year    = now.getFullYear();
@@ -99,45 +103,51 @@ function setminmax(min, max) {
 };
 
 function s() {
-  console.log('Capturing screen from ' + getDateTime() + '...');
+  announce(getDateTime() + ': screen saved', 2);
   page.render(folder + 'ice-' + getDateTime() + '.png');
 };
 
 function quit(err) {
  if (err) {
-  console.log('\nICE crashed. Reason: ' + err + ' :('); //nice XD
+  announce('\nICE crashed. Reason: ' + err + ' :(', 1); //nice XD
   } else {
-   console.log('Quit');
+   announce('Quit', 1);
   };
-
  phantom.exit();
 };
-if (!l | !p) {
- quit('you haven\'t entered your login and/or password');
-};
-if ((minlevel < 0 | minlevel > 8) | (maxlevel < 0 | maxlevel > 8) | (!minlevel | !maxlevel)) {
- quit('the lowest and/or highest portal levels were not set or were set wrong');
-};
-if (minlevel>maxlevel) {
+
+function check() {
+  if (!l | !p) {
+    quit('you haven\'t entered your login and/or password');
+  };
+  if ((minlevel < 0 | minlevel > 8) | (maxlevel < 0 | maxlevel > 8) | (!minlevel | !maxlevel)) {
+    quit('the lowest and/or highest portal levels were not set or were set wrong');
+  };
+  if (minlevel>maxlevel) {
     quit('lowest portal level is higher than highest. Isn\'t that impossible?!');
-};
-if (!area | area == 0) {
- quit('you forgot to set the location link, didn\'t you?');
-};
+  };
+  if (!area | area == 0) {
+    quit('you forgot to set the location link, didn\'t you?');
+  };
+}
 
-console.log('     _____ )   ___      _____) \n    (, /  (__/_____)  /        \n      /     /         )__      \n  ___/__   /        /          \n(__ /     (______) (_____)  v' + Version + ' (https://github.com/nibogd/ingress-ice)\n\nIf something doesn\'t work or if you want to submit a feature request, visit https://github.com/nibogd/ingress-ice/issues \nConnecting...');
-
+function greet() {
+  if (loglevel=3) {
+    console.log('     _____ )   ___      _____) \n    (, /  (__/_____)  /        \n      /     /         )__      \n  ___/__   /        /          \n(__ /     (______) (_____)  v' + version + ' (https://github.com/nibogd/ingress-ice)\n\nIf something doesn\'t work or if you want to submit a feature request, visit https://github.com/nibogd/ingress-ice/issues \nConnecting...');
+  } else if (loglevel!==0) {
+    console.log('Ingress ICE v' + version + ' starting...\nSee https://github.com/nibogd/ingress-ice for configuration.');
+}
 
 window.setTimeout(function () {page.open('https://www.ingress.com/intel', function (status) {
  
  if (status !== 'success') {quit('cannot connect to remote server')};
 
- var inglink = page.evaluate(function () {
+ var link = page.evaluate(function () {
    return document.getElementsByTagName('a')[0].href; 
  });
  
- console.log('Logging in...');
- page.open(inglink, function () {
+ announce('Logging in...', 2);
+ page.open(link, function () {
    
    page.evaluate(function (l) {
      document.getElementById('Email').value = l;
