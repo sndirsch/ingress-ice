@@ -172,7 +172,7 @@ function checkLogin() {
     };
     
     if (page.url.substring(0,40) == 'https://accounts.google.com/SecondFactor') {
-      announce('Using two-step verification, please enter your code:', 2);
+      announce('Using two-step verification, please enter your code:', 1);
       twostep = system.stdin.readLine();
     };
     
