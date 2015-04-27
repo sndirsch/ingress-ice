@@ -24,7 +24,7 @@ var folder       = args[9];
 var ssnum        = args[10];
 var loglevel     = args[11];
 var curnum       = 0;
-var version      = '2.0.4';
+var version      = '2.0.5';
 var loginTimeout = 10 * 1000;
 var twostep  = 0;
 var page     = require('webpage').create();
@@ -194,7 +194,7 @@ function checkLogin() {
     };
 }
 
-function count(curnum, ssnum) {
+function count() {
   if ((curnum>=ssnum)&&(ssnum!=0)) {
     announce('Finished sucessfully. Exiting...\nThanks for using ingress-ice!', 1);
     phantom.exit();
@@ -259,7 +259,7 @@ page.open('https://www.ingress.com/intel', function (status) {
 	      window.setTimeout(function () {
 		page.open(area, function () {
 		  setInterval(function () {
-		    count(curnum, ssnum);
+		    count();
 		    hideDebris();
 		    if ((minlevel>1)|(maxlevel<8)){
 		      setminmax(minlevel,maxlevel);
