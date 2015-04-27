@@ -132,9 +132,9 @@ function checkSettings(l, p, minlevel, maxlevel, area) {
 }
 
 function greet() {
-  if (loglevel=3) {
+  if (loglevel==3) {
     console.log('     _____ )   ___      _____) \n    (, /  (__/_____)  /        \n      /     /         )__      \n  ___/__   /        /          \n(__ /     (______) (_____)  v' + version + ' (https://github.com/nibogd/ingress-ice)\n\nIf something doesn\'t work or if you want to submit a feature request, visit https://github.com/nibogd/ingress-ice/issues \nConnecting...');
-  } else if (loglevel!==0) {
+  } else if (loglevel!=0) {
     console.log('Ingress ICE v' + version + ' starting...\nSee https://github.com/nibogd/ingress-ice for configuration.');
   }
 }
