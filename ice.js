@@ -259,7 +259,6 @@ page.open('https://www.ingress.com/intel', function (status) {
 	      window.setTimeout(function () {
 		page.open(area, function () {
 		  setInterval(function () {
-		    count();
 		    hideDebris();
 		    if ((minlevel>1)|(maxlevel<8)){
 		      setminmax(minlevel,maxlevel);
@@ -271,6 +270,7 @@ page.open('https://www.ingress.com/intel', function (status) {
 		    
 		    window.setTimeout(function () {
 		      prepare();
+		      count();
 		      s();
 		      page.reload();
 		    }, v);
