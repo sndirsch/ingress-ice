@@ -22,7 +22,7 @@ set PASSWORD=setThisToYourPassword
 set AREA="https://www.ingress.com/intel?ll=35.682398,139.693909&z=11"
 set MINLEVEL=1
 set MAXLEVEL=8
-set DELAY=60
+set DELAY=120
 set WIDTH=900
 set HEIGHT=500
 set FOLDER=.\
