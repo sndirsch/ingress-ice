@@ -11,7 +11,9 @@ Features:
  - Doesn't require X server to be run
  - Set portal levels to display
 
-[Download](https://github.com/nibogd/ingress-ice/archive/master.zip) [![GitHub release](https://img.shields.io/github/release/nibogd/ingress-ice.svg)](https://github.com/nibogd/ingress-ice/releases/)
+If you like ICE and want to stay in touch, follow me on G+: [<img src="https://developers.google.com/+/images/branding/g+128.png" width="16"> Ingress ICE](https://plus.google.com/u/0/b/115529923593338751190/115529923593338751190)
+
+[Download](https://github.com/nibogd/ingress-ice/archive/master.zip) 
 ========
 
 On Red Hat based linux run the following to install the dependences:
