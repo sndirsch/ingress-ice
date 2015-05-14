@@ -7,7 +7,7 @@ P=''            #google password
 AREA='https://www.ingress.com/intel?ll=35.682398,139.693909&z=11' #link to your location
 MINLEVEL='1'    #minimal portal level, set to 1 to display all available portals
 MAXLEVEL='8'    #highest portal level, set to 8 to display all
-V='60'          #Delay between capturing screenshots in seconds
+V='120'          #Delay between capturing screenshots in seconds
 WIDTH='900'     #Picture width
 HEIGHT='500'    #Picture height
 FOLDER='./'     #Folder where to save screenshots with \ (or /) in the end. '.' means current folder. 
