@@ -11,8 +11,11 @@ Features:
  - Doesn't require X server to be run
  - Set portal levels to display
 
-If you like ICE and want to stay in touch, follow me on G+: [<img src="https://developers.google.com/+/images/branding/g+128.png" width="16"> Ingress ICE](https://plus.google.com/u/0/b/115529923593338751190/115529923593338751190)
+If you like ICE and want to stay in touch, follow me:
 
+[<img src="https://developers.google.com/+/images/branding/g+128.png" width="16"> +Ingress ICE](https://plus.google.com/u/0/b/115529923593338751190/115529923593338751190)
+
+[<img src="https://g.twimg.com/Twitter_logo_blue.png" width="16"> @ingress_ice](https://twitter.com/ingress_ice)
 [Download](https://github.com/nibogd/ingress-ice/archive/master.zip) 
 ========
 
