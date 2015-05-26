@@ -93,8 +93,7 @@ if [ -f "$FILE" ]
 then
 	clear
 	echo "Existing config found found. Starting ice..."
-	ARGS=`cat $FILE`
-	./phantomjs ice.js $ARGS; exit;;
+	#exec ./phantomjs ice.js $ARGS; exit;;
 else
 	while true; do
 	    read -p "Ingress ICE, Automatic screenshooter for ingress intel map\nConfig file not found. Create one? (y/n) " yn
