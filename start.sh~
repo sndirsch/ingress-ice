@@ -38,7 +38,7 @@ user_input() {
 		echo "\nYour Google password: (not shown) "
 		stty -echo
 		read PASSWORD
-		stty echo
+		stty eco
 		[ -z "$PASSWORD" ] && echo "Cannot be blank." || break;
 	done
 	echo "\nDelay between screenshots: ([ENTER] for default (120)) "
