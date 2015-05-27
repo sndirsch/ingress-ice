@@ -1,19 +1,27 @@
 #!/bin/sh
 
 # ingress-ice start script by Nikitakun
-# From version 2.2 you don't need to edit anything if you are using linux. Visit http://github.com/nibogd/ingress-ice for help or just launch this script
+# From version 2.2 you don't need to edit anything if you use linux. Visit http://github.com/nibogd/ingress-ice for help or just launch this script
 FILE="$HOME/.ingress_ice"
+COUNT=""
 
 echo_will_help() {
-	echo "Ingress ICE\n\nUsage:"
-	echo "  ingress-ice -h | --help" 
-	echo "  ingress-ice -c | --reconfigure"
-	echo "  ingress-ice -a"
-	echo "\nOptions:"
-	echo "  -h --help            Show this help"
-	echo "  -c --reconfigure     Rewrite existing config file with a new one"
-	echo "  -a                   Show authors"
-	echo "\nPlease visit http://ingress.divshot.io/ or http://github.com/nibgd/ingress-ice for additional help\n"
+	echo "Ingress ICE"
+	echo ""
+	echo "Usage:"
+	echo "  ingress-ice [-c 100] [-i settings.txt]"
+	echo "  ingress-ice -h | -?"
+	echo "  ingress-ice -r"
+       #echo "  ingress-ice -a"
+	echo ""
+	echo "Options:"
+	echo "  -h -?        Show this help"
+	echo "  -r           Rewrite existing config file with a new one"
+       #echo "  -a           Show authors"
+	echo "  -c <count>   Take <count> screenshots"
+	echo "  -i <file>    Read settings from <file> or create config if not exists"
+	echo ""
+	echo "Please visit http://ingress.divshot.io/ or http://github.com/nibgd/ingress-ice for additional help\n"
 	exit;
 }
 
@@ -71,35 +79,64 @@ user_input() {
 	while true; do
 	    read yn
 	    case $yn in
-	        [Yy]* ) echo "Writing to file..."; echo "$EMAIL $PASSWORD $LINK $MIN_LEVEL $MAX_LEVEL $DELAY $WIDTH $HEIGHT ./ $NUMBER 3" > $FILE && echo "Config file created successfully. Start ICE again to begin screesnshooting.\nIf you need additional help, visit http://ingress.divshot.io/"; exit;;
+	        [Yy]* ) echo "Writing to file... ($1)"; echo "$EMAIL $PASSWORD $LINK $MIN_LEVEL $MAX_LEVEL $DELAY $WIDTH $HEIGHT ./ $NUMBER 3" > $1 && echo "Config file created successfully."; break;;
 	        [Nn]* ) user_input; break;;
 	        * ) echo "Please answer y(es) or n(o).";;
 	    esac
 	done
 }
 
-for arg
-do
-    case "$arg" in
-    	"--help" ) echo_will_help;;
-    	"-h" ) echo_will_help;;
-	"--reconfigure" ) user_input; break;;
-	"-c" ) user_input; break;;
-	"-a" ) echo "Ingress ICE (Distributed under the MIT License)\n\nAuthors:\n  Nikitakun (http://github.com/nibogd) @ni_bogd\n";exit;;
+OPTIND=1
+NFILE=""
+COUNT=""
+
+while getopts "h?rc:ai:" opt; do
+    case "$opt" in
+    	h|\?)  echo_will_help;;
+    	r)     user_input $FILE; break;;
+    	i)     NFILE=$OPTARG;;
+	a)     echo "Ingress ICE (Distributed under the MIT License)\n\nAuthors:\n  Nikitakun (http://github.com/nibogd) @ni_bogd\n";exit;;
+	c)     COUNT=$OPTARG;;
     esac
 done
+
+shift $((OPTIND-1))
+
+[ "$1" = "--" ] && shift
+
+if [ -n "$NFILE" ]
+then
+	if [ -f "$NFILE" ]
+	then
+		clear
+		echo "Existing config file found ($NFILE). Starting ice..."
+		ARGS=`cat $NFILE`
+		./phantomjs ice.js $ARGS; exit;
+	else
+		while true; do
+		    echo "Ingress ICE, Automatic screenshooter for ingress intel map"
+		    read -p "Config file not found ($NFILE). Create one? (y/n) " yn
+		    case $yn in
+		        [Yy]* ) user_input $NFILE; break;;
+		        [Nn]* ) clear;echo "Config file is mandatory. Exiting…"; exit;;
+		        * ) echo "Please answer y(es) or n(o).";;
+		    esac
+		done
+	fi
+fi
 
 if [ -f "$FILE" ]
 then
 	clear
-	echo "Existing config found found. Starting ice..."
+	echo "Existing config file found ($FILE). Starting ice..."
 	ARGS=`cat $FILE`
-	./phantomjs ice.js $ARGS; exit;;
+	./phantomjs ice.js $ARGS; exit;
 else
 	while true; do
-	    read -p "Ingress ICE, Automatic screenshooter for ingress intel map\nConfig file not found. Create one? (y/n) " yn
+	    echo "Ingress ICE, Automatic screenshooter for ingress intel map"
+	    read -p "Config file not found. Create one? (y/n) " yn
 	    case $yn in
-	        [Yy]* ) user_input; break;;
+	        [Yy]* ) user_input $FILE; break;;
 	        [Nn]* ) clear;echo "Config file is mandatory. Exiting…"; exit;;
 	        * ) echo "Please answer y(es) or n(o).";;
 	    esac
