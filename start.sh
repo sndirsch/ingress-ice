@@ -40,29 +40,34 @@ user_input() {
 			break;
 		fi
 	done
+	clear
 	while true; do
-		echo "\nYour Google login: "
+		echo "Your Google login: "
 		read EMAIL
 		[ -z "$EMAIL" ] && echo "Cannot be blank." || break;
 	done
 	while true; do
-		echo "\nYour Google password: (not shown) "
+		echo "Your Google password: (not shown) "
 		stty -echo
 		read PASSWORD
 		stty echo
 		[ -z "$PASSWORD" ] && echo "\nCannot be blank." || break;
 	done
-	echo "\nDelay between screenshots in seconds: ([ENTER] for default (120)) "
+	clear
+	echo "Delay between screenshots in seconds: ([ENTER] for default (120)) "
 	read DELAY
+	clear
 	echo "WARNING: This feature is unstable. If it doesn't work well (screenshots may appear blank or contain a part of COMM box), set a higher delay or set minimal portal level to 1 and maximum to 8 (start this script with -r parameter to reconfigure)"
 	echo "\nMinimal portal level: (1) "
 	read MIN_LEVEL
 	echo "\nMaximum portal level: (8) "
 	read MAX_LEVEL
-	echo "\nScreenshots' width in pixels: (900) "
+	clear
+	echo "Screenshots' width in pixels: (900) "
 	read WIDTH
 	echo "\nScreenshots' height: (500) "
 	read HEIGHT
+	clear
 	echo "\nNumber of screenshots to take, '0' for infinity: (0) "
 	read NUMBER
 	
