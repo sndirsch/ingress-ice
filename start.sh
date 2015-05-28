@@ -32,7 +32,7 @@ user_input() {
 		echo "  1) Go to http://ingress.com/intel"
 		echo "  2) Scroll the map to your location and zoom"
 		echo "  3) Click the [Link] button on the right top of the screen and copy that link\n"
-		echo "Enter your location link: "
+		echo "Enter your location link and press [Enter]: ([Shift]+[Insert] to paste)"
 		read LINK
 		if [ -z "$LINK" ]; then
 			echo "Cannot be blank."
@@ -68,7 +68,7 @@ user_input() {
 	echo "\nScreenshots' height: (500) "
 	read HEIGHT
 	clear
-	echo "\nNumber of screenshots to take, '0' for infinity: (0) "
+	echo "Number of screenshots to take, '0' for infinity: (0) "
 	read NUMBER
 	
 	DELAY=${DELAY:-'120'}
@@ -81,7 +81,7 @@ user_input() {
 	echo "Google login: $EMAIL"
 	echo "Portals level from $MIN_LEVEL to $MAX_LEVEL"
 	echo "Take $NUMBER (0 = infinity) screenshots $WIDTH x $HEIGHT every $DELAY seconds"
-	echo "\nAre options entered correct? (Y/n)"
+	echo "\nAre options entered correct? (y/n)"
 	while true; do
 	    read yn
 	    case $yn in
@@ -144,7 +144,7 @@ then
 	clear
 	if [  "x$COUNT" != "x" ]
 	then
-		echo "Existing config file found ($FILE). Starting ice...(Take $COUNT screenshots)"
+		echo "Existing config file found ($FILE). Starting ice...(Take $COUNT screenshot(s))"
 		set `cat $FILE`
 		ARGS="$1 $2 $3 $4 $5 $6 $7 $8 $9 $COUNT $11"
 		./phantomjs ice.js $ARGS; exit;
