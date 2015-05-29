@@ -113,11 +113,11 @@ echo Ingress ICE, an automated screenshooter for ingress intel map
 echo Copyright ©Nikitakun (github.com/nibogd)
 echo.
 echo Usage:
-echo   ingress-ice.cmd [-r] [-h | /?]
+echo   ingress-ice.cmd [-r] [-h]
 echo.
 echo Options:
 echo   -r      Overwrite the configuration file with a new one.
-echo   -h /?   Print this help
+echo   -h      Print this help
 echo.
 echo Please visit http://ingress.divshot.io/ or http://github.com/nibgd/ingress-ice for additional help
 :eof
