@@ -26,31 +26,17 @@ sudo yum install fontconfig freetype libfreetype.so.6 libfontconfig.so.1 libstdc
 
 Usage
 =====
-Unpack the archieve wherever you want.
-View a beutiful instruction [here](http://ingress.divshot.io/)
 
 ### Windows
 
- 1. Open `start.cmd` with your favourite editor
- 2. Set the `GOOGLELOGIN` variable to your google login (write it instead of `changeThisToYourGoogleLogin`)
- 2. Set the `PASSWORD` variable to your google password (required for viewing the map, don't worry, we don't store your passwords)
- 4. `AREA` to your location in Ingress Intel, to get it:
-   - Navigate to [Ingress Intel Map](http://ingress.com/intel)
-   - Zoom to the location you want to capture
-   - Click on the 'link' button in the top right corner and copy the link.
-   For Tokyo it is https://www.ingress.com/intel?ll=35.682398,139.693909&z=11
- 5. `DELAY` to the delay between screenshot captures in seconds
- 6. Change other variables if necessary
- 7. Double-click `start.cmd`
- 8. Enjoy! :smile:
- 9. If you use 2-factor authentication, you will be prompted for the code.
+ 1. Unpack the archieve wherever you want
+ 1. Double-Click `ingress-ice.cmd` and follow the instructions
  10. It will save captured screenshots with into `Ice-2014-07-13--09-13-37.png`, `Ice-2014-07-13--09-14-07.png`...
 
 ### Linux
 
-
- 1. Run `./ingress-ice` in console and follow the instructions
- 9. If you use 2-factor authentication, you will be prompted for the code.
+ 1. Unpack the archieve wherever you want
+ 1. Run `chmod +x ingress-ice&&./ingress-ice` in console and follow the instructions
  10. It will save captured screenshots with into `Ice-2014-07-13--09-13-37.png`, `Ice-2014-07-13--09-14-07.png`...
 
 <hr>
