@@ -1,7 +1,7 @@
 #!/bin/sh
 
 # ingress-ice start script by Nikitakun
-# From version 2.2 you don't need to edit anything if you use linux. Visit http://github.com/nibogd/ingress-ice for help or just launch this script
+# From version 2.2 you don't need to edit anything. Just launch this script from console ( $ chmod +x ingress-ice&&./ingress-ice )
 FILE="$HOME/.ingress_ice"
 COUNT=""
 
