@@ -1,4 +1,6 @@
+
 @echo off
+SETLOCAL EnableDelayedExpansion
 REM ingress-ice start script by Nikitakun
 REM (http://github.com/nibogd/ingress-ice)
 REM 
@@ -10,6 +12,14 @@ set FILE=%APPDATA%\.ingress_ice
 IF '%1'=='/?' GOTO :help
 IF '%1'=='-h' GOTO :help
 IF '%1'=='-r' GOTO :reconf
+GOTO :check
+:created
+IF NOT EXIST %FILE% (
+	echo Something went wrong. Please check if you have rights to write into your user folder.
+	echo Press [Enter] to try again.
+	PAUSE
+)
+:check
 IF EXIST %FILE% (
 	GOTO :start
 ) else (
@@ -35,8 +45,10 @@ echo To get your location link:
 echo   1) Go to http://ingress.com/intel
 echo   2) Scroll the map to your location and zoom
 echo   3) Click the [Link] button on the right top of the screen and copy that link
-set /p LINK= Enter your location link and press [Enter]: ([Right mouse click] -> [Paste] to paste)
-if [%LINK%]==[] (
+echo   4) [Right mouse click] - [Paste] to paste it into this window
+echo.
+set /p LINK= Enter your location link and press [Enter]: 
+if [!LINK!]==[] (
 	echo Cannot be blank
 	GOTO :c-link
 )
@@ -49,7 +61,7 @@ if [%LOGIN%]==[] (
 )
 :c-passwd
 set /p PASSWD= Your Google password: 
-if [%PASSWD%]==[] (
+if [!PASSWD!]==[] (
 	echo Cannot be blank
 	GOTO :c-passwd
 )
@@ -79,20 +91,21 @@ echo Portals level from %MIN_LEVEL% to %MAX_LEVEL%
 echo Take %NUMBER% (0 = infinity) screenshots %WIDTH% x %HEIGHT% every %DELAY% seconds and save to %FOLDER%
 echo.
 set /p CORRECT= Press [Enter] if settings entered are correct. Type 'N' and press [Enter] otherwise: 
-IF %CORRECT%==N (
+IF "%CORRECT%" == "N" (
 	echo Let's try again...
 	goto :config-1
 )
-IF %CORRECT%==n (
+IF "%CORRECT%" == "n" (
 	echo Let's try again...
 	goto :config-1
 )
-echo %LOGIN% %PASSWD% %LINK% %MIN_LEVEL% %MAX_LEVEL% %DELAY% %WIDTH% %HEIGHT% %FOLDER% %NUMBER% 3>%FILE%
+echo %LOGIN% !PASSWD! !LINK! %MIN_LEVEL% %MAX_LEVEL% %DELAY% %WIDTH% %HEIGHT% %FOLDER% %NUMBER% 3 > %FILE%
+goto :created
 :start
 cls
 echo Existing config file found (%FILE%). Starting ice...
 set /p ARGS=< %FILE%
-phantomjs.exe ice.js %ARGS%
+phantomjs.exe ice.js !ARGS!
 pause
 goto :eof
 :help
