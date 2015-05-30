@@ -4,7 +4,7 @@
 # From version 2.2 you don't need to edit anything. Just launch this script from console ( $ chmod +x ingress-ice&&./ingress-ice )
 FILE="$HOME/.ingress_ice"
 COUNT=""
-
+DIALOG=${DIALOG=dialog}
 echo_will_help() {
 	echo "Ingress ICE"
 	echo ""
@@ -24,21 +24,35 @@ echo_will_help() {
 	echo "Please visit http://ingress.divshot.io/ or http://github.com/nibgd/ingress-ice for additional help\n"
 	exit;
 }
-
+exit_ice() {
+	$DIALOG --title "Ingress Ice" --backtitle "Exit" --clear \
+	        --yesno "Do you wish to exit?" 8 24
+	case $? in
+   		0) clear;exit;;
+    		1) ;;
+		255) ;;
+	esac
+}
+empty_ice() {
+	$DIALOG --title "Error" --backtitle "ERROR" --msgbox "This value cannot be empty" 8 32;
+}
 user_input() {
 	clear
 	while true; do
-		echo "To get your location link:"
-		echo "  1) Go to http://ingress.com/intel"
-		echo "  2) Scroll the map to your location and zoom"
-		echo "  3) Click the [Link] button on the right top of the screen and copy that link\n"
-		echo "Enter your location link and press [Enter]: ([Shift]+[Insert] to paste)"
-		read LINK
-		if [ -z "$LINK" ]; then
-			echo "Cannot be blank."
-		else
-			break;
-		fi
+		tempfile=`tempfile 2>/dev/null` || tempfile=/tmp/test$$
+		trap "rm -f $tempfile" 0 1 2 5 15
+	
+		$DIALOG --backtitle "Step 1 of 6" --title "Location Link" --clear \
+		        --inputbox "To get your location link:\n  1) Go to http://ingress.com/intel\n  2) Scroll the map to your location and zoom\n  3) Click the [Link] button on the right top of the screen and copy that link\n  4) [Shift]+[Insert] to paste" 12 52 2> $tempfile
+	
+		retval=$?
+		
+		case $retval in
+		  0) LINK=`cat $tempfile`
+		     [ -z $LINK ] && empty_ice || break;;
+		  1) exit_ice;;
+		  255) exit_ice;;
+		esac
 	done
 	clear
 	while true; do
@@ -127,15 +141,13 @@ then
 			./phantomjs ice.js $ARGS; exit;
 		fi
 	else
-		while true; do
-		    echo "Ingress ICE, Automatic screenshooter for ingress intel map"
-		    read -p "Config file not found ($NFILE). Create one? (y/n) " yn
-		    case $yn in
-		        [Yy]* ) user_input $NFILE; break;;
-		        [Nn]* ) clear;echo "Config file is mandatory. Exiting…"; exit;;
-		        * ) echo "Please answer y(es) or n(o).";;
-		    esac
-		done
+		$DIALOG --title "Ingress Ice" --clear \
+	        	--yesno "Config file for Ice not found. Create one?" 6 36
+		case $? in
+   			0) user_input $FILE; break;;
+    			1) dialog --title "Error" --msgbox "Config file is mandatory. Exiting..." 6 32;clear;exit;;
+			255) exit;;
+		esac
 	fi
 fi
 
@@ -154,13 +166,11 @@ then
 		./phantomjs ice.js $ARGS; exit;
 	fi
 else
-	while true; do
-	    echo "Ingress ICE, Automatic screenshooter for ingress intel map"
-	    read -p "Config file not found. Create one? (y/n) " yn
-	    case $yn in
-	        [Yy]* ) user_input $FILE; break;;
-	        [Nn]* ) clear;echo "Config file is mandatory. Exiting…"; exit;;
-	        * ) echo "Please answer y(es) or n(o).";;
-	    esac
-	done
+	$DIALOG --backtitle "Automatic screenshooter for ingress intel map" --title "Ingress Ice" --clear \
+	        --yesno "Config file for Ice not found. Create one?" 8 36
+	case $? in
+   		0) user_input $FILE; break;;
+    		1) clear;echo "Config file is mandatory. Exiting...";exit;; #dialog --title "Error" --msgbox "Config file is mandatory. Exiting..." 6 32;clear;exit;;
+		255) exit;;
+	esac
 fi
