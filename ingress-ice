@@ -166,11 +166,13 @@ then
 		./phantomjs ice.js $ARGS; exit;
 	fi
 else
-	$DIALOG --backtitle "Automatic screenshooter for ingress intel map" --title "Ingress Ice" --clear \
-	        --yesno "Config file for Ice not found. Create one?" 8 36
-	case $? in
-   		0) user_input $FILE; break;;
-    		1) clear;echo "Config file is mandatory. Exiting...";exit;; #dialog --title "Error" --msgbox "Config file is mandatory. Exiting..." 6 32;clear;exit;;
-		255) exit;;
-	esac
+	if [$DIALOG --backtitle "Automatic screenshooter for ingress intel map" --title "Ingress Ice" --clear \
+	        --yesno "Config file for Ice not found. Create one?" 8 36]
+	then
+		user_input $FILE; break;;
+	else
+    		clear
+		echo "Config file is mandatory. Exiting..."
+		exit
+	fi
 fi
