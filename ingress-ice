@@ -4,14 +4,24 @@
 # From version 2.2 you don't need to edit anything. Just launch this script from console ( $ chmod +x ingress-ice&&./ingress-ice )
 FILE="$HOME/.ingress_ice"
 COUNT=""
-DIALOG=${DIALOG=dialog}
-echo_will_help() {
+if (command -v dialog >/dev/null)
+then
+	DIALOG=${DIALOG=dialog}
+else
+	if (command -v whiptail >/dev/null)
+	then
+		DIALOG=${DIALOG=whiptail}
+	else
+		TEXT=true
+	fi
+fi
+
+echo_help() {
 	echo "Ingress ICE"
 	echo ""
 	echo "Usage:"
-	echo "  ingress-ice [-c 100] [-i settings.txt]"
+	echo "  ingress-ice [-c 100] [-i settings.txt] [-l] [-r]"
 	echo "  ingress-ice -h | -?"
-	echo "  ingress-ice -r"
         echo "  ingress-ice -a"
 	echo ""
 	echo "Options:"
@@ -20,13 +30,14 @@ echo_will_help() {
         echo "  -a           Show authors"
 	echo "  -c <count>   Take <count> screenshots"
 	echo "  -i <file>    Read settings from <file> or create config if not exists"
+	echo "  -l           Text-mode instead of pseudographics"
 	echo ""
 	echo "Please visit http://ingress.divshot.io/ or http://github.com/nibgd/ingress-ice for additional help\n"
 	exit;
 }
 exit_ice() {
 	$DIALOG --title "Ingress Ice" --backtitle "Exit" --clear \
-	        --yesno "Do you wish to exit?" 8 24
+	        --yesno "Do you wish to exit?" 7 24
 	case $? in
    		0) clear;exit;;
     		1) ;;
@@ -34,89 +45,270 @@ exit_ice() {
 	esac
 }
 empty_ice() {
-	$DIALOG --title "Error" --backtitle "ERROR" --msgbox "This value cannot be empty" 8 32;
+	$DIALOG --title "Error" --backtitle "ERROR" --msgbox "This value cannot be empty" 7 32;
 }
 user_input() {
-	clear
-	while true; do
-		tempfile=`tempfile 2>/dev/null` || tempfile=/tmp/test$$
-		trap "rm -f $tempfile" 0 1 2 5 15
-	
-		$DIALOG --backtitle "Step 1 of 6" --title "Location Link" --clear \
-		        --inputbox "To get your location link:\n  1) Go to http://ingress.com/intel\n  2) Scroll the map to your location and zoom\n  3) Click the [Link] button on the right top of the screen and copy that link\n  4) [Shift]+[Insert] to paste" 12 52 2> $tempfile
-	
-		retval=$?
+        DELAY=""
+        MIN_LEVEL=""
+        MAX_LEVEL=""
+        WIDTHZ=""
+        HEIGHT=""
+        NUMBER=""
+        WIDTH=""
+	if [ ! $TEXT ]; then
+		while true; do
+			tempfile=`tempfile 2>/dev/null` || tempfile=/tmp/test$$
+			trap "rm -f $tempfile" 0 1 2 5 15
 		
-		case $retval in
-		  0) LINK=`cat $tempfile`
-		     [ -z $LINK ] && empty_ice || break;;
-		  1) exit_ice;;
-		  255) exit_ice;;
+			$DIALOG --backtitle "Step 1 of 8" --title "Location Link" --clear \
+			        --inputbox "To get your location link:\n  1) Go to http://ingress.com/intel\n  2) Scroll the map to your location and zoom\n  3) Click the [Link] button on the right top of the screen and copy that link\n  4) [Shift]+[Insert] to paste" 12 52 2> $tempfile
+		
+			retval=$?
+			
+			case $retval in
+			  0) LINK=`cat $tempfile`
+			     [ -z $LINK ] && empty_ice || break;;
+			  1) exit_ice;;
+			  255) exit_ice;;
+			esac
+		done
+		while true; do
+			tempfile=`tempfile 2>/dev/null` || tempfile=/tmp/test$$
+			trap "rm -f $tempfile" 0 1 2 5 15
+		
+			$DIALOG --backtitle "Step 2 of 8" --title "Google Login" --clear \
+			        --inputbox "Please enter your Google Login:" 8 40 2> $tempfile
+		
+			retval=$?
+			
+			case $retval in
+			  0) EMAIL=`cat $tempfile`
+			     [ -z $EMAIL ] && empty_ice || break;;
+			  1) exit_ice;;
+			  255) exit_ice;;
+			esac
+		done
+		while true; do
+			tempfile=`tempfile 2>/dev/null` || tempfile=/tmp/test$$
+			trap "rm -f $tempfile" 0 1 2 5 15
+		
+			$DIALOG --backtitle "Step 3 of 8" --title "Google Password" --clear \
+			        --passwordbox "Please enter your Google Password: (not shown)" 10 40 2> $tempfile
+		
+			retval=$?
+			
+			case $retval in
+			  0) PASSWD=`cat $tempfile`
+			     [ -z $PASSWD ] && empty_ice || break;;
+			  1) exit_ice;;
+			  255) exit_ice;;
+			esac
+		done
+                $DIALOG --title "Notice" --msgbox "In the next dialogs value is not required. If nothing entered, default written in brackets will be chosen." 10 32;
+		while true; do
+			tempfile=`tempfile 2>/dev/null` || tempfile=/tmp/test$$
+			trap "rm -f $tempfile" 0 1 2 5 15
+		
+			$DIALOG --backtitle "Step 4 of 8" --title "Delay" --clear \
+			        --inputbox "Delay between screenshots in seconds: (120)" 10 40 2> $tempfile
+		
+			retval=$?
+			
+			case $retval in
+			  0) DELAY=`cat $tempfile`; break;;
+			  1) exit_ice;;
+			  255) exit_ice;;
+			esac
+		done
+		while true; do
+			tempfile=`tempfile 2>/dev/null` || tempfile=/tmp/test$$
+			trap "rm -f $tempfile" 0 1 2 5 15
+		
+			$DIALOG --backtitle "Step 5 of 8" --title "Width" --clear \
+			        --inputbox "Screenshots' width in pixels: (900)" 8 40 2> $tempfile
+		
+			retval=$?
+			
+			case $retval in
+			  0) WIDTHZ=`cat $tempfile`; break;;
+			  1) exit_ice;;
+			  255) exit_ice;;
+			esac
+		done
+		while true; do
+			tempfile=`tempfile 2>/dev/null` || tempfile=/tmp/test$$
+			trap "rm -f $tempfile" 0 1 2 5 15
+		
+			$DIALOG --backtitle "Step 6 of 8" --title "Height" --clear \
+			        --inputbox "Screenshots' height in pixels: (500)" 8 40 2> $tempfile
+		
+			retval=$?
+			
+			case $retval in
+			  0) HEIGHT=`cat $tempfile`; break;;
+			  1) exit_ice;;
+			  255) exit_ice;;
+			esac
+		done
+		while true; do
+			tempfile=`tempfile 2>/dev/null` || tempfile=/tmp/test$$
+			trap "rm -f $tempfile" 0 1 2 5 15
+		
+			$DIALOG --backtitle "Step 7 of 8" --title "Number" --clear \
+			        --inputbox "Number of screenshots to take (0 for infinity)(0):" 8 52 2> $tempfile
+		
+			retval=$?
+			
+			case $retval in
+			  0) WIDTH=`cat $tempfile`; break;;
+			  1) exit_ice;;
+			  255) exit_ice;;
+			esac
+		done
+		$DIALOG --backtitle "Step 8 of 8" --defaultno --title "Filter" --clear \
+		        --yesno "WARNING: This feature is unstable. If it doesn't work well (screenshots may appear blank or contain a part of COMM box), set a higher delay or set minimal portal level to 1 and maximum to 8 (start this script with -r parameter to reconfigure)\n\nDo you want to filter portals by level?" 16 60
+		case $? in
+   			0) while true; do
+                            tempfile=`tempfile 2>/dev/null` || tempfile=/tmp/test$$
+                            trap "rm -f $tempfile" 0 1 2 5 15
+		
+                            $DIALOG --backtitle "Extra step 9 of 8" --title "Filter" --clear \
+                                    --inputbox "Minimal portal level (1):" 8 32 2> $tempfile
+		
+                            retval=$?
+			
+                            case $retval in
+                            0) MIN_LEVEL=`cat $tempfile`; break;;
+                            1) exit_ice;;
+                            255) exit_ice;;
+                            esac
+                        done
+                        while true; do
+                            tempfile=`tempfile 2>/dev/null` || tempfile=/tmp/test$$
+                            trap "rm -f $tempfile" 0 1 2 5 15
+		
+                            $DIALOG --backtitle "Extra step 10 of 8" --title "Filter" --clear \
+                                    --inputbox "Maximum portal level (8):" 8 32 2> $tempfile
+		
+                            retval=$?
+			
+                            case $retval in
+                            0) MAX_LEVEL=`cat $tempfile`; break;;
+                            1) exit_ice;;
+                            255) exit_ice;;
+                            esac
+                        done;;
+    			1) ;;
+			255) ;;
 		esac
-	done
-	clear
-	while true; do
-		echo "Your Google login: "
-		read EMAIL
-		[ -z "$EMAIL" ] && echo "Cannot be blank." || break;
-	done
-	while true; do
-		echo "Your Google password: (not shown) "
-		stty -echo
-		read PASSWORD
-		stty echo
-		[ -z "$PASSWORD" ] && echo "\nCannot be blank." || break;
-	done
-	clear
-	echo "Delay between screenshots in seconds: ([ENTER] for default (120)) "
-	read DELAY
-	clear
-	echo "WARNING: This feature is unstable. If it doesn't work well (screenshots may appear blank or contain a part of COMM box), set a higher delay or set minimal portal level to 1 and maximum to 8 (start this script with -r parameter to reconfigure)"
-	echo "\nMinimal portal level: (1) "
-	read MIN_LEVEL
-	echo "\nMaximum portal level: (8) "
-	read MAX_LEVEL
-	clear
-	echo "Screenshots' width in pixels: (900) "
-	read WIDTH
-	echo "\nScreenshots' height: (500) "
-	read HEIGHT
-	clear
-	echo "Number of screenshots to take, '0' for infinity: (0) "
-	read NUMBER
-	
-	DELAY=${DELAY:-'120'}
-	MIN_LEVEL=${MIN_LEVEL:-'1'}
-	MAX_LEVEL=${MAX_LEVEL:-'8'}
-	WIDTH=${WIDTH:-'900'}
-	HEIGHT=${HEIGHT:-'500'}
-	NUMBER=${NUMBER:-'0'}
-	clear
-	echo "Google login: $EMAIL"
-	echo "Portals level from $MIN_LEVEL to $MAX_LEVEL"
-	echo "Take $NUMBER (0 = infinity) screenshots $WIDTH x $HEIGHT every $DELAY seconds"
-	echo "\nAre options entered correct? (y/n)"
-	while true; do
-	    read yn
-	    case $yn in
-	        [Yy]* ) echo "Writing to file... ($1)"; echo "$EMAIL $PASSWORD $LINK $MIN_LEVEL $MAX_LEVEL $DELAY $WIDTH $HEIGHT ./ $NUMBER 3" > $1 && echo "Config file created successfully."; break;;
-	        [Nn]* ) user_input $FILE; break;;
-	        * ) echo "Please answer y(es) or n(o).";;
-	    esac
-	done
+		DELAY=${DELAY:-'120'}
+		MIN_LEVEL=${MIN_LEVEL:-'1'}
+		MAX_LEVEL=${MAX_LEVEL:-'8'}
+		WIDTHZ=${WIDTHZ:-'900'}
+		HEIGHT=${HEIGHT:-'500'}
+		NUMBER=${NUMBER:-'0'}
+		$DIALOG --title "Check settings" --clear \
+		        --yesno "Google login: $EMAIL\nPortals level from $MIN_LEVEL to $MAX_LEVEL\nTake $NUMBER (0 = infinity) screenshots $WIDTHZ x $HEIGHT every $DELAY seconds\n\nAre the settings correct?" 16 60
+		case $? in
+   			0) echo "$EMAIL $PASSWD $LINK $MIN_LEVEL $MAX_LEVEL $DELAY $WIDTHZ $HEIGHT ./ $NUMBER 3" > $1; $DIALOG --title "Success" --msgbox "Restart ICE to begin screenshooting" 8 32; break;;
+    			1) user_input $1; break;;
+			255) user_input $1; break;;
+		esac
+	else
+		clear
+		while true; do
+			echo "To get your location link:"
+			echo "  1) Go to http://ingress.com/intel"
+			echo "  2) Scroll the map to your location and zoom"
+			echo "  3) Click the [Link] button on the right top of the screen and copy that link"
+			echo ""
+			echo "Enter your location link and press [Enter]: ([Shift]+[Insert] to paste)"
+			read LINK
+			if [ -z "$LINK" ]; then
+				echo "Cannot be blank."
+			else
+				break;
+			fi
+		done
+		clear
+		while true; do
+			echo "Your Google login: "
+			read EMAIL
+			[ -z "$EMAIL" ] && echo "Cannot be blank." || break;
+		done
+		while true; do
+                        echo ""
+			echo "Your Google password: (not shown) "
+			stty -echo
+			read PASSWORD
+			stty echo
+			[ -z "$PASSWORD" ] && echo "Cannot be blank." || break;
+		done
+		clear
+		echo "Delay between screenshots in seconds: ([ENTER] for default (120)) "
+		read DELAY
+		clear
+		echo "WARNING: This feature is unstable. If it doesn't work well (screenshots may appear blank or contain a part of COMM box), set a higher delay or set minimal portal level to 1 and maximum to 8 (start this script with -r parameter to reconfigure)"
+		echo ""
+		echo "Minimal portal level: (1) "
+		read MIN_LEVEL
+		echo ""
+		echo "Maximum portal level: (8) "
+		read MAX_LEVEL
+		clear
+		echo "Screenshots' width in pixels: (900) "
+		read WIDTH
+                echo ""
+		echo "Screenshots' height: (500) "
+		read HEIGHT
+		clear
+		echo "Number of screenshots to take, '0' for infinity: (0) "
+		read NUMBER
+		
+		DELAY=${DELAY:-'120'}
+		MIN_LEVEL=${MIN_LEVEL:-'1'}
+		MAX_LEVEL=${MAX_LEVEL:-'8'}
+		WIDTH=${WIDTH:-'900'}
+		HEIGHT=${HEIGHT:-'500'}
+		NUMBER=${NUMBER:-'0'}
+		clear
+		echo "Google login: $EMAIL"
+		echo "Portals level from $MIN_LEVEL to $MAX_LEVEL"
+		echo "Take $NUMBER (0 = infinity) screenshots $WIDTH x $HEIGHT every $DELAY seconds"
+		echo ""
+		echo "Are options entered correct? (y/n)"
+		while true; do
+		    read yn
+		    case $yn in
+		        [Yy]* ) echo "Writing to file... ($1)"; echo "$EMAIL $PASSWORD $LINK $MIN_LEVEL $MAX_LEVEL $DELAY $WIDTH $HEIGHT ./ $NUMBER 3" > $1 && echo "Config file created successfully."; break;;
+		        [Nn]* ) user_input $1; break;;
+		        * ) echo "Please answer y(es) or n(o).";;
+		    esac
+		done
+	fi
 }
 
 OPTIND=1
 NFILE=""
 COUNT=""
 
-while getopts "h?rc:ai:" opt; do
+while getopts "h?rlc:ai:" opt; do
     case "$opt" in
-    	h|\?)  echo_will_help;;
-    	r)     user_input $FILE; break;;
+    	h|\?)  echo_help;;
     	i)     NFILE=$OPTARG;;
-	a)     echo "Ingress ICE (Distributed under the MIT License)\n\nAuthors:\n  Nikitakun (http://github.com/nibogd) @ni_bogd\n";exit;;
+	a)     if [ ! $TEXT ];then
+                    $DIALOG --title "Credits" --msgbox "Ingress ICE (Distributed under the MIT License)\n\nAuthors:\n  Nikitakun (http://github.com/nibogd) @ni_bogd" 10 52;exit;
+                else
+                    echo "Ingress ICE (Distributed under the MIT License)"
+                    echo ""
+                    echo "Authors:"
+                    echo "  Nikitakun (http://github.com/nibogd) @ni_bogd"
+                    echo ""
+                    exit;
+                fi;;
 	c)     COUNT=$OPTARG;;
+	l)     TEXT=true;;
+    	r)     user_input $FILE; break;;
     esac
 done
 
@@ -141,13 +333,27 @@ then
 			./phantomjs ice.js $ARGS; exit;
 		fi
 	else
-		$DIALOG --title "Ingress Ice" --clear \
-	        	--yesno "Config file for Ice not found. Create one?" 6 36
-		case $? in
-   			0) user_input $FILE; break;;
-    			1) dialog --title "Error" --msgbox "Config file is mandatory. Exiting..." 6 32;clear;exit;;
-			255) exit;;
-		esac
+		if [ ! $TEXT ]; then
+			$DIALOG --backtitle "Automatic screenshooter for ingress intel map" --title "Ingress Ice" --clear \
+			        --yesno "Config file for Ice not found. Create one?" 8 36
+			case $? in
+   				0) user_input $NFILE; break;;
+    				1) clear
+				   echo "Config file is mandatory. Exiting..."
+				   exit;;
+				255) clear; exit;;
+			esac
+		else
+			while true; do
+			    	echo "Ingress ICE, Automatic screenshooter for ingress intel map"
+			    	read -p "Config file not found ($NFILE). Create one? (y/n) " yn
+			    	case $yn in
+			    	    [Yy]* ) user_input $NFILE; break;;
+			    	    [Nn]* ) clear;echo "Config file is mandatory. Exiting..."; exit;;
+			    	    * ) echo "Please answer y(es) or n(o).";;
+			    	esac
+			done
+		fi
 	fi
 fi
 
@@ -157,22 +363,42 @@ then
 	if [  "x$COUNT" != "x" ]
 	then
 		echo "Existing config file found ($FILE). Starting ice...(Take $COUNT screenshot(s))"
+		if (command -v notify-send >/dev/null)
+                then
+                    notify-send "Ingress Ice" "ICE is running (Take $COUNT screenshot(s))"
+                fi
 		set `cat $FILE`
 		ARGS="$1 $2 $3 $4 $5 $6 $7 $8 $9 $COUNT $11"
 		./phantomjs ice.js $ARGS; exit;
 	else
 		echo "Existing config file found ($FILE). Starting ice..."
+		if (command -v notify-send >/dev/null)
+                then
+                    notify-send "Ingress Ice" "ICE is running"
+                fi
 		ARGS=`cat $FILE`
 		./phantomjs ice.js $ARGS; exit;
 	fi
 else
-	if [$DIALOG --backtitle "Automatic screenshooter for ingress intel map" --title "Ingress Ice" --clear \
-	        --yesno "Config file for Ice not found. Create one?" 8 36]
-	then
-		user_input $FILE; break;;
+	if [ ! $TEXT ]; then
+		$DIALOG --backtitle "Automatic screenshooter for ingress intel map" --title "Ingress Ice" --clear \
+		        --yesno "Config file for Ice not found. Create one?" 8 36
+		case $? in
+   			0) user_input $FILE; break;;
+    			1) clear
+			   echo "Config file is mandatory. Exiting..."
+			   exit;;
+			255) clear; exit;;
+		esac
 	else
-    		clear
-		echo "Config file is mandatory. Exiting..."
-		exit
+		while true; do
+		    	echo "Ingress ICE, Automatic screenshooter for ingress intel map"
+		    	read -p "Config file not found ($FILE). Create one? (y/n) " yn
+		    	case $yn in
+		    	    [Yy]* ) user_input $FILE; break;;
+		    	    [Nn]* ) clear;echo "Config file is mandatory. Exiting..."; exit;;
+		    	    * ) echo "Please answer y(es) or n(o).";;
+		    	esac
+		done
 	fi
 fi
