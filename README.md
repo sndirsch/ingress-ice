@@ -2,7 +2,7 @@
 ===========
 
 Automatic screenshooter for ingress intel map.
-![](https://cloud.githubusercontent.com/assets/2771136/7915638/95f72d38-0887-11e5-8332-bab4b2404ded.png)
+![](https://cloud.githubusercontent.com/assets/2771136/7915684/cfaba8c4-0887-11e5-86b9-5b4fe05ababc.png)
 
 Features:
 =========
