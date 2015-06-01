@@ -19,10 +19,7 @@ If you like ICE and want to stay in touch, follow me:
 [Download](https://github.com/nibogd/ingress-ice/archive/master.zip) 
 ========
 
-On Red Hat based linux run the following to install the dependences:
-```
-sudo yum install fontconfig freetype libfreetype.so.6 libfontconfig.so.1 libstdc++.so.6
-```
+[Dependencies (Linux)](https://github.com/nibogd/ingress-ice/wiki/Dependencies-(Linux))
 
 Usage
 =====
