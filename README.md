@@ -2,7 +2,8 @@
 ===========
 
 Automatic screenshooter for ingress intel map.
-![ice0](https://cloud.githubusercontent.com/assets/2771136/3548090/6441370c-08a6-11e4-9b0a-84a2992af060.png)
+![](https://cloud.githubusercontent.com/assets/2771136/7915638/95f72d38-0887-11e5-8332-bab4b2404ded.png)
+
 Features:
 =========
  - Captures screenshots of ingress intel map every *n* seconds
@@ -10,8 +11,6 @@ Features:
  - Supports 2-step authentication
  - Doesn't require X server to be run
  - Set portal levels to display
-
-If you like ICE and want to stay in touch, follow me:
 
 [<img src="https://developers.google.com/+/images/branding/g+128.png" width="16"> +Ingress ICE](https://plus.google.com/u/0/b/115529923593338751190/115529923593338751190)
 
