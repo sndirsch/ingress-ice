@@ -323,13 +323,13 @@ then
 		clear
 		if [  "x$COUNT" != "x" ]
 		then
-			echo "Existing config file found ($FILE). Starting ice...(Take $COUNT screenshots)"
-			set `cat $FILE`
+			echo "Existing config file found ($NFILE). Starting ice...(Take $COUNT screenshots)"
+			set `cat $NFILE`
 			ARGS="$1 $2 $3 $4 $5 $6 $7 $8 $9 $COUNT $11"
 			./phantomjs ice.js $ARGS; exit;
 		else
-			echo "Existing config file found ($FILE). Starting ice..."
-			ARGS=`cat $FILE`
+			echo "Existing config file found ($NFILE). Starting ice..."
+			ARGS=`cat $NFILE`
 			./phantomjs ice.js $ARGS; exit;
 		fi
 	else
