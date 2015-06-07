@@ -5,8 +5,6 @@
  * @license MIT
  * @see {@link https://github.com/nibogd/ingress-ice|GitHub }
  * @see {@link https://ingress.divshot.io/|Website }
- * @todo timestamp
- * @todo IITC
  */
 
 //Initialize
@@ -190,7 +188,7 @@ function s() {
  */
 function quit(err) {
     if (err) {
-        announce('ICE crashed. Reason: ' + err + ' :(', 1); //nice XD
+        announce('ICE crashed. Reason: ' + err + ' :(', 1);
     } else {
         announce('Quit', 1);
     };
@@ -324,9 +322,39 @@ function hideDebris() {
 /**
  * Adds a timestamp to a screenshot
  * @since 2.3.0
+ * @param {boolean} timestamp
  */
 function timestamp() {
-    if 
+    if (timestamp) {
+        page.evaluate(function () {
+            var water = document.createElement('p');
+            water.id='watermark-ice';
+            water.innerHTML = getDateTime(0);
+            water.style.position = 'fixed';
+            water.style.color = '#446CB3';
+            water.style.bottom = '0';
+            water.style.right = '0';
+            water.style.fontSize = '60px';
+            water.style.opacity = '0.8';
+            document.querySelector('#map_canvas').appendChild(water);
+        });
+    }
+}
+
+/**
+ * Inserts IITC
+ * @param {boolean} iitc
+ * @author akileos (https://github.com/akileos)
+ */
+function iitc() {
+    if(iitc) {
+        page.evaluate(function() { 
+            var script = document.createElement('script');
+            script.type='text/javascript';
+            script.src='https://secure.jonatkins.com/iitc/release/total-conversion-build.user.js';
+            document.head.insertBefore(script, document.head.lastChild);
+        });
+    }
 }
 
 /**
@@ -351,7 +379,7 @@ function prepare() {
  * Main function. Wrapper for others.
  */
 function main() {
-    
+    timestamp();
     hideDebris();
     if ((minlevel>1)|(maxlevel<8)){
         setminmax(minlevel,maxlevel);
