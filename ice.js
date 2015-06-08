@@ -6,7 +6,6 @@
  * @see {@link https://github.com/nibogd/ingress-ice|GitHub }
  * @see {@link https://ingress.divshot.io/|Website }
  * @todo Levelselector for IITC
- * @todo timestamp for iitc
  */
 
 "use strict";
@@ -145,46 +144,72 @@ function getDateTime(format) {
  * @summary Portal level filter
  * @param {number} min - minimal portal level
  * @param {number} max - maximum portal level
+ * @param {boolean} iitcz
  */
-function setMinMax(min, max) {
-    var minAvailable = page.evaluate(function () {
-        return document.querySelectorAll('.level_notch.selected')[0];
-    });
-    if (parseInt(minAvailable.id[9], 10) > min) {
-        announce('The minimal portal level is too low for current zoom, using default.', 2);
-    } else {
-        var rect = page.evaluate(function() {
-            return document.querySelectorAll('.level_notch.selected')[0].getBoundingClientRect();
+function setMinMax(min, max, iitcz) {
+    if (!iitcz) {
+        var minAvailable = page.evaluate(function () {
+            return document.querySelectorAll('.level_notch.selected')[0];
         });
-        page.sendEvent('click', rect.left + rect.width / 2, rect.top + rect.height / 2);
-        window.setTimeout(function() {
-            var rect1 = page.evaluate(function(min) {
-                return document.querySelector('#level_low' + min).getBoundingClientRect();
-            }, min);
-            page.sendEvent('click', rect1.left + rect1.width / 2, rect1.top + rect1.height / 2);
-            if (max == 8) {
-                page.evaluate(function () {
-                    document.querySelector('#filters_container').style.display = 'none';
-                });
-            }
-        }, 2000);
-    };
-    if (max < 8) {
-        window.setTimeout(function() {
-            var rect2 = page.evaluate(function() {
-                return document.querySelectorAll('.level_notch.selected')[1].getBoundingClientRect();
+        if (parseInt(minAvailable.id[9], 10) > min) {
+            announce('The minimal portal level is too low for current zoom, using default.', 2);
+        } else {
+            var rect = page.evaluate(function() {
+                return document.querySelectorAll('.level_notch.selected')[0].getBoundingClientRect();
             });
-            page.sendEvent('click', rect2.left + rect2.width / 2, rect2.top + rect2.height / 2);
+            page.sendEvent('click', rect.left + rect.width / 2, rect.top + rect.height / 2);
             window.setTimeout(function() {
-                var rect3 = page.evaluate(function(min) {
-                    return document.querySelector('#level_high' + min).getBoundingClientRect();
-                }, max);
-                page.sendEvent('click', rect3.left + rect3.width / 2, rect3.top + rect3.height / 2);
-                page.evaluate(function () {
-                    document.querySelector('#filters_container').style.display = 'none';
+                var rect1 = page.evaluate(function(min) {
+                    return document.querySelector('#level_low' + min).getBoundingClientRect();
+                }, min);
+                page.sendEvent('click', rect1.left + rect1.width / 2, rect1.top + rect1.height / 2);
+                if (max == 8) {
+                    page.evaluate(function () {
+                        document.querySelector('#filters_container').style.display = 'none';
+                    });
+                }
+            }, 2000);
+        };
+        if (max < 8) {
+            window.setTimeout(function() {
+                var rect2 = page.evaluate(function() {
+                    return document.querySelectorAll('.level_notch.selected')[1].getBoundingClientRect();
                 });
-            }, 2000)
-        }, 4000)
+                page.sendEvent('click', rect2.left + rect2.width / 2, rect2.top + rect2.height / 2);
+                window.setTimeout(function() {
+                    var rect3 = page.evaluate(function(min) {
+                        return document.querySelector('#level_high' + min).getBoundingClientRect();
+                    }, max);
+                    page.sendEvent('click', rect3.left + rect3.width / 2, rect3.top + rect3.height / 2);
+                    page.evaluate(function () {
+                        document.querySelector('#filters_container').style.display = 'none';
+                    });
+                }, 2000)
+            }, 4000)
+        }
+    } else {
+        if (min > 1) {
+            switch (min) {
+                case 8: page.evaluate('document.getElementsByClassName("leaflet-control-layers-selector")[15].checked = false');
+                case 7: page.evaluate('document.getElementsByClassName("leaflet-control-layers-selector")[14].checked = false');
+                case 6: page.evaluate('document.getElementsByClassName("leaflet-control-layers-selector")[13].checked = false');
+                case 5: page.evaluate('document.getElementsByClassName("leaflet-control-layers-selector")[12].checked = false');
+                case 4: page.evaluate('document.getElementsByClassName("leaflet-control-layers-selector")[11].checked = false');
+                case 3: page.evaluate('document.getElementsByClassName("leaflet-control-layers-selector")[10].checked = false');
+                case 2: page.evaluate('document.getElementsByClassName("leaflet-control-layers-selector")[9].checked = false');
+            }
+        }
+        if (max < 8) {
+            switch (max) {
+                case 1: page.evaluate('document.getElementsByClassName("leaflet-control-layers-selector")[10].checked = false');
+                case 2: page.evaluate('document.getElementsByClassName("leaflet-control-layers-selector")[11].checked = false');
+                case 3: page.evaluate('document.getElementsByClassName("leaflet-control-layers-selector")[12].checked = false');
+                case 4: page.evaluate('document.getElementsByClassName("leaflet-control-layers-selector")[13].checked = false');
+                case 5: page.evaluate('document.getElementsByClassName("leaflet-control-layers-selector")[14].checked = false');
+                case 6: page.evaluate('document.getElementsByClassName("leaflet-control-layers-selector")[15].checked = false');
+                case 7: page.evaluate('document.getElementsByClassName("leaflet-control-layers-selector")[16].checked = false');
+            }
+        }
     }
 }
 
@@ -335,15 +360,17 @@ function hideDebris(iitcz) {
             }
         });
     } else {
-        page.evaluate(function () {
-            if (document.querySelector('#chat'))                            {document.querySelector('#chat').style.display = 'none'}
-            if (document.querySelector('#chatcontrols'))                    {document.querySelector('#chatcontrols').style.display = 'none'}
-            if (document.querySelector('#chatinput'))                       {document.querySelector('#chatinput').style.display = 'none'}
-            if (document.querySelector('#updatestatus'))                    {document.querySelector('#updatestatus').style.display = 'none'}
-            if (document.querySelector('#sidebartoggle'))                   {document.querySelector('#sidebartoggle').style.display = 'none'}
-            if (document.querySelector('#scrollwrapper'))                   {document.querySelector('#scrollwrapper').style.display = 'none'}
-            if (document.querySelectorAll('.leaflet-control-container')[0]) {document.querySelectorAll('.leaflet-control-container')[0].style.display = 'none'}
-        });
+        window.setTimeout(function () {
+            page.evaluate(function () {
+                if (document.querySelector('#chat'))                            {document.querySelector('#chat').style.display = 'none'}
+                if (document.querySelector('#chatcontrols'))                    {document.querySelector('#chatcontrols').style.display = 'none'}
+                if (document.querySelector('#chatinput'))                       {document.querySelector('#chatinput').style.display = 'none'}
+                if (document.querySelector('#updatestatus'))                    {document.querySelector('#updatestatus').style.display = 'none'}
+                if (document.querySelector('#sidebartoggle'))                   {document.querySelector('#sidebartoggle').style.display = 'none'}
+                if (document.querySelector('#scrollwrapper'))                   {document.querySelector('#scrollwrapper').style.display = 'none'}
+                if (document.querySelectorAll('.leaflet-control-container')[0]) {document.querySelectorAll('.leaflet-control-container')[0].style.display = 'none'}
+            });
+        }, 2000);
     }
 }
 
@@ -356,18 +383,38 @@ function hideDebris(iitcz) {
  */
 function timestampz(timestampz, time, iitcz) {
     if (timestampz) {
-        page.evaluate(function (dateTime) {
-            var water = document.createElement('p');
-            water.id='watermark-ice';
-            water.innerHTML = dateTime;
-            water.style.position = 'absolute';
-            water.style.color = 'orange';
-            water.style.top = '-2%';
-            water.style.left = '0';
-            water.style.fontSize = '40px';
-            water.style.opacity = '0.8';
-            document.querySelector('#map_canvas').appendChild(water);
-        }, time);
+        if (!iitcz) {
+            page.evaluate(function (dateTime) {
+                var water = document.createElement('p');
+                water.id='watermark-ice';
+                water.innerHTML = dateTime;
+                water.style.position = 'absolute';
+                water.style.color = 'orange';
+                water.style.top = '0';
+                water.style.left = '0';
+                water.style.fontSize = '40px';
+                water.style.opacity = '0.8';
+                water.style.marginTop = '0';
+                water.style.paddingTop = '0';
+                document.querySelector('#map_canvas').appendChild(water);
+            }, time);
+        } else {
+            page.evaluate(function (dateTime) {
+                var water = document.createElement('p');
+                water.id='watermark-ice';
+                water.innerHTML = dateTime;
+                water.style.position = 'absolute';
+                water.style.color = '#3A539B';
+                water.style.top = '0';
+                water.style.zIndex = '444';
+                water.style.marginTop = '0';
+                water.style.paddingTop = '0';
+                water.style.left = '0';
+                water.style.fontSize = '40px';
+                water.style.opacity = '0.8';
+                document.querySelectorAll('body')[0].appendChild(water);
+            }, time);
+        }
     }
 }
 
@@ -390,11 +437,39 @@ function iitcz(iitcz) {
 
 /**
  * Prepare map for screenshooting. Make screenshots same width and height with map_canvas
+ * If IITC, also set width and height
  * @param {boolean} iitcz
+ * @param {number} widthz
+ * @param {number} heightz
  */
-function prepare(iitcz) {
+function prepare(iitcz, widthz, heightz) {
     if (!iitcz) {
         var selector = "#map_canvas";
+        var elementBounds = page.evaluate(function(selector) {
+            var clipRect = document.querySelector(selector).getBoundingClientRect();
+            return {
+                top:     clipRect.top,
+                left:     clipRect.left,
+                width:  clipRect.width,
+                height: clipRect.height
+            };
+        }, selector);
+        var oldClipRect = page.clipRect;
+        page.clipRect = elementBounds;
+    } else {
+        page.evaluate(function (w, h) {
+                var water = document.createElement('p');
+                water.id='viewport-ice';
+                water.style.position = 'absolute';
+                water.style.top = '0';
+                water.style.marginTop = '0';
+                water.style.paddingTop = '0';
+                water.style.left = '0';
+                water.style.width = w;
+                water.style.height = h;
+                document.querySelectorAll('body')[0].appendChild(water);
+        }, widthz, heightz);
+        var selector = "#viewport-ice";
         var elementBounds = page.evaluate(function(selector) {
             var clipRect = document.querySelector(selector).getBoundingClientRect();
             return {
@@ -447,10 +522,10 @@ function main() {
     } else {
         page.evaluate(function () {
             idleReset();
-        }
+        });
     }
     window.setTimeout(function () {
-        timestampz(timestamp, getDateTime());
+        timestampz(timestamp, getDateTime(), iitc);
         s();
     }, 2000);
 }
@@ -486,7 +561,7 @@ page.open('https://www.ingress.com/intel', function (status) {
                                 });
                             }
                             hideDebris(iitc);
-                            prepare(iitc);
+                            prepare(iitc, width, height);
                             setInterval(main, v);
                         }, loginTimeout);
                     });
