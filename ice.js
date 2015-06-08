@@ -73,8 +73,8 @@ var loginTimeout = 10 * 1000;
  */
 var twostep      = 0;
 var page         = require('webpage').create();
-page.onConsoleMessage = function() {};
-page.onError  = function() {};
+page.onConsoleMessage = function () {};
+page.onError  = function () {};
 
 var val, message, Le;
 
@@ -103,77 +103,73 @@ function announce(str, priority) {
  * @returns {String} date
  */
 function getDateTime(format) {
-    var now     = new Date(); 
+    var now     = new Date();
     var year    = now.getFullYear();
-    var month   = now.getMonth()+1; 
+    var month   = now.getMonth()+1;
     var day     = now.getDate();
     var hour    = now.getHours();
     var minute  = now.getMinutes();
-    var second  = now.getSeconds(); 
+    var second  = now.getSeconds();
     if(month.toString().length == 1) {
-        var month = '0'+month;
+        var month = '0' + month;
     }
     if(day.toString().length == 1) {
-        var day = '0'+day;
-    }   
+        var day = '0' + day;
+    }
     if(hour.toString().length == 1) {
-        var hour = '0'+hour;
+        var hour = '0' + hour;
     }
     if(minute.toString().length == 1) {
-        var minute = '0'+minute;
+        var minute = '0' + minute;
     }
     if(second.toString().length == 1) {
-        var second = '0'+second;
-    }   
+        var second = '0' + second;
+    }
     if (format==1) {
-        var dateTime = year+'-'+month+'-'+day+'--'+hour+'-'+minute+'-'+second;   
+        var dateTime = year + '-' + month + '-' + day + '--' + hour + '-' + minute + '-' + second;
     } else {
-        var dateTime = day + '.' + month + '.' + year + ' '+hour+':'+minute+':'+second; 
+        var dateTime = day + '.' + month + '.' + year + ' '+hour+':'+minute+':'+second;
     }
     return dateTime;
 };
 
 /**
  * Sets minimal and maximal portal levels (filter) by clicking those buttons on filter panel. It's very laggy, not recommended.
+ * 10 000 ms will be enough
  * @summary Portal level filter
  * @param {number} min - minimal portal level
  * @param {number} max - maximum portal level
  */
 function setminmax(min, max) {
     var minAvailable = page.evaluate(function () { return document.querySelectorAll('.level_notch.selected')[0]});
-    var maxAvailable = page.evaluate(function () { return document.querySelectorAll('.level_notch.selected')[1]});
-    if (parseInt(minAvailable.id[10], 10)>min) {
-        console.log('The minimal portal level is too low, using default. Consider setting it higher.');
+    if (parseInt(minAvailable.id[9], 10) > min) {
+        console.log('The minimal portal level is too low for current zoom, using default.');
     } else {
         var rect = page.evaluate(function() {
             return document.querySelectorAll('.level_notch.selected')[0].getBoundingClientRect();
         });
         page.sendEvent('click', rect.left + rect.width / 2, rect.top + rect.height / 2);
-        //page.render('debug0.png');
         window.setTimeout(function() { 
             var rect1 = page.evaluate(function(min) {
                 return document.querySelector('#level_low' + min).getBoundingClientRect();
             }, min);
             page.sendEvent('click', rect1.left + rect1.width / 2, rect1.top + rect1.height / 2);
-            //page.render('debug1.png');
-        }, v/30);
+            if (max == 8) {page.evaluate(function () {document.querySelector('#filters_container').style.display = 'none'})};
+        }, 2000);
     };
-    if (max<8) {
+    if (max < 8) {
         window.setTimeout(function() {
             var rect2 = page.evaluate(function() {
                 return document.querySelectorAll('.level_notch.selected')[1].getBoundingClientRect();
             });
             page.sendEvent('click', rect2.left + rect2.width / 2, rect2.top + rect2.height / 2);
-            //page.render('debug2.png');
-            window.setTimeout(function() { 
+            window.setTimeout(function() {
                 var rect3 = page.evaluate(function(min) {
                     return document.querySelector('#level_high' + min).getBoundingClientRect();
                 }, max);
                 page.sendEvent('click', rect3.left + rect3.width / 2, rect3.top + rect3.height / 2);
-                //page.render('debug3.png');
                 page.evaluate(function () {document.querySelector('#filters_container').style.display = 'none'});
-                //page.render('debug4.png');
-            }, v/30)}, v/20)};
+            }, 2000)}, 4000)};
 };
 
 /**
@@ -406,18 +402,17 @@ checkSettings(l, p, minlevel, maxlevel, area);
 greet();
 
 page.open('https://www.ingress.com/intel', function (status) {
-    
+
     if (status !== 'success') {quit('cannot connect to remote server')};
-        
+
         var link = page.evaluate(function () {
             return document.getElementsByTagName('a')[0].href; 
         });
-        
+
         announce('Logging in...', 2);
         page.open(link, function () {
-            
+
             login(l, p);
-            
             window.setTimeout(function () {
                 checkLogin();
                 announce('Checking login...', 2);
@@ -432,6 +427,6 @@ page.open('https://www.ingress.com/intel', function (status) {
                     });
                 }, loginTimeout);
             }, loginTimeout);
-            
+
         });
 });
