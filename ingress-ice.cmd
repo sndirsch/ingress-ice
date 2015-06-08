@@ -79,6 +79,10 @@ set /p NUMBER= Number of screenshots to take, '0' for infinity: (0)
 cls
 set /p FOLDER= Folder where to save screenshots (with a trailing slash, '.' means current folder): (./) 
 cls
+set /p IITC= Do you want to inject IITC? 1 for yes, 0 for no: (0)
+cls
+set /p TIMESTAMP= Do you want to timestamp your screenshots? 1 for yes, 0 for no: (0)
+cls
 if [%MIN_LEVEL%]==[] set MIN_LEVEL=1
 if [%MAX_LEVEL%]==[] set MAX_LEVEL=8
 if [%DELAY%]==[] set DELAY=120
@@ -86,6 +90,8 @@ if [%WIDTH%]==[] set WIDTH=900
 if [%HEIGHT%]==[] set HEIGHT=500
 if [%NUMBER%]==[] set NUMBER=0
 if [%FOLDER%]==[] set FOLDER=./
+if [%TIMESTAMP%]==[] set TIMESTAMP=0
+if [%IITC%]==[] set IITC=0
 echo Google login: %LOGIN%
 echo Portals level from %MIN_LEVEL% to %MAX_LEVEL%
 echo Take %NUMBER% (0 = infinity) screenshots %WIDTH% x %HEIGHT% every %DELAY% seconds and save to %FOLDER%
@@ -99,7 +105,7 @@ IF "%CORRECT%" == "n" (
 	echo Let's try again...
 	goto :config-1
 )
-echo %LOGIN% !PASSWD! !LINK! %MIN_LEVEL% %MAX_LEVEL% %DELAY% %WIDTH% %HEIGHT% %FOLDER% %NUMBER% 3 > %FILE%
+echo 1 %LOGIN% !PASSWD! !LINK! %MIN_LEVEL% %MAX_LEVEL% %DELAY% %WIDTH% %HEIGHT% %FOLDER% %NUMBER% %IITC% %TIMESTAMP% > %FILE%
 goto :created
 :start
 cls
@@ -110,7 +116,7 @@ pause
 goto :eof
 :help
 echo Ingress ICE, an automated screenshooter for ingress intel map
-echo Copyright ©Nikitakun (github.com/nibogd)
+echo Copyright (c) Nikitakun (github.com/nibogd)
 echo.
 echo Usage:
 echo   ingress-ice.cmd [-r] [-h]

@@ -183,28 +183,32 @@ function setMinMax(min, max, iitcz) {
             }, 4000)
         }
     } else {
-        if (min > 1) {
-            switch (min) {
-                case 8: page.evaluate('document.getElementsByClassName("leaflet-control-layers-selector")[15].checked = false');
-                case 7: page.evaluate('document.getElementsByClassName("leaflet-control-layers-selector")[14].checked = false');
-                case 6: page.evaluate('document.getElementsByClassName("leaflet-control-layers-selector")[13].checked = false');
-                case 5: page.evaluate('document.getElementsByClassName("leaflet-control-layers-selector")[12].checked = false');
-                case 4: page.evaluate('document.getElementsByClassName("leaflet-control-layers-selector")[11].checked = false');
-                case 3: page.evaluate('document.getElementsByClassName("leaflet-control-layers-selector")[10].checked = false');
-                case 2: page.evaluate('document.getElementsByClassName("leaflet-control-layers-selector")[9].checked = false');
-            }
-        }
-        if (max < 8) {
-            switch (max) {
-                case 1: page.evaluate('document.getElementsByClassName("leaflet-control-layers-selector")[10].checked = false');
-                case 2: page.evaluate('document.getElementsByClassName("leaflet-control-layers-selector")[11].checked = false');
-                case 3: page.evaluate('document.getElementsByClassName("leaflet-control-layers-selector")[12].checked = false');
-                case 4: page.evaluate('document.getElementsByClassName("leaflet-control-layers-selector")[13].checked = false');
-                case 5: page.evaluate('document.getElementsByClassName("leaflet-control-layers-selector")[14].checked = false');
-                case 6: page.evaluate('document.getElementsByClassName("leaflet-control-layers-selector")[15].checked = false');
-                case 7: page.evaluate('document.getElementsByClassName("leaflet-control-layers-selector")[16].checked = false');
-            }
-        }
+        window.setTimeout(function () {
+            page.evaluate(function (min, max) {
+                if (min > 1) {
+                    switch (min) {
+                        case 8: document.getElementsByClassName("leaflet-control-layers-selector")[15].checked = false;
+                        case 7: document.getElementsByClassName("leaflet-control-layers-selector")[14].checked = false;
+                        case 6: document.getElementsByClassName("leaflet-control-layers-selector")[13].checked = false;
+                        case 5: document.getElementsByClassName("leaflet-control-layers-selector")[12].checked = false;
+                        case 4: document.getElementsByClassName("leaflet-control-layers-selector")[11].checked = false;
+                        case 3: document.getElementsByClassName("leaflet-control-layers-selector")[10].checked = false;
+                        case 2: document.getElementsByClassName("leaflet-control-layers-selector")[9].checked = false;
+                    }
+                }
+                if (max < 8) {
+                    switch (max) {
+                        case 1: document.getElementsByClassName("leaflet-control-layers-selector")[10].checked = false;
+                        case 2: document.getElementsByClassName("leaflet-control-layers-selector")[11].checked = false;
+                        case 3: document.getElementsByClassName("leaflet-control-layers-selector")[12].checked = false;
+                        case 4: document.getElementsByClassName("leaflet-control-layers-selector")[13].checked = false;
+                        case 5: document.getElementsByClassName("leaflet-control-layers-selector")[14].checked = false;
+                        case 6: document.getElementsByClassName("leaflet-control-layers-selector")[15].checked = false;
+                        case 7: document.getElementsByClassName("leaflet-control-layers-selector")[16].checked = false;
+                    }
+                }
+            }, min, max);
+        }, v/10);
     }
 }
 
@@ -256,7 +260,7 @@ function checkSettings(l, p, minlevel, maxlevel, area) {
  * Greeter. Beautiful ASCII-Art logo.
  */
 function greet() {
-    console.log('     _____ )   ___      _____) \n    (, /  (__/_____)  /        \n      /     /         )__      \n  ___/__   /        /          \n(__ /     (______) (_____)  v' + version + ' (https://github.com/nibogd/ingress-ice)\n\nIf something doesn\'t work or if you want to submit a feature request, visit https://github.com/nibogd/ingress-ice/issues');
+    console.log('\n     _____ )   ___      _____) \n    (, /  (__/_____)  /        \n      /     /         )__      \n  ___/__   /        /          \n(__ /     (______) (_____)  v' + version + '\n\nIf something doesn\'t work or if you want to submit a feature request, visit https://github.com/nibogd/ingress-ice/issues');
 }
 
 /**
@@ -287,7 +291,7 @@ function login(l, p) {
  */
 function checkLogin() {
 
-    announce('URI is now ' + page.url.substring(0,40) + '... .\nVerifying login...');
+    //announce('URI is now ' + page.url.substring(0,40) + '...');
 
     if (page.url.substring(0,40) == 'https://accounts.google.com/ServiceLogin') {quit('login failed: wrong email and/or password')};
 
@@ -397,7 +401,7 @@ function timestampz(timestampz, time, iitcz) {
                 water.style.position = 'absolute';
                 water.style.color = '#3A539B';
                 water.style.top = '0';
-                water.style.zIndex = '444';
+                water.style.zIndex = '4404';
                 water.style.marginTop = '0';
                 water.style.paddingTop = '0';
                 water.style.left = '0';
@@ -473,7 +477,7 @@ function prepare(iitcz, widthz, heightz) {
             }, selector);
             var oldClipRect = page.clipRect;
             page.clipRect = elementBounds;
-        }, 2000);
+        }, 4000);
     }
 }
 
@@ -541,15 +545,15 @@ page.open('https://www.ingress.com/intel', function (status) {
             login(l, p);
             window.setTimeout(function () {
                 checkLogin();
-                announce('Checking login...');
+                announce('Verifying login...');
                 window.setTimeout(function () {
                     page.open(area, function () {
                         iitcz(iitc);
                         setTimeout(function () {
-                            announce('Will start screenshooting in ' + v + ' seconds...');
+                            announce('Will start screenshooting in ' + v/1000 + ' seconds...');
                             if ((minlevel>1)|(maxlevel<8)){
                                 setMinMax(minlevel, maxlevel, iitc);
-                            } else {
+                            } else if (!iitc) {
                                 page.evaluate(function () {
                                     document.querySelector("#filters_container").style.display= 'none';
                                 });
