@@ -5,7 +5,6 @@
  * @license MIT
  * @see {@link https://github.com/nibogd/ingress-ice|GitHub }
  * @see {@link https://ingress.divshot.io/|Website }
- * @todo Levelselector for IITC
  */
 
 "use strict";
@@ -52,9 +51,8 @@ if (isNaN(args[1])) {
     var height       = parseInt(args[9], 10);
     var folder       = args[10];
     var ssnum        = args[11];
-    var loglevel     = args[12];
-    var iitc         = parseInt(args[13], 10);
-    var timestamp    = parseInt(args[14], 10);
+    var iitc         = parseInt(args[12], 10);
+    var timestamp    = parseInt(args[13], 10);
 }
 
 /**
@@ -94,12 +92,9 @@ if (!iitc) {
 /**
  * console.log() wrapper
  * @param {String} str - what to announce
- * @param {number} priority - if loglevel equals or higher than this, announce it
  */
-function announce(str, priority) {
-    if (loglevel>=priority) {
-        console.log(getDateTime(0) + ': ' + str);
-    }
+function announce(str) {
+    console.log(getDateTime(0) + ': ' + str);
 }
 
 /**
@@ -152,7 +147,7 @@ function setMinMax(min, max, iitcz) {
             return document.querySelectorAll('.level_notch.selected')[0];
         });
         if (parseInt(minAvailable.id[9], 10) > min) {
-            announce('The minimal portal level is too low for current zoom, using default.', 2);
+            announce('The minimal portal level is too low for current zoom, using default.');
         } else {
             var rect = page.evaluate(function() {
                 return document.querySelectorAll('.level_notch.selected')[0].getBoundingClientRect();
@@ -217,7 +212,7 @@ function setMinMax(min, max, iitcz) {
  * Screenshot wrapper
  */
 function s() {
-    announce('Screen saved', 2);
+    announce('Screen saved');
     page.render(folder + 'ice-' + getDateTime(1) + '.png');
 }
 
@@ -227,9 +222,9 @@ function s() {
  */
 function quit(err) {
     if (err) {
-        announce('ICE crashed. Reason: ' + err + ' :(', 1);
+        announce('ICE crashed. Reason: ' + err + ' :(');
     } else {
-        announce('Quit', 1);
+        announce('Quit');
     }
     phantom.exit();
 }
@@ -258,14 +253,10 @@ function checkSettings(l, p, minlevel, maxlevel, area) {
 }
 
 /**
- * Greeter. Long ASCII-art greeting if loglevel==3, else short welcome message.
+ * Greeter. Beautiful ASCII-Art logo.
  */
 function greet() {
-    if (loglevel==3) {
-        console.log('     _____ )   ___      _____) \n    (, /  (__/_____)  /        \n      /     /         )__      \n  ___/__   /        /          \n(__ /     (______) (_____)  v' + version + ' (https://github.com/nibogd/ingress-ice)\n\nIf something doesn\'t work or if you want to submit a feature request, visit https://github.com/nibogd/ingress-ice/issues \nConnecting...');
-    } else if (loglevel!=0) {
-        console.log('Ingress ICE v' + version + ' starting...\nSee https://github.com/nibogd/ingress-ice for configuration.');
-    }
+    console.log('     _____ )   ___      _____) \n    (, /  (__/_____)  /        \n      /     /         )__      \n  ___/__   /        /          \n(__ /     (______) (_____)  v' + version + ' (https://github.com/nibogd/ingress-ice)\n\nIf something doesn\'t work or if you want to submit a feature request, visit https://github.com/nibogd/ingress-ice/issues');
 }
 
 /**
@@ -296,12 +287,12 @@ function login(l, p) {
  */
 function checkLogin() {
 
-    announce('URI is now ' + page.url.substring(0,40) + '... .\nVerifying login...', 4);
+    announce('URI is now ' + page.url.substring(0,40) + '... .\nVerifying login...');
 
     if (page.url.substring(0,40) == 'https://accounts.google.com/ServiceLogin') {quit('login failed: wrong email and/or password')};
 
         if (page.url.substring(0,40) == 'https://appengine.google.com/_ah/loginfo') {
-            announce('Accepting appEngine request...', 4);
+            announce('Accepting appEngine request...');
             page.evaluate(function () {
                 document.getElementById('persist_checkbox').checked = true;
                 document.getElementsByTagName('form').submit();
@@ -309,7 +300,7 @@ function checkLogin() {
         }
 
         if (page.url.substring(0,40) == 'https://accounts.google.com/SecondFactor') {
-            announce('Using two-step verification, please enter your code:', 1);
+            announce('Using two-step verification, please enter your code:');
             twostep = system.stdin.readLine();
         }
 
@@ -330,10 +321,10 @@ function checkLogin() {
  */
 function count() {
     if ((curnum>=ssnum)&&(ssnum!=0)) {
-        announce('Finished sucessfully. Exiting...\nThanks for using ingress-ice!', 1);
+        announce('Finished sucessfully. Exiting...\nThanks for using ingress-ice!');
         phantom.exit();
     } else if (ssnum!=0) {
-        announce('Screen #' + (curnum + 1) + '/' + ssnum + ' captured', 2);
+        announce('Screen #' + (curnum + 1) + '/' + ssnum + ' captured');
         curnum++;
     }
 }
@@ -457,7 +448,8 @@ function prepare(iitcz, widthz, heightz) {
         var oldClipRect = page.clipRect;
         page.clipRect = elementBounds;
     } else {
-        page.evaluate(function (w, h) {
+        window.setTimeout(function () {
+            page.evaluate(function (w, h) {
                 var water = document.createElement('p');
                 water.id='viewport-ice';
                 water.style.position = 'absolute';
@@ -468,19 +460,20 @@ function prepare(iitcz, widthz, heightz) {
                 water.style.width = w;
                 water.style.height = h;
                 document.querySelectorAll('body')[0].appendChild(water);
-        }, widthz, heightz);
-        var selector = "#viewport-ice";
-        var elementBounds = page.evaluate(function(selector) {
-            var clipRect = document.querySelector(selector).getBoundingClientRect();
-            return {
-                top:     clipRect.top,
-                left:     clipRect.left,
-                width:  clipRect.width,
-                height: clipRect.height
-            };
-        }, selector);
-        var oldClipRect = page.clipRect;
-        page.clipRect = elementBounds;
+            }, widthz, heightz);
+            var selector = "#viewport-ice";
+            var elementBounds = page.evaluate(function(selector) {
+                var clipRect = document.querySelector(selector).getBoundingClientRect();
+                return {
+                    top:     clipRect.top,
+                    left:     clipRect.left,
+                    width:  clipRect.width,
+                    height: clipRect.height
+                };
+            }, selector);
+            var oldClipRect = page.clipRect;
+            page.clipRect = elementBounds;
+        }, 2000);
     }
 }
 
@@ -542,19 +535,20 @@ page.open('https://www.ingress.com/intel', function (status) {
             return document.getElementsByTagName('a')[0].href;
         });
 
-        announce('Logging in...', 2);
+        announce('Logging in...');
         page.open(link, function () {
 
             login(l, p);
             window.setTimeout(function () {
                 checkLogin();
-                announce('Checking login...', 2);
+                announce('Checking login...');
                 window.setTimeout(function () {
                     page.open(area, function () {
+                        iitcz(iitc);
                         setTimeout(function () {
-                            iitcz(iitc);
+                            announce('Will start screenshooting in ' + v + ' seconds...');
                             if ((minlevel>1)|(maxlevel<8)){
-                                setMinMax(minlevel,maxlevel);
+                                setMinMax(minlevel, maxlevel, iitc);
                             } else {
                                 page.evaluate(function () {
                                     document.querySelector("#filters_container").style.display= 'none';
