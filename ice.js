@@ -1,4 +1,4 @@
-/** 
+/**
  * @file Ingress-ICE, the main script
  * @author Nikitakun (https://github.com/nibogd)
  * @version 2.3.0
@@ -7,6 +7,7 @@
  * @see {@link https://ingress.divshot.io/|Website }
  */
 
+"use strict";
 //Initialize
 
 var system   = require('system');
@@ -24,7 +25,7 @@ if (!args[11]) {
  * if the first argument is a string, use old config format
  * if the first argument is config version, use that version of config
  */
-if (isNaN(args[1]) {
+if (isNaN(args[1])) {
     var l            = args[1];
     var p            = args[2];
     var area         = args[3];
@@ -36,7 +37,9 @@ if (isNaN(args[1]) {
     var folder       = args[9];
     var ssnum        = args[10];
     var loglevel     = args[11];
-} else if ((parseInt(args[1], 10)>=1) {
+    iitc             = 0;
+    timestamp        = 0;
+} else if ((parseInt(args[1], 10)>=1)) {
     var configver    = parseInt(args[1], 10);
     var l            = args[2];
     var p            = args[3];
@@ -70,6 +73,8 @@ var loginTimeout = 10 * 1000;
  */
 var twostep      = 0;
 var page         = require('webpage').create();
+page.onConsoleMessage = function() {};
+page.onError  = function() {};
 
 var val, message, Le;
 
@@ -153,9 +158,6 @@ function setminmax(min, max) {
             //page.render('debug1.png');
         }, v/30);
     };
-    if (v<90000) {
-        console.log('Custom highest portal level may work bad with low delay. If it doesn\'t work well, set a higher delay.');
-    }
     if (max<8) {
         window.setTimeout(function() {
             var rect2 = page.evaluate(function() {
@@ -178,7 +180,7 @@ function setminmax(min, max) {
  * Screenshot wrapper
  */
 function s() {
-    announce(': screen saved', 2);
+    announce('Screen saved', 2);
     page.render(folder + 'ice-' + getDateTime(1) + '.png');
 };
 
@@ -230,7 +232,7 @@ function greet() {
 }
 
 /**
- * Log in to google
+ * Log in to google. Doesn't use post, because URI may change.
  * @param l - google login
  * @param p - google password
  */
@@ -248,7 +250,7 @@ function login(l, p) {
     });
     
     page.evaluate(function () {
-        document.getElementById('gaia_loginform').submit(); // Not using POST because the URI may change 
+        document.getElementById('gaia_loginform').submit();
     });
 }
 
@@ -305,12 +307,12 @@ function count() {
 function hideDebris() {
     page.evaluate(function () {
         if (document.querySelector('#comm'))           {document.querySelector('#comm').style.display = 'none'};
-                  if (document.querySelector('#player_stats'))   {document.querySelector('#player_stats').style.display = 'none'};
-                  if (document.querySelector('#game_stats'))     {document.querySelector('#game_stats').style.display = 'none'};
-                  if (document.querySelector('#geotools'))       {document.querySelector('#geotools').style.display = 'none'};
-                  if (document.querySelector('#header'))         {document.querySelector('#header').style.display = 'none'};
-                  if (document.querySelector('#snapcontrol'))    {document.querySelector('#snapcontrol').style.display = 'none'};
-                  if (document.querySelectorAll('.img_snap')[0]) {document.querySelectorAll('.img_snap')[0].style.display = 'none'};
+        if (document.querySelector('#player_stats'))   {document.querySelector('#player_stats').style.display = 'none'};
+        if (document.querySelector('#game_stats'))     {document.querySelector('#game_stats').style.display = 'none'};
+        if (document.querySelector('#geotools'))       {document.querySelector('#geotools').style.display = 'none'};
+        if (document.querySelector('#header'))         {document.querySelector('#header').style.display = 'none'};
+        if (document.querySelector('#snapcontrol'))    {document.querySelector('#snapcontrol').style.display = 'none'};
+        if (document.querySelectorAll('.img_snap')[0]) {document.querySelectorAll('.img_snap')[0].style.display = 'none'};
     });
     page.evaluate(function () {
         var hide = document.querySelectorAll('.gmnoprint');
@@ -322,32 +324,33 @@ function hideDebris() {
 /**
  * Adds a timestamp to a screenshot
  * @since 2.3.0
- * @param {boolean} timestamp
+ * @param {boolean} timestampz
+ * @param {String} time
  */
-function timestamp() {
-    if (timestamp) {
-        page.evaluate(function () {
+function timestampz(timestampz, time) {
+    if (timestampz) {
+        page.evaluate(function (dateTime) {
             var water = document.createElement('p');
             water.id='watermark-ice';
-            water.innerHTML = getDateTime(0);
-            water.style.position = 'fixed';
-            water.style.color = '#446CB3';
-            water.style.bottom = '0';
-            water.style.right = '0';
-            water.style.fontSize = '60px';
+            water.innerHTML = dateTime;
+            water.style.position = 'absolute';
+            water.style.color = 'orange';
+            water.style.top = '-2%';
+            water.style.left = '0';
+            water.style.fontSize = '40px';
             water.style.opacity = '0.8';
             document.querySelector('#map_canvas').appendChild(water);
-        });
+        }, time);
     }
 }
 
 /**
  * Inserts IITC
- * @param {boolean} iitc
+ * @param {boolean} iitcz
  * @author akileos (https://github.com/akileos)
  */
-function iitc() {
-    if(iitc) {
+function iitcz(iitcz) {
+    if (iitcz) {
         page.evaluate(function() { 
             var script = document.createElement('script');
             script.type='text/javascript';
@@ -379,7 +382,7 @@ function prepare() {
  * Main function. Wrapper for others.
  */
 function main() {
-    timestamp();
+    iitcz(iitc);
     hideDebris();
     if ((minlevel>1)|(maxlevel<8)){
         setminmax(minlevel,maxlevel);
@@ -392,6 +395,7 @@ function main() {
     window.setTimeout(function () {
         prepare();
         count();
+        timestampz(timestamp, getDateTime());
         s();
         page.reload();
     }, v);
@@ -404,28 +408,30 @@ greet();
 page.open('https://www.ingress.com/intel', function (status) {
     
     if (status !== 'success') {quit('cannot connect to remote server')};
-          
-          var link = page.evaluate(function () {
-              return document.getElementsByTagName('a')[0].href; 
-          });
-          
-          announce('Logging in...', 2);
-          page.open(link, function () {
-              
-              login(l, p);
-              
-              window.setTimeout(function () {
-                  checkLogin();
-                  announce('Checking login...', 2);
-                  window.setTimeout(function () {
-                      page.open(area, function () {
-                          main();
-                          setInterval(function () {
-                              main();
-                          }, v);
-                      });
-                  }, loginTimeout);
-              }, loginTimeout);
-              
-          });
+        
+        var link = page.evaluate(function () {
+            return document.getElementsByTagName('a')[0].href; 
+        });
+        
+        announce('Logging in...', 2);
+        page.open(link, function () {
+            
+            login(l, p);
+            
+            window.setTimeout(function () {
+                checkLogin();
+                announce('Checking login...', 2);
+                window.setTimeout(function () {
+                    page.open(area, function () {
+                        setTimeout(function () {
+                            main();
+                            setInterval(function () {
+                                main();
+                            }, v);
+                        }, loginTimeout);
+                    });
+                }, loginTimeout);
+            }, loginTimeout);
+            
+        });
 });
