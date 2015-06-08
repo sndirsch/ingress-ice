@@ -11,6 +11,8 @@ Features:
  - Supports 2-step authentication
  - Doesn't require X server to be run
  - Set portal levels to display
+ - Use IITC (optionally)
+ - Timestamp on screenshots (optionally)
 
 [<img src="https://developers.google.com/+/images/branding/g+128.png" width="16"> +Ingress ICE](https://plus.google.com/u/0/b/115529923593338751190/115529923593338751190)
 
