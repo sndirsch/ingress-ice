@@ -202,7 +202,7 @@ user_input() {
 			255) ;;
 		esac
 		$DIALOG --backtitle "Step 9 of 10" --defaultno --title "IITC" --clear \
-		        --yesno "Do you want to inject IITC (white background)?" 8 50
+		        --yesno "Do you want to inject IITC (white background)? \n Portal levels filter won't work if yes" 10 50
 		case $? in
    			0) IITC='1';;
     			1) IITC='0';;

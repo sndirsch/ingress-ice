@@ -79,7 +79,7 @@ set /p NUMBER= Number of screenshots to take, '0' for infinity: (0)
 cls
 set /p FOLDER= Folder where to save screenshots (with a trailing slash, '.' means current folder): (./) 
 cls
-set /p IITC= Do you want to inject IITC? 1 for yes, 0 for no: (0)
+set /p IITC= Do you want to inject IITC (white background, portal levels will not work)? 1 for yes, 0 for no: (0)
 cls
 set /p TIMESTAMP= Do you want to timestamp your screenshots? 1 for yes, 0 for no: (0)
 cls
