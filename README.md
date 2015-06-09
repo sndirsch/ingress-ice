@@ -41,7 +41,7 @@ If you want to reconfigure the script, just double click `reconfigure.cmd`.
  1. Run `chmod +x ingress-ice&&./ingress-ice` in console and follow the instructions
  10. It will save captured screenshots with into `Ice-2014-07-13--09-13-37.png`, `Ice-2014-07-13--09-14-07.png`...
 
-If you want to reconfigure the script, run `./ingress-ice -r` .
+If you want to reconfigure the script, run `./ingress-ice -r` . See [CLI usage](https://github.com/nibogd/ingress-ice/wiki/Linux-CLI).
 
 <hr>
 ICE uses [PhantomJS](http://phantomjs.org/), it's binary is packed with the script.
