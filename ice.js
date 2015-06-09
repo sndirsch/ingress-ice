@@ -391,6 +391,7 @@ function timestampz(timestampz, time, iitcz) {
                 water.style.opacity = '0.8';
                 water.style.marginTop = '0';
                 water.style.paddingTop = '0';
+                water.style.fontFamily = 'monospace';
                 document.querySelector('#map_canvas').appendChild(water);
             }, time);
         } else {
