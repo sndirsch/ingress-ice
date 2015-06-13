@@ -517,6 +517,7 @@ function main() {
     }
     if (!iitc) {
         humanPresence();
+        hideDebris(iitc);
     } else {
         page.evaluate(function () {
             idleReset();
