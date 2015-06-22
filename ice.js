@@ -562,6 +562,8 @@ page.open('https://www.ingress.com/intel', function (status) {
                             }
                             hideDebris(iitc);
                             prepare(iitc, width, height);
+                            announce('The first screenshot may not contain all portals, it is intended for you to check framing. But if you have a good connection, it may be complete.')
+                            main();
                             setInterval(main, v);
                         }, loginTimeout);
                     });
