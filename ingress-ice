@@ -4,6 +4,13 @@
 # From version 2.2 you don't need to edit anything. Just launch this script from console ( $ chmod +x ingress-ice&&./ingress-ice )
 FILE="$HOME/.ingress_ice"
 COUNT=""
+
+if [[ "$OSTYPE" == "darwin"* ]]; then
+    PHANTOMJS="./phantomjs-osx"
+else
+    PHANTOMJS="./phantomjs"
+fi
+
 if (command -v dialog >/dev/null)
 then
 	DIALOG=${DIALOG=dialog}
@@ -363,7 +370,7 @@ then
                         fi
 			set `cat $NFILE`
 			ARGS="$1 $2 $3 $4 $5 $6 $7 $8 $9 $10 $COUNT $12 $13"
-			./phantomjs ice.js $ARGS; exit;
+			$PHANTOMJS ice.js $ARGS; exit;
 		else
 			echo "Existing config file found ($NFILE). Starting ice..."
                         if (command -v notify-send >/dev/null)
@@ -371,7 +378,7 @@ then
                             notify-send "Ingress Ice" "ICE is running"
                         fi
 			ARGS=`cat $NFILE`
-			./phantomjs ice.js $ARGS; exit;
+			$PHANTOMJS ice.js $ARGS; exit;
 		fi
 	else
 		if [ ! $TEXT ]; then
@@ -410,7 +417,7 @@ then
                 fi
 		set `cat $FILE`
 		ARGS="$1 $2 $3 $4 $5 $6 $7 $8 $9 $10 $COUNT $12 $13"
-		./phantomjs ice.js $ARGS; exit;
+		$PHANTOMJS ice.js $ARGS; exit;
 	else
 		echo "Existing config file found ($FILE). Starting ice..."
 		if (command -v notify-send >/dev/null)
@@ -418,7 +425,7 @@ then
                     notify-send "Ingress Ice" "ICE is running"
                 fi
 		ARGS=`cat $FILE`
-		./phantomjs ice.js $ARGS; exit;
+		$PHANTOMJS ice.js $ARGS; exit;
 	fi
 else
 	if [ ! $TEXT ]; then
