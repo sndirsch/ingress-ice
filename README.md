@@ -13,6 +13,7 @@ Features:
  - Set portal levels to display
  - Use IITC (optionally)
  - Timestamp on screenshots (optionally)
+ - Fully cross-platform: supports Windows, GNU/Linux and Mac OS X!
 
 See our [samples](https://github.com/nibogd/ingress-ice/wiki/Example-Records).
 
@@ -35,7 +36,7 @@ Usage
 
 If you want to reconfigure the script, just double click `reconfigure.cmd`.
 
-### Linux
+### Linux/Mac OS X
 
  1. Unpack the archieve wherever you want
  1. Run `chmod +x ingress-ice&&./ingress-ice` in console and follow the instructions
