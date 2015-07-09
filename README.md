@@ -44,6 +44,14 @@ If you want to reconfigure the script, just double click `reconfigure.cmd`.
 
 If you want to reconfigure the script, run `./ingress-ice -r` . See [CLI usage](https://github.com/nibogd/ingress-ice/wiki/Linux-CLI).
 
+#### Creating videos
+
+To create a video from your screenshots, you can use *MPlayer* [(Windows download)](http://oss.netfarm.it/mplayer-win32.php) (install from your repo if on linux). It includes a `mencoder` command. The following will produce an `.avi` video:
+```
+mencoder mf://*.png -mf w=1920:h=1080:fps=4:type=png -ovc lavc -lavcopts vcodec=mpeg4:mbd=2:trell -oac copy -o ingress-ice.avi
+```
+
+Change 1920 and 1080 to your width and height, fps=4 to your FPS (more FPS - faster video, but shorter)
 <hr>
 ICE uses [PhantomJS](http://phantomjs.org/), it's binary is packed with the script.
 
