@@ -252,7 +252,7 @@ function quit(err) {
  * @param {number} maxlevel - maximal portal level
  */
 function checkSettings(minlevel, maxlevel) {
-    if ((minlevel < 0 || minlevel > 8) || (maxlevel < 0 || maxlevel > 8) | (!minlevel || !maxlevel)) {
+    if ((minlevel < 0 || minlevel > 8) || (maxlevel < 0 || maxlevel > 8) || (!minlevel || !maxlevel)) {
         quit('the lowest and/or highest portal levels were set wrong. There are no 9 level portals.');
     }
     if (minlevel>maxlevel) {
@@ -422,15 +422,13 @@ function addTimestamp(time, iitcz) {
  * @author akileos (https://github.com/akileos)
  * @author Nikitakun
  */
-function iitcz(iitcz) {
-    if (iitcz) {
-        page.evaluate(function() {
-            var script = document.createElement('script');
-            script.type='text/javascript';
-            script.src='https://secure.jonatkins.com/iitc/release/total-conversion-build.user.js';
-            document.head.insertBefore(script, document.head.lastChild);
-        });
-    }
+function addIitc() {
+    page.evaluate(function() {
+        var script = document.createElement('script');
+        script.type='text/javascript';
+        script.src='https://secure.jonatkins.com/iitc/release/total-conversion-build.user.js';
+        document.head.insertBefore(script, document.head.lastChild);
+    });
 }
 
 /**
@@ -554,7 +552,9 @@ page.open('https://www.ingress.com/intel', function (status) {
                 announce('Verifying login...');
                 window.setTimeout(function () {
                     page.open(area, function () {
-                        iitcz(iitc);
+                        if (iitc) {
+                            addIitc();
+                        }
                         setTimeout(function () {
                             announce('Will start screenshooting in ' + v/1000 + ' seconds...');
                             if ((minlevel > 1)||(maxlevel < 8)){
