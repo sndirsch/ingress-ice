@@ -110,22 +110,22 @@ function getDateTime(format) {
     var hour    = now.getHours();
     var minute  = now.getMinutes();
     var second  = now.getSeconds();
-    if(month.toString().length == 1) {
+    if(month.toString().length === 1) {
         var month = '0' + month;
     }
-    if(day.toString().length == 1) {
+    if(day.toString().length === 1) {
         var day = '0' + day;
     }
-    if(hour.toString().length == 1) {
+    if(hour.toString().length === 1) {
         var hour = '0' + hour;
     }
-    if(minute.toString().length == 1) {
+    if(minute.toString().length === 1) {
         var minute = '0' + minute;
     }
-    if(second.toString().length == 1) {
+    if(second.toString().length === 1) {
         var second = '0' + second;
     }
-    if (format==1) {
+    if (format === 1) {
         var dateTime = year + '-' + month + '-' + day + '--' + hour + '-' + minute + '-' + second;
     } else {
         var dateTime = day + '.' + month + '.' + year + ' '+hour+':'+minute+':'+second;
@@ -158,13 +158,13 @@ function setMinMax(min, max, iitcz) {
                     return document.querySelector('#level_low' + min).getBoundingClientRect();
                 }, min);
                 page.sendEvent('click', rect1.left + rect1.width / 2, rect1.top + rect1.height / 2);
-                if (max == 8) {
+                if (max === 8) {
                     page.evaluate(function () {
                         document.querySelector('#filters_container').style.display = 'none';
                     });
                 }
             }, 2000);
-        };
+        }
         if (max < 8) {
             window.setTimeout(function() {
                 var rect2 = page.evaluate(function() {
@@ -179,8 +179,8 @@ function setMinMax(min, max, iitcz) {
                     page.evaluate(function () {
                         document.querySelector('#filters_container').style.display = 'none';
                     });
-                }, 2000)
-            }, 4000)
+                }, 2000);
+            }, 4000);
         }
     } else {
         window.setTimeout(function () {
@@ -244,16 +244,16 @@ function quit(err) {
 function checkSettings(l, p, minlevel, maxlevel, area) {
     if (!l | !p) {
         quit('you haven\'t entered your login and/or password');
-    };
+    }
     if ((minlevel < 0 | minlevel > 8) | (maxlevel < 0 | maxlevel > 8) | (!minlevel | !maxlevel)) {
         quit('the lowest and/or highest portal levels were not set or were set wrong');
-    };
+    }
     if (minlevel>maxlevel) {
         quit('lowest portal level is higher than highest. Isn\'t that impossible?!');
-    };
+    }
     if (!area | area == 0) {
         quit('you forgot to set the location link, didn\'t you?');
-    };
+    }
 }
 
 /**
@@ -293,9 +293,9 @@ function checkLogin() {
 
     //announce('URI is now ' + page.url.substring(0,40) + '...');
 
-    if (page.url.substring(0,40) == 'https://accounts.google.com/ServiceLogin') {quit('login failed: wrong email and/or password')};
+    if (page.url.substring(0,40) === 'https://accounts.google.com/ServiceLogin') {quit('login failed: wrong email and/or password')}
 
-        if (page.url.substring(0,40) == 'https://appengine.google.com/_ah/loginfo') {
+        if (page.url.substring(0,40) === 'https://appengine.google.com/_ah/loginfo') {
             announce('Accepting appEngine request...');
             page.evaluate(function () {
                 document.getElementById('persist_checkbox').checked = true;
@@ -303,7 +303,7 @@ function checkLogin() {
             });
         }
 
-        if (page.url.substring(0,40) == 'https://accounts.google.com/SecondFactor') {
+        if (page.url.substring(0,40) === 'https://accounts.google.com/SecondFactor') {
             announce('Using two-step verification, please enter your code:');
             twostep = system.stdin.readLine();
         }
@@ -324,10 +324,10 @@ function checkLogin() {
  * @param {number} ssnum
  */
 function count() {
-    if ((curnum>=ssnum)&&(ssnum!=0)) {
+    if ((curnum >= ssnum)&&(ssnum !== 0)) {
         announce('Finished sucessfully. Exiting...\nThanks for using ingress-ice!');
         phantom.exit();
-    } else if (ssnum!=0) {
+    } else if (ssnum !== 0) {
         announce('Screen #' + (curnum + 1) + '/' + ssnum + ' captured');
         curnum++;
     }
