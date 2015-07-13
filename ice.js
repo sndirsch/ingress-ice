@@ -40,7 +40,7 @@ if (isNaN(args[1])) {
     var iitc         = 0;
     var timestamp    = 0;
 } else if (parseInt(args[1], 10)>=1) {
-    var configver    = parseInt(args[1], 10);
+    //var configver    = parseInt(args[1], 10);
     var l            = args[2];
     var p            = args[3];
     var area         = args[4];
@@ -364,45 +364,43 @@ function hideDebris(iitcz) {
 /**
  * Adds a timestamp to a screenshot
  * @since 2.3.0
- * @param {boolean} timestampz
  * @param {String} time
  * @param {boolean} iitcz
  */
-function timestampz(timestampz, time, iitcz) {
-    if (timestampz) {
-        if (!iitcz) {
-            page.evaluate(function (dateTime) {
-                var water = document.createElement('p');
-                water.id='watermark-ice';
-                water.innerHTML = dateTime;
-                water.style.position = 'absolute';
-                water.style.color = 'orange';
-                water.style.top = '0';
-                water.style.left = '0';
-                water.style.fontSize = '40px';
-                water.style.opacity = '0.8';
-                water.style.marginTop = '0';
-                water.style.paddingTop = '0';
-                water.style.fontFamily = 'monospace';
-                document.querySelector('#map_canvas').appendChild(water);
-            }, time);
-        } else {
-            page.evaluate(function (dateTime) {
-                var water = document.createElement('p');
-                water.id='watermark-ice';
-                water.innerHTML = dateTime;
-                water.style.position = 'absolute';
-                water.style.color = '#3A539B';
-                water.style.top = '0';
-                water.style.zIndex = '4404';
-                water.style.marginTop = '0';
-                water.style.paddingTop = '0';
-                water.style.left = '0';
-                water.style.fontSize = '40px';
-                water.style.opacity = '0.8';
-                document.querySelectorAll('body')[0].appendChild(water);
-            }, time);
-        }
+function addTimestamp(time, iitcz) {
+    if (!iitcz) {
+        page.evaluate(function (dateTime) {
+            var water = document.createElement('p');
+            water.id='watermark-ice';
+            water.innerHTML = dateTime;
+            water.style.position = 'absolute';
+            water.style.color = 'orange';
+            water.style.top = '0';
+            water.style.left = '0';
+            water.style.fontSize = '40px';
+            water.style.opacity = '0.8';
+            water.style.marginTop = '0';
+            water.style.paddingTop = '0';
+            water.style.fontFamily = 'monospace';
+            document.querySelector('#map_canvas').appendChild(water);
+        }, time);
+    } else {
+        page.evaluate(function (dateTime) {
+            var water = document.createElement('p');
+            water.id='watermark-ice';
+            water.innerHTML = dateTime;
+            water.style.position = 'absolute';
+            water.style.color = '#3A539B';
+            water.style.top = '0';
+            water.style.zIndex = '4404';
+            water.style.marginTop = '0';
+            water.style.paddingTop = '0';
+            water.style.left = '0';
+            water.style.fontSize = '40px';
+            water.style.opacity = '0.8';
+            water.style.fontFamily = 'monospace';
+            document.querySelectorAll('body')[0].appendChild(water);
+        }, time);
     }
 }
 
@@ -516,7 +514,9 @@ function main() {
         });
     }
     window.setTimeout(function () {
-        timestampz(timestamp, getDateTime(), iitc);
+        if (timestamp) {
+            addTimestamp(getDateTime(), iitc);
+        }
         s();
     }, 2000);
 }
