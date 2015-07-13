@@ -35,7 +35,7 @@ if (isNaN(args[1])) {
     var width        = parseInt(args[7], 10);
     var height       = parseInt(args[8], 10);
     var folder       = args[9];
-    var ssnum        = args[10];
+    var ssnum        = parseInt(args[10], 10);
     //var loglevel     = args[11];
     var iitc         = 0;
     var timestamp    = 0;
@@ -50,7 +50,7 @@ if (isNaN(args[1])) {
     var width        = parseInt(args[8], 10);
     var height       = parseInt(args[9], 10);
     var folder       = args[10];
-    var ssnum        = args[11];
+    var ssnum        = parseInt(args[11], 10);
     var iitc         = parseInt(args[12], 10);
     var timestamp    = parseInt(args[13], 10);
 }
