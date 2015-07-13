@@ -55,6 +55,9 @@ if (isNaN(args[1])) {
     var timestamp    = parseInt(args[13], 10);
 }
 
+/*global phantom */
+/*global idleReset */
+
 /**
  * Counter for number of screenshots
  */
