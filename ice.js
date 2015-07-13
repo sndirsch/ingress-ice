@@ -235,25 +235,16 @@ function quit(err) {
 }
 
 /**
- * Check if all mandatory settings are correct and quit if not
- * @param {String} l - google login
- * @param {String} p - google password
+ * Check if portal level settings are correct and quit if not
  * @param {number} minlevel - minimal portal level
  * @param {number} maxlevel - maximal portal level
- * @param {String} area - Link to a place at the ingress map
  */
-function checkSettings(l, p, minlevel, maxlevel, area) {
-    if (!l | !p) {
-        quit('you haven\'t entered your login and/or password');
-    }
+function checkSettings(minlevel, maxlevel) {
     if ((minlevel < 0 | minlevel > 8) | (maxlevel < 0 | maxlevel > 8) | (!minlevel | !maxlevel)) {
-        quit('the lowest and/or highest portal levels were not set or were set wrong');
+        quit('the lowest and/or highest portal levels were set wrong. There are no 9 level portals.');
     }
     if (minlevel>maxlevel) {
         quit('lowest portal level is higher than highest. Isn\'t that impossible?!');
-    }
-    if (!area | area === 0) {
-        quit('you forgot to set the location link, didn\'t you?');
     }
 }
 
@@ -531,7 +522,7 @@ function main() {
 }
 //MAIN SCRIPT
 
-checkSettings(l, p, minlevel, maxlevel, area);
+checkSettings(minlevel, maxlevel);
 greet();
 
 page.open('https://www.ingress.com/intel', function (status) {
