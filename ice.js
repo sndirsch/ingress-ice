@@ -126,9 +126,9 @@ function getDateTime(format) {
         second = '0' + second;
     }
     if (format === 1) {
-        dateTime = year + '-' + month + '-' + day + '--' + hour + '-' + minute + '-' + second;
+        var dateTime = year + '-' + month + '-' + day + '--' + hour + '-' + minute + '-' + second;
     } else {
-        dateTime = day + '.' + month + '.' + year + ' '+hour+':'+minute+':'+second;
+        var dateTime = day + '.' + month + '.' + year + ' '+hour+':'+minute+':'+second;
     }
     return dateTime;
 }
@@ -251,7 +251,7 @@ function checkSettings(l, p, minlevel, maxlevel, area) {
     if (minlevel>maxlevel) {
         quit('lowest portal level is higher than highest. Isn\'t that impossible?!');
     }
-    if (!area | area == 0) {
+    if (!area | area === 0) {
         quit('you forgot to set the location link, didn\'t you?');
     }
 }
@@ -293,7 +293,7 @@ function checkLogin() {
 
     //announce('URI is now ' + page.url.substring(0,40) + '...');
 
-    if (page.url.substring(0,40) === 'https://accounts.google.com/ServiceLogin') {quit('login failed: wrong email and/or password')}
+    if (page.url.substring(0,40) === 'https://accounts.google.com/ServiceLogin') {quit('login failed: wrong email and/or password');}
 
         if (page.url.substring(0,40) === 'https://appengine.google.com/_ah/loginfo') {
             announce('Accepting appEngine request...');
@@ -340,30 +340,30 @@ function count() {
 function hideDebris(iitcz) {
     if (!iitcz) {
         page.evaluate(function () {
-            if (document.querySelector('#comm'))           {document.querySelector('#comm').style.display = 'none'}
-            if (document.querySelector('#player_stats'))   {document.querySelector('#player_stats').style.display = 'none'}
-            if (document.querySelector('#game_stats'))     {document.querySelector('#game_stats').style.display = 'none'}
-            if (document.querySelector('#geotools'))       {document.querySelector('#geotools').style.display = 'none'}
-            if (document.querySelector('#header'))         {document.querySelector('#header').style.display = 'none'}
-            if (document.querySelector('#snapcontrol'))    {document.querySelector('#snapcontrol').style.display = 'none'}
-            if (document.querySelectorAll('.img_snap')[0]) {document.querySelectorAll('.img_snap')[0].style.display = 'none'}
+            if (document.querySelector('#comm'))           {document.querySelector('#comm').style.display = 'none';}
+            if (document.querySelector('#player_stats'))   {document.querySelector('#player_stats').style.display = 'none';}
+            if (document.querySelector('#game_stats'))     {document.querySelector('#game_stats').style.display = 'none';}
+            if (document.querySelector('#geotools'))       {document.querySelector('#geotools').style.display = 'none';}
+            if (document.querySelector('#header'))         {document.querySelector('#header').style.display = 'none';}
+            if (document.querySelector('#snapcontrol'))    {document.querySelector('#snapcontrol').style.display = 'none';}
+            if (document.querySelectorAll('.img_snap')[0]) {document.querySelectorAll('.img_snap')[0].style.display = 'none';}
         });
         page.evaluate(function () {
             var hide = document.querySelectorAll('.gmnoprint');
-            for (index = 0; index < hide.length; ++index) {
+            for (var index = 0; index < hide.length; ++index) {
                 hide[index].style.display = 'none';
             }
         });
     } else {
         window.setTimeout(function () {
             page.evaluate(function () {
-                if (document.querySelector('#chat'))                            {document.querySelector('#chat').style.display = 'none'}
-                if (document.querySelector('#chatcontrols'))                    {document.querySelector('#chatcontrols').style.display = 'none'}
-                if (document.querySelector('#chatinput'))                       {document.querySelector('#chatinput').style.display = 'none'}
-                if (document.querySelector('#updatestatus'))                    {document.querySelector('#updatestatus').style.display = 'none'}
-                if (document.querySelector('#sidebartoggle'))                   {document.querySelector('#sidebartoggle').style.display = 'none'}
-                if (document.querySelector('#scrollwrapper'))                   {document.querySelector('#scrollwrapper').style.display = 'none'}
-                if (document.querySelectorAll('.leaflet-control-container')[0]) {document.querySelectorAll('.leaflet-control-container')[0].style.display = 'none'}
+                if (document.querySelector('#chat'))                            {document.querySelector('#chat').style.display = 'none';}
+                if (document.querySelector('#chatcontrols'))                    {document.querySelector('#chatcontrols').style.display = 'none';}
+                if (document.querySelector('#chatinput'))                       {document.querySelector('#chatinput').style.display = 'none';}
+                if (document.querySelector('#updatestatus'))                    {document.querySelector('#updatestatus').style.display = 'none';}
+                if (document.querySelector('#sidebartoggle'))                   {document.querySelector('#sidebartoggle').style.display = 'none';}
+                if (document.querySelector('#scrollwrapper'))                   {document.querySelector('#scrollwrapper').style.display = 'none';}
+                if (document.querySelectorAll('.leaflet-control-container')[0]) {document.querySelectorAll('.leaflet-control-container')[0].style.display = 'none';}
             });
         }, 2000);
     }
@@ -535,7 +535,7 @@ greet();
 
 page.open('https://www.ingress.com/intel', function (status) {
 
-    if (status !== 'success') {quit('cannot connect to remote server')};
+    if (status !== 'success') {quit('cannot connect to remote server');}
 
         var link = page.evaluate(function () {
             return document.getElementsByTagName('a')[0].href;
@@ -562,7 +562,7 @@ page.open('https://www.ingress.com/intel', function (status) {
                             }
                             hideDebris(iitc);
                             prepare(iitc, width, height);
-                            announce('The first screenshot may not contain all portals, it is intended for you to check framing. But if you have a good connection, it may be complete.')
+                            announce('The first screenshot may not contain all portals, it is intended for you to check framing. But if you have a good connection, it may be complete.');
                             main();
                             setInterval(main, v);
                         }, loginTimeout);
