@@ -5,7 +5,7 @@
 FILE="$HOME/.ingress_ice"
 COUNT=""
 
-if [[ "$OSTYPE" == "darwin"* ]]; then
+if [ "$OSTYPE" == "darwin"* ]; then
     PHANTOMJS="./phantomjs-osx"
 else
     if (command -v phantomjs >/dev/null)
