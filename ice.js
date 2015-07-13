@@ -36,9 +36,9 @@ if (isNaN(args[1])) {
     var height       = parseInt(args[8], 10);
     var folder       = args[9];
     var ssnum        = args[10];
-    var loglevel     = args[11];
-    iitc             = 0;
-    timestamp        = 0;
+    //var loglevel     = args[11];
+    var iitc         = 0;
+    var timestamp    = 0;
 } else if (parseInt(args[1], 10)>=1) {
     var configver    = parseInt(args[1], 10);
     var l            = args[2];
@@ -125,10 +125,11 @@ function getDateTime(format) {
     if(second.toString().length === 1) {
         second = '0' + second;
     }
+    var dateTime;
     if (format === 1) {
-        var dateTime = year + '-' + month + '-' + day + '--' + hour + '-' + minute + '-' + second;
+        dateTime = year + '-' + month + '-' + day + '--' + hour + '-' + minute + '-' + second;
     } else {
-        var dateTime = day + '.' + month + '.' + year + ' '+hour+':'+minute+':'+second;
+        dateTime = day + '.' + month + '.' + year + ' '+hour+':'+minute+':'+second;
     }
     return dateTime;
 }
@@ -450,7 +451,7 @@ function prepare(iitcz, widthz, heightz) {
                 height: clipRect.height
             };
         }, selector);
-        var oldClipRect = page.clipRect;
+        //var oldClipRect = page.clipRect;
         page.clipRect = elementBounds;
     } else {
         window.setTimeout(function () {
@@ -476,7 +477,7 @@ function prepare(iitcz, widthz, heightz) {
                     height: clipRect.height
                 };
             }, selector);
-            var oldClipRect = page.clipRect;
+            //var oldClipRect = page.clipRect;
             page.clipRect = elementBounds;
         }, 4000);
     }
