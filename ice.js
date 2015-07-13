@@ -189,22 +189,34 @@ function setMinMax(min, max, iitcz) {
                 if (min > 1) {
                     switch (min) {
                         case 8: document.getElementsByClassName("leaflet-control-layers-selector")[15].checked = false;
+                        /* falls through */
                         case 7: document.getElementsByClassName("leaflet-control-layers-selector")[14].checked = false;
+                        /* falls through */
                         case 6: document.getElementsByClassName("leaflet-control-layers-selector")[13].checked = false;
+                        /* falls through */
                         case 5: document.getElementsByClassName("leaflet-control-layers-selector")[12].checked = false;
+                        /* falls through */
                         case 4: document.getElementsByClassName("leaflet-control-layers-selector")[11].checked = false;
+                        /* falls through */
                         case 3: document.getElementsByClassName("leaflet-control-layers-selector")[10].checked = false;
+                        /* falls through */
                         case 2: document.getElementsByClassName("leaflet-control-layers-selector")[9].checked = false;
                     }
                 }
                 if (max < 8) {
                     switch (max) {
                         case 1: document.getElementsByClassName("leaflet-control-layers-selector")[10].checked = false;
+                        /* falls through */
                         case 2: document.getElementsByClassName("leaflet-control-layers-selector")[11].checked = false;
+                        /* falls through */
                         case 3: document.getElementsByClassName("leaflet-control-layers-selector")[12].checked = false;
+                        /* falls through */
                         case 4: document.getElementsByClassName("leaflet-control-layers-selector")[13].checked = false;
+                        /* falls through */
                         case 5: document.getElementsByClassName("leaflet-control-layers-selector")[14].checked = false;
+                        /* falls through */
                         case 6: document.getElementsByClassName("leaflet-control-layers-selector")[15].checked = false;
+                        /* falls through */
                         case 7: document.getElementsByClassName("leaflet-control-layers-selector")[16].checked = false;
                     }
                 }
@@ -240,7 +252,7 @@ function quit(err) {
  * @param {number} maxlevel - maximal portal level
  */
 function checkSettings(minlevel, maxlevel) {
-    if ((minlevel < 0 | minlevel > 8) | (maxlevel < 0 | maxlevel > 8) | (!minlevel | !maxlevel)) {
+    if ((minlevel < 0 || minlevel > 8) || (maxlevel < 0 || maxlevel > 8) | (!minlevel || !maxlevel)) {
         quit('the lowest and/or highest portal levels were set wrong. There are no 9 level portals.');
     }
     if (minlevel>maxlevel) {
@@ -545,7 +557,7 @@ page.open('https://www.ingress.com/intel', function (status) {
                         iitcz(iitc);
                         setTimeout(function () {
                             announce('Will start screenshooting in ' + v/1000 + ' seconds...');
-                            if ((minlevel>1)|(maxlevel<8)){
+                            if ((minlevel > 1)||(maxlevel < 8)){
                                 setMinMax(minlevel, maxlevel, iitc);
                             } else if (!iitc) {
                                 page.evaluate(function () {
