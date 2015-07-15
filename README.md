@@ -1,7 +1,7 @@
-[ingress-ice](http://ingress.divshot.io/) [![](https://img.shields.io/github/issues-raw/nibogd/ingress-ice.svg)](https://github.com/nibogd/ingress-ice/issues)
+[ingress-ice](http://ingress.divshot.io/)
 ===========
 
-[![Join the chat at https://gitter.im/nibogd/ingress-ice](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/nibogd/ingress-ice?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+[![Join the chat at https://gitter.im/nibogd/ingress-ice](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/nibogd/ingress-ice?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge) [![](https://img.shields.io/github/issues-raw/nibogd/ingress-ice.svg)](https://github.com/nibogd/ingress-ice/issues)
 
 Automatic screenshooter for ingress intel map.
 ![](https://cloud.githubusercontent.com/assets/2771136/7915684/cfaba8c4-0887-11e5-86b9-5b4fe05ababc.png)
