@@ -1,7 +1,7 @@
 /**
  * @file Ingress-ICE, the main script
  * @author Nikitakun (https://github.com/nibogd)
- * @version 2.3.0
+ * @version 3.0.0
  * @license MIT
  * @see {@link https://github.com/nibogd/ingress-ice|GitHub }
  * @see {@link https://ingress.divshot.io/|Website }
@@ -62,7 +62,7 @@ if (isNaN(args[1])) {
  * Counter for number of screenshots
  */
 var curnum       = 0;
-var version      = '2.3.0';
+var version      = '3.0.0';
 
 /**
  * Delay between logging in and checking if successful
@@ -267,11 +267,12 @@ function checkSettings(minlevel, maxlevel) {
  * Greeter. Beautiful ASCII-Art logo.
  */
 function greet() {
-    console.log('\n     _____ )   ___      _____) \n    (, /  (__/_____)  /        \n      /     /         )__      \n  ___/__   /        /          \n(__ /     (______) (_____)  v' + version + '\n\nIf something doesn\'t work or if you want to submit a feature request, visit https://github.com/nibogd/ingress-ice/issues');
+    console.log('\n     _____ )   ___      _____) \n    (, /  (__/_____)  /        \n      /     /         )__      \n  ___/__   /        /          \n(__ /     (______) (_____)  v' + version + '\n\nIf you need help or want a new feature, visit https://github.com/nibogd/ingress-ice/issues');
 }
 
 /**
  * Log in to google. Doesn't use post, because URI may change.
+ * Fixed in 3.0.0 -- obsolete versions will not work (google changed login form)
  * @param l - google login
  * @param p - google password
  */
@@ -279,18 +280,20 @@ function login(l, p) {
     page.evaluate(function (l) {
         document.getElementById('Email').value = l;
     }, l);
-
-    page.evaluate(function (p) {
-        document.getElementById('Passwd').value = p;
-    }, p);
-
     page.evaluate(function () {
-        document.querySelector("input#signIn").click();
+        document.querySelector("#next").click();
     });
-
-    page.evaluate(function () {
-        document.getElementById('gaia_loginform').submit();
-    });
+    window.setInterval(function () {
+        page.evaluate(function (p) {
+            document.getElementById('Passwd').value = p;
+        }, p);
+        page.evaluate(function () {
+            document.querySelector("#next").click();
+        });
+        page.evaluate(function () {
+            document.getElementById('gaia_loginform').submit();
+        });
+    }, loginTimeout / 10);
 }
 
 /**
@@ -551,8 +554,8 @@ page.open('https://www.ingress.com/intel', function (status) {
 
             login(l, p);
             window.setTimeout(function () {
-                checkLogin();
                 announce('Verifying login...');
+                checkLogin();
                 window.setTimeout(function () {
                     page.open(area, function () {
                         if (iitc) {
@@ -569,7 +572,7 @@ page.open('https://www.ingress.com/intel', function (status) {
                             }
                             hideDebris(iitc);
                             prepare(iitc, width, height);
-                            announce('The first screenshot may not contain all portals, it is intended for you to check framing. But if you have a good connection, it may be complete.');
+                            announce('The first screenshot may not contain all portals, it is intended for you to check framing.');
                             main();
                             setInterval(main, v);
                         }, loginTimeout);

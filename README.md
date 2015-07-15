@@ -4,6 +4,8 @@
 Automatic screenshooter for ingress intel map.
 ![](https://cloud.githubusercontent.com/assets/2771136/7915684/cfaba8c4-0887-11e5-86b9-5b4fe05ababc.png)
 
+If you have Ice version < 3.0.0 and see errors like `ICE crashed. Reason: login failed: wrong email and/or password :(`, update ice! Google has changed it's login form.
+
 Features:
 =========
  - Captures screenshots of ingress intel map every *n* seconds
@@ -31,16 +33,16 @@ Usage
 ### Windows
 
  1. Unpack the archieve wherever you want
- 1. Double-Click `ingress-ice.cmd` and follow the instructions
- 10. It will save captured screenshots with into `Ice-2014-07-13--09-13-37.png`, `Ice-2014-07-13--09-14-07.png`...
+ 2. Double-Click `ingress-ice.cmd` and follow the instructions
+ 4. It will save captured screenshots with into `Ice-2014-07-13--09-13-37.png`, `Ice-2014-07-13--09-14-07.png`...
 
 If you want to reconfigure the script, just double click `reconfigure.cmd`.
 
 ### Linux/Mac OS X
 
  1. Unpack the archieve wherever you want
- 1. Run `chmod +x ingress-ice&&./ingress-ice` in console and follow the instructions
- 10. It will save captured screenshots with into `Ice-2014-07-13--09-13-37.png`, `Ice-2014-07-13--09-14-07.png`...
+ 2. Run `chmod +x ingress-ice&&./ingress-ice` in console and follow the instructions
+ 4. It will save captured screenshots with into `Ice-2014-07-13--09-13-37.png`, `Ice-2014-07-13--09-14-07.png`...
 
 If you want to reconfigure the script, run `./ingress-ice -r` . See [CLI usage](https://github.com/nibogd/ingress-ice/wiki/Linux-CLI).
 
