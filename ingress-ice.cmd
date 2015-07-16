@@ -53,6 +53,11 @@ if [!LINK!]==[] (
 	GOTO :c-link
 )
 cls
+set /p COOKIE= Do you want to login using cookies (advanced users only)? 1 for yes, 0 for no:
+if [!COOKIE!]==[] (
+	set COOKIE=0
+)
+if [!COOKIE!]==[0] (
 :c-login
 set /p LOGIN= Your Google login: 
 if [%LOGIN%]==[] (
@@ -66,6 +71,24 @@ if [!PASSWD!]==[] (
 	GOTO :c-passwd
 )
 cls
+set CVER=1
+) else (
+
+:co-login
+set /p LOGIN= Your SACSID cookie: 
+if [%LOGIN%]==[] (
+	echo Cannot be blank
+	GOTO :co-login
+)
+:co-passwd
+set /p PASSWD= Your CSRFToken cookie: 
+if [!PASSWD!]==[] (
+	echo Cannot be blank
+	GOTO :co-passwd
+)
+cls
+set CVER=2
+)
 set /p DELAY= Delay between screenshots in seconds: (120) 
 cls
 echo WARNING: This feature is unstable. If it doesn't work well (screenshots may appear blank or contain a part of COMM box), set a higher delay or set minimal portal level to 1 and maximum to 8 (double-click reconfigure.cmd file to reconfigure) 
@@ -79,7 +102,7 @@ set /p NUMBER= Number of screenshots to take, '0' for infinity: (0)
 cls
 set /p FOLDER= Folder where to save screenshots (with a trailing slash, '.' means current folder): (./) 
 cls
-set /p IITC= Do you want to inject IITC (white background, portal levels will not work)? 1 for yes, 0 for no: (0)
+set /p IITC= Do you want to inject IITC (white background)? 1 for yes, 0 for no: (0)
 cls
 set /p TIMESTAMP= Do you want to timestamp your screenshots? 1 for yes, 0 for no: (0)
 cls
@@ -105,7 +128,7 @@ IF "%CORRECT%" == "n" (
 	echo Let's try again...
 	goto :config-1
 )
-echo 1 %LOGIN% !PASSWD! !LINK! %MIN_LEVEL% %MAX_LEVEL% %DELAY% %WIDTH% %HEIGHT% %FOLDER% %NUMBER% %IITC% %TIMESTAMP% > %FILE%
+echo %CVER% %LOGIN% !PASSWD! !LINK! %MIN_LEVEL% %MAX_LEVEL% %DELAY% %WIDTH% %HEIGHT% %FOLDER% %NUMBER% %IITC% %TIMESTAMP% > %FILE%
 goto :created
 :start
 cls
