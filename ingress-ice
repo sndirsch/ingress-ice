@@ -84,38 +84,77 @@ user_input() {
 			  255) exit_ice;;
 			esac
 		done
-		while true; do
-			tempfile=`tempfile 2>/dev/null` || tempfile=/tmp/test$$
-			trap "rm -f $tempfile" 0 1 2 5 15
+		$DIALOG --backtitle "Choose auth method" --defaultno --title "Authentication Method" --clear \
+		        --yesno "Do you want to authenticate using cookies? (for advanced users only)" 9 50
+		case $? in
+   			0) VERSION=2
+   			 while true; do
+			    tempfile=`tempfile 2>/dev/null` || tempfile=/tmp/test$$
+			    trap "rm -f $tempfile" 0 1 2 5 15
 		
-			$DIALOG --backtitle "Step 2 of 10" --title "Google Login" --clear \
-			        --inputbox "Please enter your Google Login:" 8 40 2> $tempfile
+			    $DIALOG --backtitle "Step 2 of 10" --title "SACSID cookie" --clear \
+			            --inputbox "Enter the contents of your SACSID cookie:" 8 40 2> $tempfile
 		
-			retval=$?
+			    retval=$?
 			
-			case $retval in
-			  0) EMAIL=`cat $tempfile`
-			     [ -z $EMAIL ] && empty_ice || break;;
-			  1) exit_ice;;
-			  255) exit_ice;;
-			esac
-		done
-		while true; do
-			tempfile=`tempfile 2>/dev/null` || tempfile=/tmp/test$$
-			trap "rm -f $tempfile" 0 1 2 5 15
+			    case $retval in
+			      0) EMAIL=`cat $tempfile`
+			         [ -z $EMAIL ] && empty_ice || break;;
+			      1) exit_ice;;
+			      255) exit_ice;;
+			    esac
+		         done
+                         while true; do
+			    tempfile=`tempfile 2>/dev/null` || tempfile=/tmp/test$$
+			    trap "rm -f $tempfile" 0 1 2 5 15
 		
-			$DIALOG --backtitle "Step 3 of 10" --title "Google Password" --clear \
-			        --passwordbox "Please enter your Google Password: (not shown)" 10 40 2> $tempfile
+			    $DIALOG --backtitle "Step 3 of 10" --title "CSRF cookie" --clear \
+			            --inputbox "Enter the contents of your CSRFToken cookie:" 8 40 2> $tempfile
 		
-			retval=$?
+			    retval=$?
 			
-			case $retval in
-			  0) PASSWD=`cat $tempfile`
-			     [ -z $PASSWD ] && empty_ice || break;;
-			  1) exit_ice;;
-			  255) exit_ice;;
-			esac
-		done
+			    case $retval in
+			      0) PASSWD=`cat $tempfile`
+			         [ -z $PASSWD ] && empty_ice || break;;
+			      1) exit_ice;;
+			      255) exit_ice;;
+			    esac
+		         done;;
+		        1) VERSION=1
+		           while true; do
+				tempfile=`tempfile 2>/dev/null` || tempfile=/tmp/test$$
+				trap "rm -f $tempfile" 0 1 2 5 15
+		
+				$DIALOG --backtitle "Step 2 of 10" --title "Google Login" --clear \
+				        --inputbox "Please enter your Google Login:" 8 40 2> $tempfile
+		
+				retval=$?
+			
+				case $retval in
+				  0) EMAIL=`cat $tempfile`
+				     [ -z $EMAIL ] && empty_ice || break;;
+				  1) exit_ice;;
+			 	  255) exit_ice;;
+				esac
+			 done
+			 while true; do
+				tempfile=`tempfile 2>/dev/null` || tempfile=/tmp/test$$
+				trap "rm -f $tempfile" 0 1 2 5 15
+			
+				$DIALOG --backtitle "Step 3 of 10" --title "Google Password" --clear \
+				        --passwordbox "Please enter your Google Password: (not shown)" 10 40 2> $tempfile
+		
+				retval=$?
+			
+				case $retval in
+				  0) PASSWD=`cat $tempfile`
+				     [ -z $PASSWD ] && empty_ice || break;;
+				  1) exit_ice;;
+				  255) exit_ice;;
+				esac
+			 done;;
+		        255) exit_ice;;
+	        esac
                 $DIALOG --title "Notice" --msgbox "In the next dialogs value is not required. If nothing entered, default written in brackets will be chosen." 10 32;
 		while true; do
 			tempfile=`tempfile 2>/dev/null` || tempfile=/tmp/test$$
@@ -214,13 +253,13 @@ user_input() {
 			255) ;;
 		esac
 		$DIALOG --backtitle "Step 9 of 10" --defaultno --title "IITC" --clear \
-		        --yesno "Do you want to inject IITC (white background)? \n Portal levels filter won't work if yes" 10 50
+		        --yesno "Do you want to inject IITC (white background)?" 8 50
 		case $? in
    			0) IITC='1';;
     			1) IITC='0';;
 			255) ;;
 		esac
-		$DIALOG --backtitle "Step 10 of 10" --defaultno --title "IITC" --clear \
+		$DIALOG --backtitle "Step 10 of 10" --defaultno --title "Timestamp" --clear \
 		        --yesno "Do you want to put a timestamp on your screenshots?" 8 50
 		case $? in
    			0) TIMESTAMP='1';;
@@ -236,9 +275,9 @@ user_input() {
 		TIMESTAMP=${TIMESTAMP:-'0'}
 		IITC=${IITC:-'0'}
 		$DIALOG --title "Check settings" --clear \
-		        --yesno "Google login: $EMAIL\nPortals level from $MIN_LEVEL to $MAX_LEVEL\nTake $NUMBER (0 = infinity) screenshots $WIDTHZ x $HEIGHT every $DELAY seconds\n\nAre the settings correct?" 16 60
+		        --yesno "Take $NUMBER (0 = infinity) screenshots $WIDTHZ x $HEIGHT every $DELAY seconds of portals from $MIN_LEVEL to $MAX_LEVEL\n\nAre the settings correct?" 10 60
 		case $? in
-   			0) echo "1 $EMAIL $PASSWD $LINK $MIN_LEVEL $MAX_LEVEL $DELAY $WIDTHZ $HEIGHT ./ $NUMBER $IITC $TIMESTAMP" > $1; $DIALOG --title "Success" --msgbox "Restart ICE to begin screenshooting" 8 32; break;;
+   			0) echo "$VERSION $EMAIL $PASSWD $LINK $MIN_LEVEL $MAX_LEVEL $DELAY $WIDTHZ $HEIGHT ./ $NUMBER $IITC $TIMESTAMP" > $1; $DIALOG --title "Success" --msgbox "Restart ICE to begin screenshooting" 8 32; break;;
     			1) user_input $1; break;;
 			255) user_input $1; break;;
 		esac
@@ -260,18 +299,42 @@ user_input() {
 		done
 		clear
 		while true; do
-			echo "Your Google login: "
-			read EMAIL
-			[ -z "$EMAIL" ] && echo "Cannot be blank." || break;
-		done
-		while true; do
-                        echo ""
-			echo "Your Google password: (not shown) "
-			stty -echo
-			read PASSWORD
-			stty echo
-			[ -z "$PASSWORD" ] && echo "Cannot be blank." || break;
-		done
+			    	read -p "Do you want to authenticate using cookies (Advanced users only; faster loading)? (y/n) " yn
+			    	case $yn in
+			    	    [Yy]* ) version="2"; break;;
+			    	    [Nn]* ) version="1"; break;;
+			    	    * ) echo "Please answer y(es) or n(o).";;
+			    	esac
+			done
+	        if [  "$version" = "1" ]; then
+		        while true; do
+		        	echo "Your Google login: "
+		        	read EMAIL
+		        	[ -z "$EMAIL" ] && echo "Cannot be blank." || break;
+	        	done
+	        	while true; do
+                               echo ""
+	        		echo "Your Google password: (not shown) "
+	        		stty -echo
+	        		read PASSWORD
+	        		stty echo
+	        		[ -z "$PASSWORD" ] && echo "Cannot be blank." || break;
+	        	done
+	        fi
+	        if [  "$version" = "2" ]; then
+		        while true; do
+		        	echo "Your SACSID cookie: "
+		        	read EMAIL
+		        	[ -z "$EMAIL" ] && echo "Cannot be blank." || break;
+	        	done
+	        	while true; do
+                               echo ""
+	        		echo "Your CSRFToken cookie: "
+	        		read PASSWORD
+	        		[ -z "$PASSWORD" ] && echo "Cannot be blank." || break;
+	        	done
+	        fi
+	        
 		clear
 		echo "Delay between screenshots in seconds: ([ENTER] for default (120)) "
 		read DELAY
@@ -282,10 +345,10 @@ user_input() {
 		echo "Maximum portal level: (8) "
 		read MAX_LEVEL
 		clear
-		echo "Screenshots' width in pixels: (900) "
+		echo "Screenshots' width in pixels: (1366) "
 		read WIDTH
                 echo ""
-		echo "Screenshots' height: (500) "
+		echo "Screenshots' height: (768) "
 		read HEIGHT
 		clear
 		echo "Number of screenshots to take, '0' for infinity: (0) "
@@ -311,13 +374,12 @@ user_input() {
 		DELAY=${DELAY:-'120'}
 		MIN_LEVEL=${MIN_LEVEL:-'1'}
 		MAX_LEVEL=${MAX_LEVEL:-'8'}
-		WIDTH=${WIDTH:-'900'}
-		HEIGHT=${HEIGHT:-'500'}
+		WIDTH=${WIDTH:-'1366'}
+		HEIGHT=${HEIGHT:-'768'}
 		NUMBER=${NUMBER:-'0'}
 		TIMESTAMP=${TIMESTAMP:-'0'}
 		IITC=${IITC:-'0'}
 		clear
-		echo "Google login: $EMAIL"
 		echo "Portals level from $MIN_LEVEL to $MAX_LEVEL"
 		echo "Take $NUMBER (0 = infinity) screenshots $WIDTH x $HEIGHT every $DELAY seconds"
 		echo ""
@@ -325,7 +387,7 @@ user_input() {
 		while true; do
 		    read yn
 		    case $yn in
-		        [Yy]* ) echo "Writing to file... ($1)"; echo "1 $EMAIL $PASSWORD $LINK $MIN_LEVEL $MAX_LEVEL $DELAY $WIDTH $HEIGHT ./ $NUMBER $IITC $TIMESTAMP" > $1 && echo "Config file created successfully."; break;;
+		        [Yy]* ) echo "Writing to file... ($1)"; echo "$version $EMAIL $PASSWORD $LINK $MIN_LEVEL $MAX_LEVEL $DELAY $WIDTH $HEIGHT ./ $NUMBER $IITC $TIMESTAMP" > $1 && echo "Config file created successfully."; break;;
 		        [Nn]* ) user_input $1; break;;
 		        * ) echo "Please answer y(es) or n(o).";;
 		    esac
