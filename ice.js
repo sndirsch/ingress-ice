@@ -1,7 +1,7 @@
 /**
  * @file Ingress-ICE, the main script
  * @author Nikitakun (https://github.com/nibogd)
- * @version 3.0.0
+ * @version 3.1.0
  * @license MIT
  * @see {@link https://github.com/nibogd/ingress-ice|GitHub }
  * @see {@link https://ingress.divshot.io/|Website }
@@ -26,6 +26,7 @@ if (!args[11]) {
  * if the first argument is config version, use that version of config
  */
 if (isNaN(args[1])) {
+    var configver    = 0;
     var l            = args[1];
     var p            = args[2];
     var area         = args[3];
@@ -39,10 +40,24 @@ if (isNaN(args[1])) {
     //var loglevel     = args[11];
     var iitc         = 0;
     var timestamp    = 0;
-} else if (parseInt(args[1], 10)>=1) {
-    //var configver    = parseInt(args[1], 10);
+} else if (parseInt(args[1], 10) === 1) {
+    var configver    = parseInt(args[1], 10);
     var l            = args[2];
     var p            = args[3];
+    var area         = args[4];
+    var minlevel     = parseInt(args[5], 10);
+    var maxlevel     = parseInt(args[6], 10);
+    var v            = 1000 * parseInt(args[7], 10);
+    var width        = parseInt(args[8], 10);
+    var height       = parseInt(args[9], 10);
+    var folder       = args[10];
+    var ssnum        = parseInt(args[11], 10);
+    var iitc         = parseInt(args[12], 10);
+    var timestamp    = parseInt(args[13], 10);
+} else if (parseInt(args[1], 10) === 2) {
+    var configver    = parseInt(args[1], 10);
+    var cookieSACSID = args[2];
+    var cookieCSRF   = args[3];
     var area         = args[4];
     var minlevel     = parseInt(args[5], 10);
     var maxlevel     = parseInt(args[6], 10);
@@ -62,7 +77,7 @@ if (isNaN(args[1])) {
  * Counter for number of screenshots
  */
 var curnum       = 0;
-var version      = '3.0.0';
+var version      = '3.1.0';
 
 /**
  * Delay between logging in and checking if successful
@@ -271,6 +286,29 @@ function greet() {
 }
 
 /**
+ * Log in using cookies
+ * @param {String} sacsid
+ * @param {String} csrf
+ * @since 3.1.0
+ */
+function addCookies(sacsid, csrf) {
+    phantom.addCookie({
+        name: 'SACSID',
+        value: sacsid,
+        domain: 'www.ingress.com',
+        path: '/',
+        httponly: true,
+        secure: true
+    });
+    phantom.addCookie({
+        name: 'csrftoken',
+        value: csrf,
+        domain: 'www.ingress.com',
+        path: '/'
+    });
+}
+
+/**
  * Log in to google. Doesn't use post, because URI may change.
  * Fixed in 3.0.0 -- obsolete versions will not work (google changed login form)
  * @param l - google login
@@ -326,6 +364,67 @@ function checkLogin() {
                 document.getElementById('gaia_secondfactorform').submit();
             });
         }
+}
+
+/**
+ * Does all stuff needed after login/password authentication
+ * @since 3.1.0
+ */
+function afterPlainLogin() {
+
+            window.setTimeout(function () {
+                announce('Verifying login...');
+                checkLogin();
+                window.setTimeout(function () {
+                    page.open(area, function () {
+                        if (iitc) {
+                            addIitc();
+                        }
+                        setTimeout(function () {
+                            announce('Will start screenshooting in ' + v/1000 + ' seconds...');
+                            if ((minlevel > 1)||(maxlevel < 8)){
+                                setMinMax(minlevel, maxlevel, iitc);
+                            } else if (!iitc) {
+                                page.evaluate(function () {
+                                    document.querySelector("#filters_container").style.display= 'none';
+                                });
+                            }
+                            hideDebris(iitc);
+                            prepare(iitc, width, height);
+                            announce('The first screenshot may not contain all portals, it is intended for you to check framing.');
+                            main();
+                            setInterval(main, v);
+                        }, loginTimeout);
+                    });
+                }, loginTimeout);
+            }, loginTimeout);
+}
+
+/**
+ * Does all stuff needed after cookie authentication
+ * @since 3.1.0
+ */
+function afterCookieLogin() {
+                    page.open(area, function () {
+                        if (iitc) {
+                            addIitc();
+                        }
+                        setTimeout(function () {
+                            announce('Will start screenshooting in ' + v/1000 + ' seconds...');
+                            if ((minlevel > 1)||(maxlevel < 8)){
+                                setMinMax(minlevel, maxlevel, iitc);
+                            } else if (!iitc) {
+                                page.evaluate(function () {
+                                    document.querySelector("#filters_container").style.display= 'none';
+                                });
+                            }
+                            hideDebris(iitc);
+                            prepare(iitc, width, height);
+                            announce('The first screenshot may not contain all portals, it is intended for you to check framing.');
+                            main();
+                            setInterval(main, v);
+                        }, loginTimeout);
+                    });
 }
 
 /**
@@ -541,44 +640,22 @@ function main() {
 checkSettings(minlevel, maxlevel);
 greet();
 
-page.open('https://www.ingress.com/intel', function (status) {
-
-    if (status !== 'success') {quit('cannot connect to remote server');}
-
-        var link = page.evaluate(function () {
-            return document.getElementsByTagName('a')[0].href;
-        });
-
-        announce('Logging in...');
-        page.open(link, function () {
-
-            login(l, p);
-            window.setTimeout(function () {
-                announce('Verifying login...');
-                checkLogin();
-                window.setTimeout(function () {
-                    page.open(area, function () {
-                        if (iitc) {
-                            addIitc();
-                        }
-                        setTimeout(function () {
-                            announce('Will start screenshooting in ' + v/1000 + ' seconds...');
-                            if ((minlevel > 1)||(maxlevel < 8)){
-                                setMinMax(minlevel, maxlevel, iitc);
-                            } else if (!iitc) {
-                                page.evaluate(function () {
-                                    document.querySelector("#filters_container").style.display= 'none';
-                                });
-                            }
-                            hideDebris(iitc);
-                            prepare(iitc, width, height);
-                            announce('The first screenshot may not contain all portals, it is intended for you to check framing.');
-                            main();
-                            setInterval(main, v);
-                        }, loginTimeout);
-                    });
-                }, loginTimeout);
-            }, loginTimeout);
-
-        });
-});
+if (configver !== 2) {
+    page.open('https://www.ingress.com/intel', function (status) {
+    
+        if (status !== 'success') {quit('cannot connect to remote server');}
+    
+            var link = page.evaluate(function () {
+                return document.getElementsByTagName('a')[0].href;
+            });
+    
+            announce('Logging in...');
+            page.open(link, function () {
+                login(l, p);
+                afterPlainLogin();
+            });
+    });
+} else {
+    addCookies(cookieSACSID, cookieCSRF);
+    afterCookieLogin();
+}
