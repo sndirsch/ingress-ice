@@ -456,6 +456,7 @@ function hideDebris(iitcz) {
             if (document.querySelector('#header'))         {document.querySelector('#header').style.display = 'none';}
             if (document.querySelector('#snapcontrol'))    {document.querySelector('#snapcontrol').style.display = 'none';}
             if (document.querySelectorAll('.img_snap')[0]) {document.querySelectorAll('.img_snap')[0].style.display = 'none';}
+            if (document.querySelector('#display_msg_text')) {document.querySelector('#display_msg_text').style.display = 'none';}
         });
         page.evaluate(function () {
             var hide = document.querySelectorAll('.gmnoprint');
