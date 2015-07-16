@@ -8,17 +8,11 @@ REM From release 2.2 you don't need to edit
 REM anything here. Just double-click this 
 REM file and follow the instructions
 
-set FILE=%APPDATA%\.ingress_ice
+set FILE="%APPDATA%\.ingress_ice"
 IF '%1'=='/?' GOTO :help
 IF '%1'=='-h' GOTO :help
 IF '%1'=='-r' GOTO :reconf
 GOTO :check
-:created
-IF NOT EXIST %FILE% (
-	echo Something went wrong. Please check if you have rights to write into your user folder.
-	echo Press [Enter] to try again.
-	PAUSE
-)
 :check
 IF EXIST %FILE% (
 	GOTO :start
@@ -53,12 +47,13 @@ if [!LINK!]==[] (
 	GOTO :c-link
 )
 cls
+set /p COOKIE= Do you want to login using cookies (advanced users only)? 1 for yes, 0 for no: 
+if [!COOKIE!]==[] (
+	set COOKIE=0
+)
+if [!COOKIE!]==[0] (
 :c-login
 set /p LOGIN= Your Google login: 
-if [%LOGIN%]==[] (
-	echo Cannot be blank
-	GOTO :c-login
-)
 :c-passwd
 set /p PASSWD= Your Google password: 
 if [!PASSWD!]==[] (
@@ -66,33 +61,46 @@ if [!PASSWD!]==[] (
 	GOTO :c-passwd
 )
 cls
+set CVER=1
+) 
+if [!COOKIE!]==[1] (
+
+:co-login
+set /p LOGIN= Your SACSID cookie: 
+:co-passwd
+set /p PASSWD= Your CSRFToken cookie: 
+if [!PASSWD!]==[] (
+	echo Cannot be blank
+	GOTO :co-passwd
+)
+cls
+set CVER=2
+)
 set /p DELAY= Delay between screenshots in seconds: (120) 
 cls
-echo WARNING: This feature is unstable. If it doesn't work well (screenshots may appear blank or contain a part of COMM box), set a higher delay or set minimal portal level to 1 and maximum to 8 (double-click reconfigure.cmd file to reconfigure) 
 set /p MIN_LEVEL= Minimal portal level: (1) 
 set /p MAX_LEVEL= Maximum portal level: (8) 
 cls
-set /p WIDTH= Screenshots' width in pixels: (900) 
-set /p HEIGHT= Screenshots' height: (500) 
+set /p WIDTH= Screenshots' width in pixels: (1366) 
+set /p HEIGHT= Screenshots' height: (768) 
 cls
 set /p NUMBER= Number of screenshots to take, '0' for infinity: (0) 
 cls
 set /p FOLDER= Folder where to save screenshots (with a trailing slash, '.' means current folder): (./) 
 cls
-set /p IITC= Do you want to inject IITC (white background, portal levels will not work)? 1 for yes, 0 for no: (0)
+set /p IITC= Do you want to inject IITC (white background)? 1 for yes, 0 for no: (0)
 cls
 set /p TIMESTAMP= Do you want to timestamp your screenshots? 1 for yes, 0 for no: (0)
 cls
 if [%MIN_LEVEL%]==[] set MIN_LEVEL=1
 if [%MAX_LEVEL%]==[] set MAX_LEVEL=8
 if [%DELAY%]==[] set DELAY=120
-if [%WIDTH%]==[] set WIDTH=900
-if [%HEIGHT%]==[] set HEIGHT=500
+if [%WIDTH%]==[] set WIDTH=1366
+if [%HEIGHT%]==[] set HEIGHT=768
 if [%NUMBER%]==[] set NUMBER=0
 if [%FOLDER%]==[] set FOLDER=./
 if [%TIMESTAMP%]==[] set TIMESTAMP=0
 if [%IITC%]==[] set IITC=0
-echo Google login: %LOGIN%
 echo Portals level from %MIN_LEVEL% to %MAX_LEVEL%
 echo Take %NUMBER% (0 = infinity) screenshots %WIDTH% x %HEIGHT% every %DELAY% seconds and save to %FOLDER%
 echo.
@@ -105,8 +113,7 @@ IF "%CORRECT%" == "n" (
 	echo Let's try again...
 	goto :config-1
 )
-echo 1 %LOGIN% !PASSWD! !LINK! %MIN_LEVEL% %MAX_LEVEL% %DELAY% %WIDTH% %HEIGHT% %FOLDER% %NUMBER% %IITC% %TIMESTAMP% > %FILE%
-goto :created
+echo %CVER% %LOGIN% !PASSWD! !LINK! %MIN_LEVEL% %MAX_LEVEL% %DELAY% %WIDTH% %HEIGHT% %FOLDER% %NUMBER% %IITC% %TIMESTAMP% > %FILE%
 :start
 cls
 echo Existing config file found (%FILE%). Starting ice...
