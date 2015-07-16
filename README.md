@@ -1,7 +1,7 @@
 [ingress-ice](http://ingress.divshot.io/)
 ===========
 
-[![Join the chat at https://gitter.im/nibogd/ingress-ice](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/nibogd/ingress-ice?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge) [![](https://img.shields.io/github/issues-raw/nibogd/ingress-ice.svg?style=plastic)](https://github.com/nibogd/ingress-ice/issues) ![GitHub stars](https://img.shields.io/github/stars/nibogd/ingress-ice.svg?style=plastic) [![GitHub release](https://img.shields.io/github/release/nibogd/ingress-ice.svg?style=plastic)](https://github.com/nibogd/ingress-ice/releases)
+[![Join the chat at https://gitter.im/nibogd/ingress-ice](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/nibogd/ingress-ice?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge) [![](https://img.shields.io/github/issues-raw/nibogd/ingress-ice.svg?style=flat-square)](https://github.com/nibogd/ingress-ice/issues) ![GitHub stars](https://img.shields.io/github/stars/nibogd/ingress-ice.svg?style=flat-square) [![GitHub release](https://img.shields.io/github/release/nibogd/ingress-ice.svg?style=flat-square)](https://github.com/nibogd/ingress-ice/releases)
 
 Automatic screenshooter for ingress intel map.
 ![](https://cloud.githubusercontent.com/assets/2771136/7915684/cfaba8c4-0887-11e5-86b9-5b4fe05ababc.png)
