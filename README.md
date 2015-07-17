@@ -12,6 +12,7 @@ Features:
 =========
  - Captures screenshots of ingress intel map every *n* seconds
  - Set your location 
+ - Authentication using login and password or [cookies](https://github.com/nibogd/ingress-ice/wiki/Cookies-Authentication) available
  - Supports 2-step authentication
  - Doesn't require X server to be run
  - Set portal levels to display
@@ -38,7 +39,7 @@ Usage
  2. Double-Click `ingress-ice.cmd` and follow the instructions
  4. It will save captured screenshots with into `Ice-2014-07-13--09-13-37.png`, `Ice-2014-07-13--09-14-07.png`...
 
-If you want to reconfigure the script, just double click `reconfigure.cmd`.
+If you want to reconfigure the script, just double click `reconfigure.cmd`. If you want to use cookies instead of login and password, see [cookies authentication](https://github.com/nibogd/ingress-ice/wiki/Cookies-Authentication).
 
 ### Linux/Mac OS X
 
@@ -46,7 +47,7 @@ If you want to reconfigure the script, just double click `reconfigure.cmd`.
  2. Run `chmod +x ingress-ice&&./ingress-ice` in console and follow the instructions
  4. It will save captured screenshots with into `Ice-2014-07-13--09-13-37.png`, `Ice-2014-07-13--09-14-07.png`...
 
-If you want to reconfigure the script, run `./ingress-ice -r` . See [CLI usage](https://github.com/nibogd/ingress-ice/wiki/Linux-CLI).
+If you want to reconfigure the script, run `./ingress-ice -r` . See [CLI usage](https://github.com/nibogd/ingress-ice/wiki/Linux-CLI). If you want to use cookies instead of login and password, see [cookies authentication](https://github.com/nibogd/ingress-ice/wiki/Cookies-Authentication).
 
 #### Creating videos
 
