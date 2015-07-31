@@ -12,6 +12,9 @@
 
 var system   = require('system');
 var args     = system.args;
+var fs       = require('fs');
+var cookiespath = 'cookies.txt';
+
 
 /**
  * Check if all arguments are present
@@ -386,33 +389,33 @@ function checkLogin() {
  * @since 3.1.0
  */
 function afterPlainLogin() {
-
-            window.setTimeout(function () {
-                announce('Verifying login...');
-                checkLogin();
-                window.setTimeout(function () {
-                    page.open(area, function () {
-                        if (iitc) {
-                            addIitc();
-                        }
-                        setTimeout(function () {
-                            announce('Will start screenshooting in ' + v/1000 + ' seconds...');
-                            if ((minlevel > 1)||(maxlevel < 8)){
-                                setMinMax(minlevel, maxlevel, iitc);
-                            } else if (!iitc) {
-                                page.evaluate(function () {
-                                    document.querySelector("#filters_container").style.display= 'none';
-                                });
-                            }
-                            hideDebris(iitc);
-                            prepare(iitc, width, height);
-                            announce('The first screenshot may not contain all portals, it is intended for you to check framing.');
-                            main();
-                            setInterval(main, v);
-                        }, loginTimeout);
-                    });
+    window.setTimeout(function () {
+        announce('Verifying login...');
+        checkLogin();
+        window.setTimeout(function () {
+            page.open(area, function () {
+                storeCookies();
+                if (iitc) {
+                    addIitc();
+                }
+                setTimeout(function () {
+                    announce('Will start screenshooting in ' + v/1000 + ' seconds...');
+                    if ((minlevel > 1)||(maxlevel < 8)){
+                        setMinMax(minlevel, maxlevel, iitc);
+                    } else if (!iitc) {
+                        page.evaluate(function () {
+                            document.querySelector("#filters_container").style.display= 'none';
+                        });
+                    }
+                    hideDebris(iitc);
+                    prepare(iitc, width, height);
+                    announce('The first screenshot may not contain all portals, it is intended for you to check framing.');
+                    main();
+                    setInterval(main, v);
                 }, loginTimeout);
-            }, loginTimeout);
+            });
+        }, loginTimeout);
+    }, loginTimeout);
 }
 
 /**
@@ -420,26 +423,50 @@ function afterPlainLogin() {
  * @since 3.1.0
  */
 function afterCookieLogin() {
-                    page.open(area, function () {
-                        if (iitc) {
-                            addIitc();
-                        }
-                        setTimeout(function () {
-                            announce('Will start screenshooting in ' + v/1000 + ' seconds...');
-                            if ((minlevel > 1)||(maxlevel < 8)){
-                                setMinMax(minlevel, maxlevel, iitc);
-                            } else if (!iitc) {
-                                page.evaluate(function () {
-                                    document.querySelector("#filters_container").style.display= 'none';
-                                });
-                            }
-                            hideDebris(iitc);
-                            prepare(iitc, width, height);
-                            announce('The first screenshot may not contain all portals, it is intended for you to check framing.');
-                            main();
-                            setInterval(main, v);
-                        }, loginTimeout);
-                    });
+    page.open(area, function () {
+        if(!isSignedIn()) {
+            removeCookieFile();
+            if(l && p) {
+                firePlainLogin();
+                return;
+            } else {
+                quit('User not logged in');
+            }
+        }
+        if (iitc) {
+            addIitc();
+        }
+        setTimeout(function () {
+            announce('Will start screenshooting in ' + v/1000 + ' seconds...');
+            if ((minlevel > 1)||(maxlevel < 8)){
+                setMinMax(minlevel, maxlevel, iitc);
+            } else if (!iitc) {
+                page.evaluate(function () {
+                    document.querySelector("#filters_container").style.display= 'none';
+                });
+            }
+            hideDebris(iitc);
+            prepare(iitc, width, height);
+            announce('The first screenshot may not contain all portals, it is intended for you to check framing.');
+            main();
+            setInterval(main, v);
+        }, loginTimeout);
+    });
+}
+
+/**
+ * Checks if user is signed in by looking for the "Sign in" button
+ * @returns {boolean}
+ */
+function isSignedIn() {
+    return page.evaluate(function() {
+        var btns = document.getElementsByClassName('button_link');
+        for(var i = 0; i<btns.length;i++) {
+            if(btns[i].innerText.trim() == 'Sign in') return false;
+        }
+        return true;
+    });
+
 }
 
 /**
@@ -643,27 +670,82 @@ function main() {
         s();
     }, 2000);
 }
+
+/**
+ * Checks if cookies file exists. If so, it sets SACSID and CSRF vars
+ * @returns {boolean}
+ */
+function cookiesFileExists() {
+    if(fs.exists(cookiespath)) {
+        var stream = fs.open(cookiespath, 'r');
+
+        while(!stream.atEnd()) {
+            var line = stream.readLine();
+            var res = line.split('=');
+            if(res[0] == 'SACSID') {
+                cookieSACSID = res[1];
+            } else if(res[0] == 'csrftoken') {
+                cookieCSRF = res[1];
+            }
+        }
+        stream.close();
+        return true;
+    } else {
+        return false;
+    }
+}
+
+/**
+ * Remove cookies file if exists
+ */
+function removeCookieFile() {
+    if(fs.exists(cookiespath)) {
+        fs.remove(cookiespath);
+    }
+}
+
+function storeCookies() {
+    var cookies = page.cookies;
+    fs.write(cookiespath, '', 'w');
+    for(var i in cookies) {
+        fs.write(cookiespath, cookies[i].name + '=' + cookies[i].value +'\n', 'a');
+    }
+}
+
+/**
+ * Fires plain login
+ */
+function firePlainLogin() {
+    cookieSACSID = '';
+    cookieCSRF = '';
+    page.open('https://www.ingress.com/intel', function (status) {
+
+        if (status !== 'success') {quit('cannot connect to remote server');}
+
+        var link = page.evaluate(function () {
+            return document.getElementsByTagName('a')[0].href;
+        });
+
+        announce('Logging in...');
+        page.open(link, function () {
+            login(l, p);
+            afterPlainLogin();
+        });
+    });
+}
+
 //MAIN SCRIPT
 
 checkSettings(minlevel, maxlevel);
 greet();
 
-if (configver !== 2) {
-    page.open('https://www.ingress.com/intel', function (status) {
-    
-        if (status !== 'success') {quit('cannot connect to remote server');}
-    
-            var link = page.evaluate(function () {
-                return document.getElementsByTagName('a')[0].href;
-            });
-    
-            announce('Logging in...');
-            page.open(link, function () {
-                login(l, p);
-                afterPlainLogin();
-            });
-    });
+
+
+
+if (configver !== 2 && !cookiesFileExists()) {
+    firePlainLogin();
 } else {
+    announce('Using stored cookie');
     addCookies(cookieSACSID, cookieCSRF);
     afterCookieLogin();
 }
