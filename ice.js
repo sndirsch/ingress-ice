@@ -13,7 +13,7 @@
 var system   = require('system');
 var args     = system.args;
 var fs       = require('fs');
-var cookiespath = 'cookies.txt';
+var cookiespath = '.iced_cookies';
 
 
 /**
@@ -457,12 +457,14 @@ function afterCookieLogin() {
 /**
  * Checks if user is signed in by looking for the "Sign in" button
  * @returns {boolean}
+ * @author mfcanovas (github.com/mfcanovas)
+ * @since 3.2.0
  */
 function isSignedIn() {
     return page.evaluate(function() {
         var btns = document.getElementsByClassName('button_link');
         for(var i = 0; i<btns.length;i++) {
-            if(btns[i].innerText.trim() == 'Sign in') return false;
+            if(btns[i].innerText.trim() === 'Sign in') return false;
         }
         return true;
     });
@@ -674,6 +676,8 @@ function main() {
 /**
  * Checks if cookies file exists. If so, it sets SACSID and CSRF vars
  * @returns {boolean}
+ * @author mfcanovas (github.com/mfcanovas)
+ * @since 3.2.0
  */
 function cookiesFileExists() {
     if(fs.exists(cookiespath)) {
@@ -682,9 +686,9 @@ function cookiesFileExists() {
         while(!stream.atEnd()) {
             var line = stream.readLine();
             var res = line.split('=');
-            if(res[0] == 'SACSID') {
+            if(res[0] === 'SACSID') {
                 cookieSACSID = res[1];
-            } else if(res[0] == 'csrftoken') {
+            } else if(res[0] === 'csrftoken') {
                 cookieCSRF = res[1];
             }
         }
@@ -697,6 +701,8 @@ function cookiesFileExists() {
 
 /**
  * Remove cookies file if exists
+ * @author mfcanovas (github.com/mfcanovas)
+ * @since 3.2.0
  */
 function removeCookieFile() {
     if(fs.exists(cookiespath)) {
