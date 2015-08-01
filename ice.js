@@ -12,6 +12,9 @@
 
 var system   = require('system');
 var args     = system.args;
+var fs       = require('fs');
+var cookiespath = 'cookies.txt';
+
 
 /**
  * Check if all arguments are present
@@ -25,49 +28,64 @@ if (!args[11]) {
  * if the first argument is a string, use old config format
  * if the first argument is config version, use that version of config
  */
+var configver = 0;
+var l = '';
+var p = '';
+var area = '';
+var minlevel = 0;
+var maxlevel = 0;
+var v = 0;
+var width = 0;
+var height = 0;
+var folder = '';
+var ssnum = 0;
+var iitc = 0;
+var timestamp = 0;
+var cookieSACSID = '';
+var cookieCSRF = '';
+
 if (isNaN(args[1])) {
-    var configver    = 0;
-    var l            = args[1];
-    var p            = args[2];
-    var area         = args[3];
-    var minlevel     = parseInt(args[4], 10);
-    var maxlevel     = parseInt(args[5], 10);
-    var v            = 1000 * parseInt(args[6], 10);
-    var width        = parseInt(args[7], 10);
-    var height       = parseInt(args[8], 10);
-    var folder       = args[9];
-    var ssnum        = parseInt(args[10], 10);
-    //var loglevel     = args[11];
-    var iitc         = 0;
-    var timestamp    = 0;
+    configver    = 0;
+    l            = args[1];
+    p            = args[2];
+    area         = args[3];
+    minlevel     = parseInt(args[4], 10);
+    maxlevel     = parseInt(args[5], 10);
+    v            = 1000 * parseInt(args[6], 10);
+    width        = parseInt(args[7], 10);
+    height       = parseInt(args[8], 10);
+    folder       = args[9];
+    ssnum        = parseInt(args[10], 10);
+    iitc         = 0;
+    timestamp    = 0;
 } else if (parseInt(args[1], 10) === 1) {
-    var configver    = parseInt(args[1], 10);
-    var l            = args[2];
-    var p            = args[3];
-    var area         = args[4];
-    var minlevel     = parseInt(args[5], 10);
-    var maxlevel     = parseInt(args[6], 10);
-    var v            = 1000 * parseInt(args[7], 10);
-    var width        = parseInt(args[8], 10);
-    var height       = parseInt(args[9], 10);
-    var folder       = args[10];
-    var ssnum        = parseInt(args[11], 10);
-    var iitc         = parseInt(args[12], 10);
-    var timestamp    = parseInt(args[13], 10);
+    configver    = parseInt(args[1], 10);
+    l            = args[2];
+    p            = args[3];
+    area         = args[4];
+    minlevel     = parseInt(args[5], 10);
+    maxlevel     = parseInt(args[6], 10);
+    v            = 1000 * parseInt(args[7], 10);
+    width        = parseInt(args[8], 10);
+    height       = parseInt(args[9], 10);
+    folder       = args[10];
+    ssnum        = parseInt(args[11], 10);
+    iitc         = parseInt(args[12], 10);
+    timestamp    = parseInt(args[13], 10);
 } else if (parseInt(args[1], 10) === 2) {
-    var configver    = parseInt(args[1], 10);
-    var cookieSACSID = args[2];
-    var cookieCSRF   = args[3];
-    var area         = args[4];
-    var minlevel     = parseInt(args[5], 10);
-    var maxlevel     = parseInt(args[6], 10);
-    var v            = 1000 * parseInt(args[7], 10);
-    var width        = parseInt(args[8], 10);
-    var height       = parseInt(args[9], 10);
-    var folder       = args[10];
-    var ssnum        = parseInt(args[11], 10);
-    var iitc         = parseInt(args[12], 10);
-    var timestamp    = parseInt(args[13], 10);
+    configver    = parseInt(args[1], 10);
+    cookieSACSID = args[2];
+    cookieCSRF   = args[3];
+    area         = args[4];
+    minlevel     = parseInt(args[5], 10);
+    maxlevel     = parseInt(args[6], 10);
+    v            = 1000 * parseInt(args[7], 10);
+    width        = parseInt(args[8], 10);
+    height       = parseInt(args[9], 10);
+    folder       = args[10];
+    ssnum        = parseInt(args[11], 10);
+    iitc         = parseInt(args[12], 10);
+    timestamp    = parseInt(args[13], 10);
 }
 
 /*global phantom */
@@ -371,33 +389,33 @@ function checkLogin() {
  * @since 3.1.0
  */
 function afterPlainLogin() {
-
-            window.setTimeout(function () {
-                announce('Verifying login...');
-                checkLogin();
-                window.setTimeout(function () {
-                    page.open(area, function () {
-                        if (iitc) {
-                            addIitc();
-                        }
-                        setTimeout(function () {
-                            announce('Will start screenshooting in ' + v/1000 + ' seconds...');
-                            if ((minlevel > 1)||(maxlevel < 8)){
-                                setMinMax(minlevel, maxlevel, iitc);
-                            } else if (!iitc) {
-                                page.evaluate(function () {
-                                    document.querySelector("#filters_container").style.display= 'none';
-                                });
-                            }
-                            hideDebris(iitc);
-                            prepare(iitc, width, height);
-                            announce('The first screenshot may not contain all portals, it is intended for you to check framing.');
-                            main();
-                            setInterval(main, v);
-                        }, loginTimeout);
-                    });
+    window.setTimeout(function () {
+        announce('Verifying login...');
+        checkLogin();
+        window.setTimeout(function () {
+            page.open(area, function () {
+                storeCookies();
+                if (iitc) {
+                    addIitc();
+                }
+                setTimeout(function () {
+                    announce('Will start screenshooting in ' + v/1000 + ' seconds...');
+                    if ((minlevel > 1)||(maxlevel < 8)){
+                        setMinMax(minlevel, maxlevel, iitc);
+                    } else if (!iitc) {
+                        page.evaluate(function () {
+                            document.querySelector("#filters_container").style.display= 'none';
+                        });
+                    }
+                    hideDebris(iitc);
+                    prepare(iitc, width, height);
+                    announce('The first screenshot may not contain all portals, it is intended for you to check framing.');
+                    main();
+                    setInterval(main, v);
                 }, loginTimeout);
-            }, loginTimeout);
+            });
+        }, loginTimeout);
+    }, loginTimeout);
 }
 
 /**
@@ -405,32 +423,56 @@ function afterPlainLogin() {
  * @since 3.1.0
  */
 function afterCookieLogin() {
-                    page.open(area, function () {
-                        if (iitc) {
-                            addIitc();
-                        }
-                        setTimeout(function () {
-                            announce('Will start screenshooting in ' + v/1000 + ' seconds...');
-                            if ((minlevel > 1)||(maxlevel < 8)){
-                                setMinMax(minlevel, maxlevel, iitc);
-                            } else if (!iitc) {
-                                page.evaluate(function () {
-                                    document.querySelector("#filters_container").style.display= 'none';
-                                });
-                            }
-                            hideDebris(iitc);
-                            prepare(iitc, width, height);
-                            announce('The first screenshot may not contain all portals, it is intended for you to check framing.');
-                            main();
-                            setInterval(main, v);
-                        }, loginTimeout);
-                    });
+    page.open(area, function () {
+        if(!isSignedIn()) {
+            removeCookieFile();
+            if(l && p) {
+                firePlainLogin();
+                return;
+            } else {
+                quit('User not logged in');
+            }
+        }
+        if (iitc) {
+            addIitc();
+        }
+        setTimeout(function () {
+            announce('Will start screenshooting in ' + v/1000 + ' seconds...');
+            if ((minlevel > 1)||(maxlevel < 8)){
+                setMinMax(minlevel, maxlevel, iitc);
+            } else if (!iitc) {
+                page.evaluate(function () {
+                    document.querySelector("#filters_container").style.display= 'none';
+                });
+            }
+            hideDebris(iitc);
+            prepare(iitc, width, height);
+            announce('The first screenshot may not contain all portals, it is intended for you to check framing.');
+            main();
+            setInterval(main, v);
+        }, loginTimeout);
+    });
+}
+
+/**
+ * Checks if user is signed in by looking for the "Sign in" button
+ * @returns {boolean}
+ */
+function isSignedIn() {
+    return page.evaluate(function() {
+        var btns = document.getElementsByClassName('button_link');
+        for(var i = 0; i<btns.length;i++) {
+            if(btns[i].innerText.trim() == 'Sign in') return false;
+        }
+        return true;
+    });
+
 }
 
 /**
  * Screenshots counter
- * @param {number} curnum
- * @param {number} ssnum
+ * @var {number} curnum
+ * @var {number} ssnum
  */
 function count() {
     if ((curnum >= ssnum)&&(ssnum !== 0)) {
@@ -524,7 +566,7 @@ function addTimestamp(time, iitcz) {
 
 /**
  * Inserts IITC
- * @param {boolean} iitcz
+ * @var {boolean} iitcz
  * @author akileos (https://github.com/akileos)
  * @author Nikitakun
  */
@@ -547,17 +589,7 @@ function addIitc() {
 function prepare(iitcz, widthz, heightz) {
     if (!iitcz) {
         var selector = "#map_canvas";
-        var elementBounds = page.evaluate(function(selector) {
-            var clipRect = document.querySelector(selector).getBoundingClientRect();
-            return {
-                top:     clipRect.top,
-                left:     clipRect.left,
-                width:  clipRect.width,
-                height: clipRect.height
-            };
-        }, selector);
-        //var oldClipRect = page.clipRect;
-        page.clipRect = elementBounds;
+        setElementBounds(selector);
     } else {
         window.setTimeout(function () {
             page.evaluate(function (w, h) {
@@ -573,19 +605,25 @@ function prepare(iitcz, widthz, heightz) {
                 document.querySelectorAll('body')[0].appendChild(water);
             }, widthz, heightz);
             var selector = "#viewport-ice";
-            var elementBounds = page.evaluate(function(selector) {
-                var clipRect = document.querySelector(selector).getBoundingClientRect();
-                return {
-                    top:     clipRect.top,
-                    left:     clipRect.left,
-                    width:  clipRect.width,
-                    height: clipRect.height
-                };
-            }, selector);
-            //var oldClipRect = page.clipRect;
-            page.clipRect = elementBounds;
+            setElementBounds(selector);
         }, 4000);
     }
+}
+
+/**
+ * Sets element bounds
+ * @param selector
+ */
+function setElementBounds(selector) {
+    page.clipRect = page.evaluate(function(selector) {
+        var clipRect = document.querySelector(selector).getBoundingClientRect();
+        return {
+            top:     clipRect.top,
+            left:     clipRect.left,
+            width:  clipRect.width,
+            height: clipRect.height
+        };
+    }, selector);
 }
 
 /**
@@ -594,11 +632,7 @@ function prepare(iitcz, widthz, heightz) {
  */
 function humanPresence() {
     var outside = page.evaluate(function () {
-        if (document.getElementById('butterbar')&&(document.getElementById('butterbar').style.display !== 'none')) {
-            return true;
-        } else {
-            return false;
-        }
+        return !!(document.getElementById('butterbar') && (document.getElementById('butterbar').style.display !== 'none'));
     });
     if (outside) {
         var rekt = page.evaluate(function () {
@@ -636,27 +670,82 @@ function main() {
         s();
     }, 2000);
 }
+
+/**
+ * Checks if cookies file exists. If so, it sets SACSID and CSRF vars
+ * @returns {boolean}
+ */
+function cookiesFileExists() {
+    if(fs.exists(cookiespath)) {
+        var stream = fs.open(cookiespath, 'r');
+
+        while(!stream.atEnd()) {
+            var line = stream.readLine();
+            var res = line.split('=');
+            if(res[0] == 'SACSID') {
+                cookieSACSID = res[1];
+            } else if(res[0] == 'csrftoken') {
+                cookieCSRF = res[1];
+            }
+        }
+        stream.close();
+        return true;
+    } else {
+        return false;
+    }
+}
+
+/**
+ * Remove cookies file if exists
+ */
+function removeCookieFile() {
+    if(fs.exists(cookiespath)) {
+        fs.remove(cookiespath);
+    }
+}
+
+function storeCookies() {
+    var cookies = page.cookies;
+    fs.write(cookiespath, '', 'w');
+    for(var i in cookies) {
+        fs.write(cookiespath, cookies[i].name + '=' + cookies[i].value +'\n', 'a');
+    }
+}
+
+/**
+ * Fires plain login
+ */
+function firePlainLogin() {
+    cookieSACSID = '';
+    cookieCSRF = '';
+    page.open('https://www.ingress.com/intel', function (status) {
+
+        if (status !== 'success') {quit('cannot connect to remote server');}
+
+        var link = page.evaluate(function () {
+            return document.getElementsByTagName('a')[0].href;
+        });
+
+        announce('Logging in...');
+        page.open(link, function () {
+            login(l, p);
+            afterPlainLogin();
+        });
+    });
+}
+
 //MAIN SCRIPT
 
 checkSettings(minlevel, maxlevel);
 greet();
 
-if (configver !== 2) {
-    page.open('https://www.ingress.com/intel', function (status) {
-    
-        if (status !== 'success') {quit('cannot connect to remote server');}
-    
-            var link = page.evaluate(function () {
-                return document.getElementsByTagName('a')[0].href;
-            });
-    
-            announce('Logging in...');
-            page.open(link, function () {
-                login(l, p);
-                afterPlainLogin();
-            });
-    });
+
+
+
+if (configver !== 2 && !cookiesFileExists()) {
+    firePlainLogin();
 } else {
+    announce('Using stored cookie');
     addCookies(cookieSACSID, cookieCSRF);
     afterCookieLogin();
 }
