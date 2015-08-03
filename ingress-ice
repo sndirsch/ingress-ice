@@ -4,11 +4,16 @@
 # From version 2.2 you don't need to edit anything. Just launch this script from console ( $ chmod +x ingress-ice&&./ingress-ice )
 FILE="$HOME/.ingress_ice"
 COUNT=""
+MACHINE_TYPE=`uname -m`
 
 if [ "$OSTYPE" = "darwin"* ]; then
     PHANTOMJS="./phantomjs-osx"
 else
-    PHANTOMJS="./phantomjs"
+    if [ MACHINE_TYPE == 'x86_64' ]; then
+	PHANTOMJS="./phantomjs"
+    else
+	PHANTOMJS="./phantomjs64"
+    fi
 fi
 
 if (command -v dialog >/dev/null)
