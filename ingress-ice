@@ -8,12 +8,7 @@ COUNT=""
 if [ "$OSTYPE" = "darwin"* ]; then
     PHANTOMJS="./phantomjs-osx"
 else
-    if (command -v phantomjs >/dev/null)
-    then
-        PHANTOMJS='phantomjs'
-    else
-        PHANTOMJS="./phantomjs"
-    fi
+    PHANTOMJS="./phantomjs"
 fi
 
 if (command -v dialog >/dev/null)
