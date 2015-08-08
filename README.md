@@ -4,7 +4,7 @@
 Automatic screenshooter for ingress intel map.
 ![](https://cloud.githubusercontent.com/assets/2771136/7915684/cfaba8c4-0887-11e5-86b9-5b4fe05ababc.png)
 
-If you have Ice version < 3.0.0 and see errors like `ICE crashed. Reason: login failed: wrong email and/or password :(`, update ice! Google has changed it's login form.
+> If you have Ice version < 3.0.0 and see errors like `ICE crashed. Reason: login failed: wrong email and/or password :(`, update ice! Google has changed it's login form.
 
 Features:
 =========
@@ -17,6 +17,7 @@ Features:
  - Use IITC (optionally)
  - Timestamp on screenshots (optionally)
  - Fully cross-platform: supports Windows, GNU/Linux and Mac OS X!
+ - [Hide some features like fields or links from the map](https://github.com/nibogd/ingress-ice/wiki/Remove-features) (IITC only)
 
 See our [samples](https://github.com/nibogd/ingress-ice/wiki/Example-Records).
 
