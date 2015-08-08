@@ -1,7 +1,7 @@
 /**
  * @file Ingress-ICE, the main script
  * @author Nikitakun (https://github.com/nibogd)
- * @version 3.1.0
+ * @version 3.2.0
  * @license MIT
  * @see {@link https://github.com/nibogd/ingress-ice|GitHub }
  * @see {@link https://ingress.divshot.io/|Website }
@@ -43,6 +43,10 @@ var iitc = 0;
 var timestamp = 0;
 var cookieSACSID = '';
 var cookieCSRF = '';
+var hideRes = 0;
+var hideEnl = 0;
+var hideField = 0;
+var hideLink = 0;
 
 if (isNaN(args[1])) {
     configver    = 0;
@@ -72,6 +76,12 @@ if (isNaN(args[1])) {
     ssnum        = parseInt(args[11], 10);
     iitc         = parseInt(args[12], 10);
     timestamp    = parseInt(args[13], 10);
+    if (args[14]) {
+      hideRes = Boolean(parseInt(args[14], 10));
+      hideEnl = Boolean(parseInt(args[15], 10));
+      hideLink = Boolean(parseInt(args[16], 10));
+      hideField = Boolean(parseInt(args[17], 10));
+    }
 } else if (parseInt(args[1], 10) === 2) {
     configver    = parseInt(args[1], 10);
     cookieSACSID = args[2];
@@ -86,6 +96,12 @@ if (isNaN(args[1])) {
     ssnum        = parseInt(args[11], 10);
     iitc         = parseInt(args[12], 10);
     timestamp    = parseInt(args[13], 10);
+    if (args[14]) {
+      hideRes = Boolean(parseInt(args[14], 10));
+      hideEnl = Boolean(parseInt(args[15], 10));
+      hideLink = Boolean(parseInt(args[16], 10));
+      hideField = Boolean(parseInt(args[17], 10));
+    }
 }
 
 /*global phantom */
@@ -95,7 +111,7 @@ if (isNaN(args[1])) {
  * Counter for number of screenshots
  */
 var curnum       = 0;
-var version      = '3.1.0';
+var version      = '3.2.0';
 
 /**
  * Delay between logging in and checking if successful
@@ -176,89 +192,47 @@ function getDateTime(format) {
  * @summary Portal level filter
  * @param {number} min - minimal portal level
  * @param {number} max - maximum portal level
- * @param {boolean} iitcz
  */
-function setMinMax(min, max, iitcz) {
-    if (!iitcz) {
-        var minAvailable = page.evaluate(function () {
-            return document.querySelectorAll('.level_notch.selected')[0];
-        });
-        if (parseInt(minAvailable.id[9], 10) > min) {
-            announce('The minimal portal level is too low for current zoom, using default.');
-        } else {
-            var rect = page.evaluate(function() {
-                return document.querySelectorAll('.level_notch.selected')[0].getBoundingClientRect();
-            });
-            page.sendEvent('click', rect.left + rect.width / 2, rect.top + rect.height / 2);
-            window.setTimeout(function() {
-                var rect1 = page.evaluate(function(min) {
-                    return document.querySelector('#level_low' + min).getBoundingClientRect();
-                }, min);
-                page.sendEvent('click', rect1.left + rect1.width / 2, rect1.top + rect1.height / 2);
-                if (max === 8) {
-                    page.evaluate(function () {
-                        document.querySelector('#filters_container').style.display = 'none';
-                    });
-                }
-            }, 2000);
-        }
-        if (max < 8) {
-            window.setTimeout(function() {
-                var rect2 = page.evaluate(function() {
-                    return document.querySelectorAll('.level_notch.selected')[1].getBoundingClientRect();
-                });
-                page.sendEvent('click', rect2.left + rect2.width / 2, rect2.top + rect2.height / 2);
-                window.setTimeout(function() {
-                    var rect3 = page.evaluate(function(min) {
-                        return document.querySelector('#level_high' + min).getBoundingClientRect();
-                    }, max);
-                    page.sendEvent('click', rect3.left + rect3.width / 2, rect3.top + rect3.height / 2);
-                    page.evaluate(function () {
-                        document.querySelector('#filters_container').style.display = 'none';
-                    });
-                }, 2000);
-            }, 4000);
-        }
-    } else {
-        window.setTimeout(function () {
-            page.evaluate(function (min, max) {
-                if (min > 1) {
-                    switch (min) {
-                        case 8: document.getElementsByClassName("leaflet-control-layers-selector")[15].checked = false;
-                        /* falls through */
-                        case 7: document.getElementsByClassName("leaflet-control-layers-selector")[14].checked = false;
-                        /* falls through */
-                        case 6: document.getElementsByClassName("leaflet-control-layers-selector")[13].checked = false;
-                        /* falls through */
-                        case 5: document.getElementsByClassName("leaflet-control-layers-selector")[12].checked = false;
-                        /* falls through */
-                        case 4: document.getElementsByClassName("leaflet-control-layers-selector")[11].checked = false;
-                        /* falls through */
-                        case 3: document.getElementsByClassName("leaflet-control-layers-selector")[10].checked = false;
-                        /* falls through */
-                        case 2: document.getElementsByClassName("leaflet-control-layers-selector")[9].checked = false;
-                    }
-                }
-                if (max < 8) {
-                    switch (max) {
-                        case 1: document.getElementsByClassName("leaflet-control-layers-selector")[10].checked = false;
-                        /* falls through */
-                        case 2: document.getElementsByClassName("leaflet-control-layers-selector")[11].checked = false;
-                        /* falls through */
-                        case 3: document.getElementsByClassName("leaflet-control-layers-selector")[12].checked = false;
-                        /* falls through */
-                        case 4: document.getElementsByClassName("leaflet-control-layers-selector")[13].checked = false;
-                        /* falls through */
-                        case 5: document.getElementsByClassName("leaflet-control-layers-selector")[14].checked = false;
-                        /* falls through */
-                        case 6: document.getElementsByClassName("leaflet-control-layers-selector")[15].checked = false;
-                        /* falls through */
-                        case 7: document.getElementsByClassName("leaflet-control-layers-selector")[16].checked = false;
-                    }
-                }
-            }, min, max);
-        }, v/10);
-    }
+function setMinMax(min, max) {
+  var minAvailable = page.evaluate(function () {
+    return document.querySelectorAll('.level_notch.selected')[0];
+  });
+  if (parseInt(minAvailable.id[9], 10) > min) {
+    announce('The minimal portal level is too low for current zoom, using default.');
+  } else {
+    var rect = page.evaluate(function() {
+      return document.querySelectorAll('.level_notch.selected')[0].getBoundingClientRect();
+    });
+    page.sendEvent('click', rect.left + rect.width / 2, rect.top + rect.height / 2);
+    window.setTimeout(function() {
+      var rect1 = page.evaluate(function(min) {
+	return document.querySelector('#level_low' + min).getBoundingClientRect();
+      }, min);
+      page.sendEvent('click', rect1.left + rect1.width / 2, rect1.top + rect1.height / 2);
+      if (max === 8) {
+	page.evaluate(function () {
+	  document.querySelector('#filters_container').style.display = 'none';
+	});
+      }
+    }, 2000);
+  }
+  if (max < 8) {
+    window.setTimeout(function() {
+      var rect2 = page.evaluate(function() {
+	return document.querySelectorAll('.level_notch.selected')[1].getBoundingClientRect();
+      });
+      page.sendEvent('click', rect2.left + rect2.width / 2, rect2.top + rect2.height / 2);
+      window.setTimeout(function() {
+	var rect3 = page.evaluate(function(min) {
+	  return document.querySelector('#level_high' + min).getBoundingClientRect();
+	}, max);
+	page.sendEvent('click', rect3.left + rect3.width / 2, rect3.top + rect3.height / 2);
+	page.evaluate(function () {
+	  document.querySelector('#filters_container').style.display = 'none';
+	});
+      }, 2000);
+    }, 4000);
+  }
 }
 
 /**
@@ -400,8 +374,8 @@ function afterPlainLogin() {
                 }
                 setTimeout(function () {
                     announce('Will start screenshooting in ' + v/1000 + ' seconds...');
-                    if ((minlevel > 1)||(maxlevel < 8)){
-                        setMinMax(minlevel, maxlevel, iitc);
+                    if (((minlevel > 1)||(maxlevel < 8)) && !iitc) {
+                        setMinMax(minlevel, maxlevel);
                     } else if (!iitc) {
                         page.evaluate(function () {
                             document.querySelector("#filters_container").style.display= 'none';
@@ -438,7 +412,7 @@ function afterCookieLogin() {
         }
         setTimeout(function () {
             announce('Will start screenshooting in ' + v/1000 + ' seconds...');
-            if ((minlevel > 1)||(maxlevel < 8)){
+            if (((minlevel > 1)||(maxlevel < 8)) && !iitc) {
                 setMinMax(minlevel, maxlevel, iitc);
             } else if (!iitc) {
                 page.evaluate(function () {
@@ -517,7 +491,7 @@ function hideDebris(iitcz) {
                 if (document.querySelector('#updatestatus'))                    {document.querySelector('#updatestatus').style.display = 'none';}
                 if (document.querySelector('#sidebartoggle'))                   {document.querySelector('#sidebartoggle').style.display = 'none';}
                 if (document.querySelector('#scrollwrapper'))                   {document.querySelector('#scrollwrapper').style.display = 'none';}
-                if (document.querySelectorAll('.leaflet-control-container')[0]) {document.querySelectorAll('.leaflet-control-container')[0].style.display = 'none';}
+                if (document.querySelector('.leaflet-control-container')) {document.querySelector('.leaflet-control-container').style.display = 'none';}
             });
         }, 2000);
     }
@@ -567,18 +541,41 @@ function addTimestamp(time, iitcz) {
 }
 
 /**
- * Inserts IITC
- * @var {boolean} iitcz
+ * Inserts IITC and defines settings
+ * @var hideRes
+ * @var hideEnl
+ * @var hideLink
+ * @var hideField
+ * @var minlevel
+ * @var maxlevel
  * @author akileos (https://github.com/akileos)
  * @author Nikitakun
  */
 function addIitc() {
-    page.evaluate(function() {
+    page.evaluate(function(field, link, res, enl, min, max) {
+        localStorage['ingress.intelmap.layergroupdisplayed'] = JSON.stringify({
+	  "Unclaimed Portals":Boolean(min === 1),
+	  "Level 1 Portals":Boolean(min === 1),
+	  "Level 2 Portals":Boolean((min <= 2) & (max >= 2)),
+	  "Level 3 Portals":Boolean((min <= 3) & (max >= 3)),
+	  "Level 4 Portals":Boolean((min <= 4) & (max >= 4)),
+	  "Level 5 Portals":Boolean((min <= 5) & (max >= 5)),
+	  "Level 6 Portals":Boolean((min <= 6) & (max >= 6)),
+	  "Level 7 Portals":Boolean((min <= 7) & (max >= 7)),
+	  "Level 8 Portals":Boolean(max === 8),
+	  "Fields":field,
+	  "Links":link,
+	  "Resistance":res,
+	  "Enlightened":enl,
+	  "DEBUG Data Tiles":false,
+	  "Artifacts":true,
+	  "Ornaments":true
+	});
         var script = document.createElement('script');
         script.type='text/javascript';
         script.src='https://secure.jonatkins.com/iitc/release/total-conversion-build.user.js';
         document.head.insertBefore(script, document.head.lastChild);
-    });
+    }, !hideField, !hideLink, !hideRes, !hideEnl, minlevel, maxlevel);
 }
 
 /**
