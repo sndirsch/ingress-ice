@@ -1,7 +1,7 @@
 /**
 * @file Ingress-ICE, the main script
 * @author Nikitakun (https://github.com/nibogd)
-* @version 3.2.0
+* @version 3.2.1
 * @license MIT
 * @see {@link https://github.com/nibogd/ingress-ice|GitHub }
 * @see {@link https://ingress.divshot.io/|Website }
@@ -111,7 +111,7 @@ if (isNaN(args[1])) {
 * Counter for number of screenshots
 */
 var curnum       = 0;
-var version      = '3.2.0';
+var version      = '3.2.1';
 
 /**
 * Delay between logging in and checking if successful
