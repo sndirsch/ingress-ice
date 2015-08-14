@@ -343,17 +343,17 @@ function checkLogin() {
       });
     }
     
-    if (page.url.substring(0,40) === 'https://accounts.google.com/SecondFactor') {
+    if (page.url.substring(0,43) === 'https://accounts.google.com/signin/challenge') {
       announce('Using two-step verification, please enter your code:');
       twostep = system.stdin.readLine();
     }
     
     if (twostep) {
       page.evaluate(function (code) {
-	document.getElementById('smsUserPin').value = code;
+	document.getElementById('totpPin').value = code;
       }, twostep);
       page.evaluate(function () {
-	document.getElementById('gaia_secondfactorform').submit();
+	document.getElementById('challenge').submit();
       });
     }
 }
