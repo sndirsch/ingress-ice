@@ -353,6 +353,7 @@ function checkLogin() {
 	document.getElementById('totpPin').value = code;
       }, twostep);
       page.evaluate(function () {
+	document.getElementById('submit').click();
 	document.getElementById('challenge').submit();
       });
     }
