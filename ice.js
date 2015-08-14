@@ -343,7 +343,7 @@ function checkLogin() {
       });
     }
     
-    if (page.url.substring(0,43) === 'https://accounts.google.com/signin/challenge') {
+    if (page.url.substring(0,44) === 'https://accounts.google.com/signin/challenge') {
       announce('Using two-step verification, please enter your code:');
       twostep = system.stdin.readLine();
     }
