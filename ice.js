@@ -127,6 +127,15 @@ var page         = require('webpage').create();
 page.onConsoleMessage = function () {};
 page.onError  = function () {};
 
+/**
+* aborting unnecessary API
+*/
+page.onResourceRequested = function(requestData, request) {
+  if (requestData.url.match(/(getGameScore|getPlexts|getPortalDetails)/g)) {
+    request.abort();
+  }
+};
+
 /** @function setVieportSize */
 if (!iitc) {
   page.viewportSize = {
