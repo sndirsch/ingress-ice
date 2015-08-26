@@ -339,11 +339,11 @@ function login(l, p) {
 * Check if logged in successfully, quit if failed, accept appEngine request if needed and prompt for two step code if needed.
 */
 function checkLogin() {
-  
+
   //announce('URI is now ' + page.url.substring(0,40) + '...');
-  
+
   if (page.url.substring(0,40) === 'https://accounts.google.com/ServiceLogin') {quit('login failed: wrong email and/or password');}
-    
+
     if (page.url.substring(0,40) === 'https://appengine.google.com/_ah/loginfo') {
       announce('Accepting appEngine request...');
       page.evaluate(function () {
@@ -351,12 +351,12 @@ function checkLogin() {
 	document.getElementsByTagName('form').submit();
       });
     }
-    
+
     if (page.url.substring(0,44) === 'https://accounts.google.com/signin/challenge') {
       announce('Using two-step verification, please enter your code:');
       twostep = system.stdin.readLine();
     }
-    
+
     if (twostep) {
       page.evaluate(function (code) {
 	document.getElementById('totpPin').value = code;
@@ -452,7 +452,7 @@ function isSignedIn() {
     }
     return true;
   });
-  
+
 }
 
 /**
@@ -689,7 +689,7 @@ function main() {
 function cookiesFileExists() {
   if(fs.exists(cookiespath)) {
     var stream = fs.open(cookiespath, 'r');
-    
+
     while(!stream.atEnd()) {
       var line = stream.readLine();
       var res = line.split('=');
@@ -732,13 +732,13 @@ function firePlainLogin() {
   cookieSACSID = '';
   cookieCSRF = '';
   page.open('https://www.ingress.com/intel', function (status) {
-    
+
     if (status !== 'success') {quit('cannot connect to remote server');}
-    
+
     var link = page.evaluate(function () {
       return document.getElementsByTagName('a')[0].href;
     });
-    
+
     announce('Logging in...');
     page.open(link, function () {
       login(l, p);
