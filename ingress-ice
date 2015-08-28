@@ -2,7 +2,7 @@
 
 # ingress-ice start script by Nikitakun
 # From version 2.2 you don't need to edit anything. Just launch this script from console ( $ chmod +x ingress-ice&&./ingress-ice )
-FILE="$HOME/.ingressai_ice"
+FILE="$HOME/.ingress_ice"
 COUNT=""
 MACHINE_TYPE=`uname -m`
 
