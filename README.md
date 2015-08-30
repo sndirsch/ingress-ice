@@ -32,6 +32,8 @@ See our [samples](https://github.com/nibogd/ingress-ice/wiki/Example-Records).
 Usage
 =====
 
+> *WARNING!* ingress-ice may be considered against Ingress ToS (although it hasn't happened before). Use it at your own risk!
+
 ### Windows
 
  1. Unpack the archieve wherever you want
