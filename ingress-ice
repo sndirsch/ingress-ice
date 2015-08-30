@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 # ingress-ice start script by Nikitakun
 # From version 2.2 you don't need to edit anything. Just launch this script from console ( $ chmod +x ingress-ice&&./ingress-ice )
