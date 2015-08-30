@@ -263,6 +263,7 @@ function s() {
 * @param {String} alc - AWS S3 access controll list
 * @param {String} path - Screenshot filepath
 * @param {Boolean} remove - delete current file
+* @author c2nprds
 */
 function uploadS3(key, secret, bucket, alc, path, remove) {
   var s3 = webpage.create();
