@@ -123,7 +123,8 @@ var loginTimeout = 10 * 1000;
 * twostep auth trigger
 */
 var twostep      = 0;
-var page         = require('webpage').create();
+var webpage      = require('webpage');
+var page         = webpage.create();
 page.onConsoleMessage = function () {};
 page.onError  = function () {};
 
@@ -215,30 +216,30 @@ function setMinMax(min, max) {
     page.sendEvent('click', rect.left + rect.width / 2, rect.top + rect.height / 2);
     window.setTimeout(function() {
       var rect1 = page.evaluate(function(min) {
-	return document.querySelector('#level_low' + min).getBoundingClientRect();
+        return document.querySelector('#level_low' + min).getBoundingClientRect();
       }, min);
       page.sendEvent('click', rect1.left + rect1.width / 2, rect1.top + rect1.height / 2);
       if (max === 8) {
-	page.evaluate(function () {
-	  document.querySelector('#filters_container').style.display = 'none';
-	});
+        page.evaluate(function () {
+          document.querySelector('#filters_container').style.display = 'none';
+        });
       }
     }, 2000);
   }
   if (max < 8) {
     window.setTimeout(function() {
       var rect2 = page.evaluate(function() {
-	return document.querySelectorAll('.level_notch.selected')[1].getBoundingClientRect();
+        return document.querySelectorAll('.level_notch.selected')[1].getBoundingClientRect();
       });
       page.sendEvent('click', rect2.left + rect2.width / 2, rect2.top + rect2.height / 2);
       window.setTimeout(function() {
-	var rect3 = page.evaluate(function(min) {
-	  return document.querySelector('#level_high' + min).getBoundingClientRect();
-	}, max);
-	page.sendEvent('click', rect3.left + rect3.width / 2, rect3.top + rect3.height / 2);
-	page.evaluate(function () {
-	  document.querySelector('#filters_container').style.display = 'none';
-	});
+        var rect3 = page.evaluate(function(min) {
+          return document.querySelector('#level_high' + min).getBoundingClientRect();
+        }, max);
+        page.sendEvent('click', rect3.left + rect3.width / 2, rect3.top + rect3.height / 2);
+        page.evaluate(function () {
+          document.querySelector('#filters_container').style.display = 'none';
+        });
       }, 2000);
     }, 4000);
   }
@@ -251,6 +252,54 @@ function s() {
   announce('Screen saved');
   page.render(folder + 'ice-' + getDateTime(1) + '.png');
 }
+
+/**
+* Upload AWS S3
+* @see http://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/S3.html
+* @see ALC https://docs.aws.amazon.com/AmazonS3/latest/dev/acl-overview.html#canned-acl
+* @param {String} key - AWS S3 accessKeyId
+* @param {String} secret - AWS S3 secretKeyId
+* @param {String} bucket - AWS S3 bucket name
+* @param {String} alc - AWS S3 access controll list
+* @param {String} path - Screenshot filepath
+* @param {Boolean} remove - delete current file
+*/
+function uploadS3(key, secret, bucket, alc, path, remove) {
+  var s3 = webpage.create();
+  s3.onError = function(msg, trace) {};
+  s3.content = '<html><body><input id="file-chooser" name="file-chooser" type="file"></body></html>';
+
+  s3.onCallback = function(data) {
+    if (data.status == 200) {
+      announce('Successfully! file upload for Amazon S3');
+      if (remove) fs.remove(path);
+    } else {
+      announce('Failure! file upload for Amazon S3');
+    }
+    s3.close();
+  };
+
+  s3.includeJs('http://sdk.amazonaws.com/js/aws-sdk-2.1.34.min.js', function() {
+    s3.evaluate(function(key, secret, bucket, alc) {
+      var fileChooser = document.querySelector('#file-chooser');
+      fileChooser.addEventListener('change', function() {
+        var f = fileChooser.files[0];
+        if (f) {
+          AWS.config.update({accessKeyId: key, secretAccessKey: secret});
+          var params = {Key: f.name, ContentType: f.type, Body: f};
+          var b = new AWS.S3({params: {Bucket: bucket, ACL: alc}});
+          b.putObject(params, function (err, data) {
+            window.callPhantom({ status: (err ? 500 : 200), data: data });
+          });
+        } else {
+          window.callPhantom({ status: 400 });
+        }
+      }, false);
+    }, key, secret, bucket, alc);
+
+    s3.uploadFile("input[name=file-chooser]", path);
+  });
+};
 
 /**
 * Quit if an error occured
@@ -339,31 +388,31 @@ function login(l, p) {
 * Check if logged in successfully, quit if failed, accept appEngine request if needed and prompt for two step code if needed.
 */
 function checkLogin() {
-  
+
   //announce('URI is now ' + page.url.substring(0,40) + '...');
-  
+
   if (page.url.substring(0,40) === 'https://accounts.google.com/ServiceLogin') {quit('login failed: wrong email and/or password');}
-    
+
     if (page.url.substring(0,40) === 'https://appengine.google.com/_ah/loginfo') {
       announce('Accepting appEngine request...');
       page.evaluate(function () {
-	document.getElementById('persist_checkbox').checked = true;
-	document.getElementsByTagName('form').submit();
+        document.getElementById('persist_checkbox').checked = true;
+        document.getElementsByTagName('form').submit();
       });
     }
-    
+
     if (page.url.substring(0,44) === 'https://accounts.google.com/signin/challenge') {
       announce('Using two-step verification, please enter your code:');
       twostep = system.stdin.readLine();
     }
-    
+
     if (twostep) {
       page.evaluate(function (code) {
-	document.getElementById('totpPin').value = code;
+        document.getElementById('totpPin').value = code;
       }, twostep);
       page.evaluate(function () {
-	document.getElementById('submit').click();
-	document.getElementById('challenge').submit();
+        document.getElementById('submit').click();
+        document.getElementById('challenge').submit();
       });
     }
 }
@@ -378,25 +427,25 @@ function afterPlainLogin() {
     checkLogin();
     window.setTimeout(function () {
       page.open(area, function () {
-	storeCookies();
-	if (iitc) {
-	  addIitc();
-	}
-	setTimeout(function () {
-	  announce('Will start screenshooting in ' + v/1000 + ' seconds...');
-	  if (((minlevel > 1)||(maxlevel < 8)) && !iitc) {
-	    setMinMax(minlevel, maxlevel);
-	  } else if (!iitc) {
-	    page.evaluate(function () {
-	      document.querySelector("#filters_container").style.display= 'none';
-	    });
-	  }
-	  hideDebris(iitc);
-	  prepare(iitc, width, height);
-	  announce('The first screenshot may not contain all portals, it is intended for you to check framing.');
-	  main();
-	  setInterval(main, v);
-	}, loginTimeout);
+        storeCookies();
+        if (iitc) {
+          addIitc();
+        }
+        setTimeout(function () {
+          announce('Will start screenshooting in ' + v/1000 + ' seconds...');
+          if (((minlevel > 1)||(maxlevel < 8)) && !iitc) {
+            setMinMax(minlevel, maxlevel);
+          } else if (!iitc) {
+            page.evaluate(function () {
+              document.querySelector("#filters_container").style.display= 'none';
+            });
+          }
+          hideDebris(iitc);
+          prepare(iitc, width, height);
+          announce('The first screenshot may not contain all portals, it is intended for you to check framing.');
+          main();
+          setInterval(main, v);
+        }, loginTimeout);
       });
     }, loginTimeout);
   }, loginTimeout);
@@ -411,10 +460,10 @@ function afterCookieLogin() {
     if(!isSignedIn()) {
       removeCookieFile();
       if(l && p) {
-	firePlainLogin();
-	return;
+        firePlainLogin();
+        return;
       } else {
-	quit('User not logged in');
+        quit('User not logged in');
       }
     }
     if (iitc) {
@@ -423,11 +472,11 @@ function afterCookieLogin() {
     setTimeout(function () {
       announce('Will start screenshooting in ' + v/1000 + ' seconds...');
       if (((minlevel > 1)||(maxlevel < 8)) && !iitc) {
-	setMinMax(minlevel, maxlevel, iitc);
+        setMinMax(minlevel, maxlevel, iitc);
       } else if (!iitc) {
-	page.evaluate(function () {
-	  document.querySelector("#filters_container").style.display= 'none';
-	});
+        page.evaluate(function () {
+          document.querySelector("#filters_container").style.display= 'none';
+        });
       }
       hideDebris(iitc);
       prepare(iitc, width, height);
@@ -452,7 +501,7 @@ function isSignedIn() {
     }
     return true;
   });
-  
+
 }
 
 /**
@@ -477,31 +526,31 @@ function count() {
 function hideDebris(iitcz) {
   if (!iitcz) {
     page.evaluate(function () {
-      if (document.querySelector('#comm'))           {document.querySelector('#comm').style.display = 'none';}
-      if (document.querySelector('#player_stats'))   {document.querySelector('#player_stats').style.display = 'none';}
-      if (document.querySelector('#game_stats'))     {document.querySelector('#game_stats').style.display = 'none';}
-      if (document.querySelector('#geotools'))       {document.querySelector('#geotools').style.display = 'none';}
-      if (document.querySelector('#header'))         {document.querySelector('#header').style.display = 'none';}
-      if (document.querySelector('#snapcontrol'))    {document.querySelector('#snapcontrol').style.display = 'none';}
-      if (document.querySelectorAll('.img_snap')[0]) {document.querySelectorAll('.img_snap')[0].style.display = 'none';}
+      if (document.querySelector('#comm'))             {document.querySelector('#comm').style.display = 'none';}
+      if (document.querySelector('#player_stats'))     {document.querySelector('#player_stats').style.display = 'none';}
+      if (document.querySelector('#game_stats'))       {document.querySelector('#game_stats').style.display = 'none';}
+      if (document.querySelector('#geotools'))         {document.querySelector('#geotools').style.display = 'none';}
+      if (document.querySelector('#header'))           {document.querySelector('#header').style.display = 'none';}
+      if (document.querySelector('#snapcontrol'))      {document.querySelector('#snapcontrol').style.display = 'none';}
+      if (document.querySelectorAll('.img_snap')[0])   {document.querySelectorAll('.img_snap')[0].style.display = 'none';}
       if (document.querySelector('#display_msg_text')) {document.querySelector('#display_msg_text').style.display = 'none';}
     });
     page.evaluate(function () {
       var hide = document.querySelectorAll('.gmnoprint');
       for (var index = 0; index < hide.length; ++index) {
-	hide[index].style.display = 'none';
+        hide[index].style.display = 'none';
       }
     });
   } else {
     window.setTimeout(function () {
       page.evaluate(function () {
-	if (document.querySelector('#chat'))                            {document.querySelector('#chat').style.display = 'none';}
-	if (document.querySelector('#chatcontrols'))                    {document.querySelector('#chatcontrols').style.display = 'none';}
-	if (document.querySelector('#chatinput'))                       {document.querySelector('#chatinput').style.display = 'none';}
-	if (document.querySelector('#updatestatus'))                    {document.querySelector('#updatestatus').style.display = 'none';}
-	if (document.querySelector('#sidebartoggle'))                   {document.querySelector('#sidebartoggle').style.display = 'none';}
-	if (document.querySelector('#scrollwrapper'))                   {document.querySelector('#scrollwrapper').style.display = 'none';}
-	if (document.querySelector('.leaflet-control-container')) {document.querySelector('.leaflet-control-container').style.display = 'none';}
+        if (document.querySelector('#chat'))                      {document.querySelector('#chat').style.display = 'none';}
+        if (document.querySelector('#chatcontrols'))              {document.querySelector('#chatcontrols').style.display = 'none';}
+        if (document.querySelector('#chatinput'))                 {document.querySelector('#chatinput').style.display = 'none';}
+        if (document.querySelector('#updatestatus'))              {document.querySelector('#updatestatus').style.display = 'none';}
+        if (document.querySelector('#sidebartoggle'))             {document.querySelector('#sidebartoggle').style.display = 'none';}
+        if (document.querySelector('#scrollwrapper'))             {document.querySelector('#scrollwrapper').style.display = 'none';}
+        if (document.querySelector('.leaflet-control-container')) {document.querySelector('.leaflet-control-container').style.display = 'none';}
       });
     }, 2000);
   }
@@ -602,16 +651,16 @@ function prepare(iitcz, widthz, heightz) {
   } else {
     window.setTimeout(function () {
       page.evaluate(function (w, h) {
-	var water = document.createElement('p');
-	water.id='viewport-ice';
-	water.style.position = 'absolute';
-	water.style.top = '0';
-	water.style.marginTop = '0';
-	water.style.paddingTop = '0';
-	water.style.left = '0';
-	water.style.width = w;
-	water.style.height = h;
-	document.querySelectorAll('body')[0].appendChild(water);
+        var water = document.createElement('p');
+        water.id='viewport-ice';
+        water.style.position = 'absolute';
+        water.style.top = '0';
+        water.style.marginTop = '0';
+        water.style.paddingTop = '0';
+        water.style.left = '0';
+        water.style.width = w;
+        water.style.height = h;
+        document.querySelectorAll('body')[0].appendChild(water);
       }, widthz, heightz);
       var selector = "#viewport-ice";
       setElementBounds(selector);
@@ -627,8 +676,8 @@ function setElementBounds(selector) {
   page.clipRect = page.evaluate(function(selector) {
     var clipRect = document.querySelector(selector).getBoundingClientRect();
     return {
-      top:     clipRect.top,
-      left:     clipRect.left,
+      top:    clipRect.top,
+      left:   clipRect.left,
       width:  clipRect.width,
       height: clipRect.height
     };
@@ -659,8 +708,8 @@ function main() {
   if (timestamp) {
     page.evaluate(function () {
       if (document.getElementById('watermark-ice')) {
-	var oldStamp = document.getElementById('watermark-ice');
-	oldStamp.parentNode.removeChild(oldStamp);
+        var oldStamp = document.getElementById('watermark-ice');
+        oldStamp.parentNode.removeChild(oldStamp);
       }
     });
   }
@@ -689,14 +738,14 @@ function main() {
 function cookiesFileExists() {
   if(fs.exists(cookiespath)) {
     var stream = fs.open(cookiespath, 'r');
-    
+
     while(!stream.atEnd()) {
       var line = stream.readLine();
       var res = line.split('=');
       if(res[0] === 'SACSID') {
-	cookieSACSID = res[1];
+        cookieSACSID = res[1];
       } else if(res[0] === 'csrftoken') {
-	cookieCSRF = res[1];
+        cookieCSRF = res[1];
       }
     }
     stream.close();
@@ -732,13 +781,13 @@ function firePlainLogin() {
   cookieSACSID = '';
   cookieCSRF = '';
   page.open('https://www.ingress.com/intel', function (status) {
-    
+
     if (status !== 'success') {quit('cannot connect to remote server');}
-    
+
     var link = page.evaluate(function () {
       return document.getElementsByTagName('a')[0].href;
     });
-    
+
     announce('Logging in...');
     page.open(link, function () {
       login(l, p);
