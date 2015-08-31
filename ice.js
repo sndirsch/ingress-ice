@@ -17,14 +17,16 @@ var cookiespath = '.iced_cookies';
 
 // Config is a parsed config with login, password, area, minlevel, maxlevel, delay, width, height, iitc, timestamp, hideRes, hideEnl, hideLink, hideField, cookies (SACSID and CSRF)
 var config = configure(args[1]);
-
+announce(JSON.stringify(config));
 var folder = fs.workingDirectory + '/';
 var ssnum = 0;
 
-var configver = (config['SACSID'] === '' || config['SACSID'] === undefined) ? 1 : 2;
+var configver = (config.SACSID === '' || config.SACSID === undefined) ? 1 : 2;
 
 /*global phantom */
 /*global idleReset */
+/*global require */
+/*global AWS */
 
 /**
 * Counter for number of screenshots
@@ -59,15 +61,15 @@ page.onResourceRequested = function(requestData, request) {
 };
 
 /** @function setVieportSize */
-if (!config['iitc']) {
+if (!config.iitc) {
   page.viewportSize = {
-    width: config['width'] + 42,
-    height: config['height'] + 167
+    width: config.width + 42,
+    height: config.height + 167
   };
 } else {
   page.viewportSize = {
-    width: config['width'],
-    height: config['height']
+    width: config.width,
+    height: config.height
   };
 }
 //Functions
@@ -84,12 +86,14 @@ function configure(path) {
     var line = settingsfile.readLine();
     if (!(line[0] === '#' || line[0] === '[' || line.indexOf('=', 1) === -1)) {
       var pos = line.indexOf('=', 1);
-      if (line.substring(pos + 1) === 'false') {
-        settings[line.substring(0,pos)] = false;
-      } else if (line.substring(pos + 1) === 'true') {
-        settings[line.substring(0,pos)] = true;
+      var key = line.substring(0,pos);
+      var value = line.substring(pos + 1);
+      if (value == 'false') {
+        settings[key] = false;
+      } else if (/^-?[\d.]+(?:e-?\d+)?$/.test(value) && value !== '') {
+        settings[key] = parseInt(value, 10);
       } else {
-        settings[line.substring(0,pos)] = line.substring(pos + 1);
+        settings[key] = value;
       }
     }
   }
@@ -219,7 +223,9 @@ function uploadS3(key, secret, bucket, alc, path, remove) {
   s3.onCallback = function(data) {
     if (data.status == 200) {
       announce('Successfully! file upload for Amazon S3');
-      if (remove) fs.remove(path);
+      if (remove) {
+        fs.remove(path);
+      }
     } else {
       announce('Failure! file upload for Amazon S3');
     }
@@ -359,25 +365,25 @@ function afterPlainLogin() {
     announce('Verifying login...');
     checkLogin();
     window.setTimeout(function () {
-      page.open(config['area'], function () {
+      page.open(config.area, function () {
         storeCookies();
-        if (config['iitc']) {
+        if (config.iitc) {
           addIitc();
         }
         setTimeout(function () {
-          announce('Will start screenshooting in ' + config['delay']/1000 + ' seconds...');
-          if (((config['minlevel'] > 1)||(config['maxlevel'] < 8)) && !config['iitc']) {
-            setMinMax(config['minlevel'], config['maxlevel']);
-          } else if (!config['iitc']) {
+          announce('Will start screenshooting in ' + config.delay/1000 + ' seconds...');
+          if (((config.minlevel > 1)||(config.maxlevel < 8)) && !config.iitc) {
+            setMinMax(config.minlevel, config.maxlevel);
+          } else if (!config.iitc) {
             page.evaluate(function () {
               document.querySelector("#filters_container").style.display= 'none';
             });
           }
-          hideDebris(config['iitc']);
-          prepare(config['iitc'], config['width'], config['height']);
+          hideDebris(config.iitc);
+          prepare(config.iitc, config.width, config.height);
           announce('The first screenshot may not contain all portals, it is intended for you to check framing.');
           main();
-          setInterval(main, config['delay']);
+          setInterval(main, config.delay);
         }, loginTimeout);
       });
     }, loginTimeout);
@@ -389,33 +395,33 @@ function afterPlainLogin() {
 * @since 3.1.0
 */
 function afterCookieLogin() {
-  page.open(config['area'], function () {
+  page.open(config.area, function () {
     if(!isSignedIn()) {
       removeCookieFile();
-      if(config['login'] && config['password']) {
+      if(config.login && config.password) {
         firePlainLogin();
         return;
       } else {
         quit('User not logged in');
       }
     }
-    if (config['iitc']) {
+    if (config.iitc) {
       addIitc();
     }
     setTimeout(function () {
-      announce('Will start screenshooting in ' + config['delay']/1000 + ' seconds...');
-      if (((config['minlevel'] > 1)||(config['maxlevel'] < 8)) && !config['iitc']) {
-        setMinMax(config['minlevel'], config['maxlevel'], config['iitc']);
-      } else if (!config['iitc']) {
+      announce('Will start screenshooting in ' + config.delay/1000 + ' seconds...');
+      if (((config.minlevel > 1)||(config.maxlevel < 8)) && !config.iitc) {
+        setMinMax(config.minlevel, config.maxlevel, config.iitc);
+      } else if (!config.iitc) {
         page.evaluate(function () {
           document.querySelector("#filters_container").style.display= 'none';
         });
       }
-      hideDebris(config['iitc']);
-      prepare(config['iitc'], config['width'], config['height']);
+      hideDebris(config.iitc);
+      prepare(config.iitc, config.width, config.height);
       announce('The first screenshot may not contain all portals, it is intended for you to check framing.');
       main();
-      setInterval(main, config['delay']);
+      setInterval(main, config.delay);
     }, loginTimeout);
   });
 }
@@ -548,12 +554,12 @@ function addIitc() {
     localStorage['ingress.intelmap.layergroupdisplayed'] = JSON.stringify({
       "Unclaimed Portals":Boolean(min === 1),
       "Level 1 Portals":Boolean(min === 1),
-      "Level 2 Portals":Boolean((min <= 2) & (max >= 2)),
-      "Level 3 Portals":Boolean((min <= 3) & (max >= 3)),
-      "Level 4 Portals":Boolean((min <= 4) & (max >= 4)),
-      "Level 5 Portals":Boolean((min <= 5) & (max >= 5)),
-      "Level 6 Portals":Boolean((min <= 6) & (max >= 6)),
-      "Level 7 Portals":Boolean((min <= 7) & (max >= 7)),
+      "Level 2 Portals":Boolean((min <= 2) && (max >= 2)),
+      "Level 3 Portals":Boolean((min <= 3) && (max >= 3)),
+      "Level 4 Portals":Boolean((min <= 4) && (max >= 4)),
+      "Level 5 Portals":Boolean((min <= 5) && (max >= 5)),
+      "Level 6 Portals":Boolean((min <= 6) && (max >= 6)),
+      "Level 7 Portals":Boolean((min <= 7) && (max >= 7)),
       "Level 8 Portals":Boolean(max === 8),
       "Fields":field,
       "Links":link,
@@ -567,7 +573,7 @@ function addIitc() {
     script.type='text/javascript';
     script.src='https://secure.jonatkins.com/iitc/release/total-conversion-build.user.js';
     document.head.insertBefore(script, document.head.lastChild);
-  }, !config['hideField'], !config['hideLink'], !config['hideRes'], !config['hideEnl'], config['minlevel'], config['maxlevel']);
+  }, !config.hideField, !config.hideLink, !config.hideRes, !config.hideEnl, config.minlevel, config.maxlevel);
 }
 
 /**
@@ -638,7 +644,7 @@ function humanPresence() {
 */
 function main() {
   count();
-  if (config['timestamp']) {
+  if (config.timestamp) {
     page.evaluate(function () {
       if (document.getElementById('watermark-ice')) {
         var oldStamp = document.getElementById('watermark-ice');
@@ -646,17 +652,17 @@ function main() {
       }
     });
   }
-  if (!config['iitc']) {
+  if (!config.iitc) {
     humanPresence();
-    hideDebris(config['iitc']);
+    hideDebris(config.iitc);
   } else {
     page.evaluate(function () {
       idleReset();
     });
   }
   window.setTimeout(function () {
-    if (config['timestamp']) {
-      addTimestamp(getDateTime(), config['iitc']);
+    if (config.timestamp) {
+      addTimestamp(getDateTime(), config.iitc);
     }
     s();
   }, 2000);
@@ -676,9 +682,9 @@ function cookiesFileExists() {
       var line = stream.readLine();
       var res = line.split('=');
       if(res[0] === 'SACSID') {
-        config['SACSID'] = res[1];
+        config.SACSID = res[1];
       } else if(res[0] === 'csrftoken') {
-        config['CSRF'] = res[1];
+        config.CSRF = res[1];
       }
     }
     stream.close();
@@ -711,8 +717,8 @@ function storeCookies() {
 * Fires plain login
 */
 function firePlainLogin() {
-  config['SACSID'] = '';
-  config['CSRF'] = '';
+  config.SACSID = '';
+  config.CSRF = '';
   page.open('https://www.ingress.com/intel', function (status) {
 
     if (status !== 'success') {quit('cannot connect to remote server');}
@@ -723,7 +729,7 @@ function firePlainLogin() {
 
     announce('Logging in...');
     page.open(link, function () {
-      login(config['login'], config['password']);
+      login(config.login, config.password);
       afterPlainLogin();
     });
   });
@@ -737,6 +743,6 @@ if (configver !== 2 && !cookiesFileExists()) {
   firePlainLogin();
 } else {
   announce('Using stored cookie');
-  addCookies(config['SACSID'], config['CSRF']);
+  addCookies(config.SACSID, config.CSRF);
   afterCookieLogin();
 }
