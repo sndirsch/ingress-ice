@@ -15,94 +15,13 @@ var args     = system.args;
 var fs       = require('fs');
 var cookiespath = '.iced_cookies';
 
+// Config is a parsed config with login, password, area, minlevel, maxlevel, delay, width, height, iitc, timestamp, hideRes, hideEnl, hideLink, hideField, cookies (SACSID and CSRF)
+var config = configure(args[1]);
 
-/**
-* Check if all arguments are present
-* @function
-*/
-if (!args[11]) {
-  console.log("Something went wrong. Please reconfigure ingress-ice (http://github.com/nibogd/ingress-ice for help)");
-}
-/**
-* Parse the config. Command-line parameters or from a file - if using a start script.
-* if the first argument is a string, use old config format
-* if the first argument is config version, use that version of config
-*/
-var configver = 0;
-var l = '';
-var p = '';
-var area = '';
-var minlevel = 0;
-var maxlevel = 0;
-var v = 0;
-var width = 0;
-var height = 0;
-var folder = '';
+var folder = fs.workingDirectory + '/';
 var ssnum = 0;
-var iitc = 0;
-var timestamp = 0;
-var cookieSACSID = '';
-var cookieCSRF = '';
-var hideRes = 0;
-var hideEnl = 0;
-var hideField = 0;
-var hideLink = 0;
 
-if (isNaN(args[1])) {
-  configver    = 0;
-  l            = args[1];
-  p            = args[2];
-  area         = args[3];
-  minlevel     = parseInt(args[4], 10);
-  maxlevel     = parseInt(args[5], 10);
-  v            = 1000 * parseInt(args[6], 10);
-  width        = parseInt(args[7], 10);
-  height       = parseInt(args[8], 10);
-  folder       = args[9];
-  ssnum        = parseInt(args[10], 10);
-  iitc         = 0;
-  timestamp    = 0;
-} else if (parseInt(args[1], 10) === 1) {
-  configver    = parseInt(args[1], 10);
-  l            = args[2];
-  p            = args[3];
-  area         = args[4];
-  minlevel     = parseInt(args[5], 10);
-  maxlevel     = parseInt(args[6], 10);
-  v            = 1000 * parseInt(args[7], 10);
-  width        = parseInt(args[8], 10);
-  height       = parseInt(args[9], 10);
-  folder       = args[10];
-  ssnum        = parseInt(args[11], 10);
-  iitc         = parseInt(args[12], 10);
-  timestamp    = parseInt(args[13], 10);
-  if (args[14]) {
-    hideRes = Boolean(parseInt(args[14], 10));
-    hideEnl = Boolean(parseInt(args[15], 10));
-    hideLink = Boolean(parseInt(args[16], 10));
-    hideField = Boolean(parseInt(args[17], 10));
-  }
-} else if (parseInt(args[1], 10) === 2) {
-  configver    = parseInt(args[1], 10);
-  cookieSACSID = args[2];
-  cookieCSRF   = args[3];
-  area         = args[4];
-  minlevel     = parseInt(args[5], 10);
-  maxlevel     = parseInt(args[6], 10);
-  v            = 1000 * parseInt(args[7], 10);
-  width        = parseInt(args[8], 10);
-  height       = parseInt(args[9], 10);
-  folder       = args[10];
-  ssnum        = parseInt(args[11], 10);
-  iitc         = parseInt(args[12], 10);
-  timestamp    = parseInt(args[13], 10);
-  if (args[14]) {
-    hideRes = Boolean(parseInt(args[14], 10));
-    hideEnl = Boolean(parseInt(args[15], 10));
-    hideLink = Boolean(parseInt(args[16], 10));
-    hideField = Boolean(parseInt(args[17], 10));
-  }
-}
+var configver = (config['SACSID'] === '' || config['SACSID'] === undefined) ? 1 : 2;
 
 /*global phantom */
 /*global idleReset */
@@ -130,6 +49,8 @@ page.onError  = function () {};
 
 /**
 * aborting unnecessary API
+* @since 4.0.0
+* @author c2nprds
 */
 page.onResourceRequested = function(requestData, request) {
   if (requestData.url.match(/(getGameScore|getPlexts|getPortalDetails)/g)) {
@@ -138,18 +59,43 @@ page.onResourceRequested = function(requestData, request) {
 };
 
 /** @function setVieportSize */
-if (!iitc) {
+if (!config['iitc']) {
   page.viewportSize = {
-    width: width + 42,
-    height: height + 167
+    width: config['width'] + 42,
+    height: config['height'] + 167
   };
 } else {
   page.viewportSize = {
-    width: width,
-    height: height
+    width: config['width'],
+    height: config['height']
   };
 }
 //Functions
+
+/**
+* Parse the configuration .conf file
+* @since 4.0.0
+* @param {String} path
+*/
+function configure(path) {
+  var settings = {};
+  var settingsfile = fs.open(path, 'r');
+  while(!settingsfile.atEnd()) {
+    var line = settingsfile.readLine();
+    if (!(line[0] === '#' || line[0] === '[' || line.indexOf('=', 1) === -1)) {
+      var pos = line.indexOf('=', 1);
+      if (line.substring(pos + 1) === 'false') {
+        settings[line.substring(0,pos)] = false;
+      } else if (line.substring(pos + 1) === 'true') {
+        settings[line.substring(0,pos)] = true;
+      } else {
+        settings[line.substring(0,pos)] = line.substring(pos + 1);
+      }
+    }
+  }
+  settingsfile.close();
+  return settings;
+}
 
 /**
 * console.log() wrapper
@@ -260,7 +206,7 @@ function s() {
 * @param {String} key - AWS S3 accessKeyId
 * @param {String} secret - AWS S3 secretKeyId
 * @param {String} bucket - AWS S3 bucket name
-* @param {String} alc - AWS S3 access controll list
+* @param {String} alc - AWS S3 access control list
 * @param {String} path - Screenshot filepath
 * @param {Boolean} remove - delete current file
 * @author c2nprds
@@ -300,7 +246,7 @@ function uploadS3(key, secret, bucket, alc, path, remove) {
 
     s3.uploadFile("input[name=file-chooser]", path);
   });
-};
+}
 
 /**
 * Quit if an error occured
@@ -313,20 +259,6 @@ function quit(err) {
     announce('Quit');
   }
   phantom.exit();
-}
-
-/**
-* Check if portal level settings are correct and quit if not
-* @param {number} minlevel - minimal portal level
-* @param {number} maxlevel - maximal portal level
-*/
-function checkSettings(minlevel, maxlevel) {
-  if ((minlevel < 0 || minlevel > 8) || (maxlevel < 0 || maxlevel > 8) || (!minlevel || !maxlevel)) {
-    quit('the lowest and/or highest portal levels were set wrong. There are no 9 level portals.');
-  }
-  if (minlevel>maxlevel) {
-    quit('lowest portal level is higher than highest. Isn\'t that impossible?!');
-  }
 }
 
 /**
@@ -372,7 +304,7 @@ function login(l, p) {
   page.evaluate(function () {
     document.querySelector("#next").click();
   });
-  window.setInterval(function () {
+  window.setTimeout(function () {
     page.evaluate(function (p) {
       document.getElementById('Passwd').value = p;
     }, p);
@@ -427,25 +359,25 @@ function afterPlainLogin() {
     announce('Verifying login...');
     checkLogin();
     window.setTimeout(function () {
-      page.open(area, function () {
+      page.open(config['area'], function () {
         storeCookies();
-        if (iitc) {
+        if (config['iitc']) {
           addIitc();
         }
         setTimeout(function () {
-          announce('Will start screenshooting in ' + v/1000 + ' seconds...');
-          if (((minlevel > 1)||(maxlevel < 8)) && !iitc) {
-            setMinMax(minlevel, maxlevel);
-          } else if (!iitc) {
+          announce('Will start screenshooting in ' + config['delay']/1000 + ' seconds...');
+          if (((config['minlevel'] > 1)||(config['maxlevel'] < 8)) && !config['iitc']) {
+            setMinMax(config['minlevel'], config['maxlevel']);
+          } else if (!config['iitc']) {
             page.evaluate(function () {
               document.querySelector("#filters_container").style.display= 'none';
             });
           }
-          hideDebris(iitc);
-          prepare(iitc, width, height);
+          hideDebris(config['iitc']);
+          prepare(config['iitc'], config['width'], config['height']);
           announce('The first screenshot may not contain all portals, it is intended for you to check framing.');
           main();
-          setInterval(main, v);
+          setInterval(main, config['delay']);
         }, loginTimeout);
       });
     }, loginTimeout);
@@ -457,33 +389,33 @@ function afterPlainLogin() {
 * @since 3.1.0
 */
 function afterCookieLogin() {
-  page.open(area, function () {
+  page.open(config['area'], function () {
     if(!isSignedIn()) {
       removeCookieFile();
-      if(l && p) {
+      if(config['login'] && config['password']) {
         firePlainLogin();
         return;
       } else {
         quit('User not logged in');
       }
     }
-    if (iitc) {
+    if (config['iitc']) {
       addIitc();
     }
     setTimeout(function () {
-      announce('Will start screenshooting in ' + v/1000 + ' seconds...');
-      if (((minlevel > 1)||(maxlevel < 8)) && !iitc) {
-        setMinMax(minlevel, maxlevel, iitc);
-      } else if (!iitc) {
+      announce('Will start screenshooting in ' + config['delay']/1000 + ' seconds...');
+      if (((config['minlevel'] > 1)||(config['maxlevel'] < 8)) && !config['iitc']) {
+        setMinMax(config['minlevel'], config['maxlevel'], config['iitc']);
+      } else if (!config['iitc']) {
         page.evaluate(function () {
           document.querySelector("#filters_container").style.display= 'none';
         });
       }
-      hideDebris(iitc);
-      prepare(iitc, width, height);
+      hideDebris(config['iitc']);
+      prepare(config['iitc'], config['width'], config['height']);
       announce('The first screenshot may not contain all portals, it is intended for you to check framing.');
       main();
-      setInterval(main, v);
+      setInterval(main, config['delay']);
     }, loginTimeout);
   });
 }
@@ -635,7 +567,7 @@ function addIitc() {
     script.type='text/javascript';
     script.src='https://secure.jonatkins.com/iitc/release/total-conversion-build.user.js';
     document.head.insertBefore(script, document.head.lastChild);
-  }, !hideField, !hideLink, !hideRes, !hideEnl, minlevel, maxlevel);
+  }, !config['hideField'], !config['hideLink'], !config['hideRes'], !config['hideEnl'], config['minlevel'], config['maxlevel']);
 }
 
 /**
@@ -706,7 +638,7 @@ function humanPresence() {
 */
 function main() {
   count();
-  if (timestamp) {
+  if (config['timestamp']) {
     page.evaluate(function () {
       if (document.getElementById('watermark-ice')) {
         var oldStamp = document.getElementById('watermark-ice');
@@ -714,17 +646,17 @@ function main() {
       }
     });
   }
-  if (!iitc) {
+  if (!config['iitc']) {
     humanPresence();
-    hideDebris(iitc);
+    hideDebris(config['iitc']);
   } else {
     page.evaluate(function () {
       idleReset();
     });
   }
   window.setTimeout(function () {
-    if (timestamp) {
-      addTimestamp(getDateTime(), iitc);
+    if (config['timestamp']) {
+      addTimestamp(getDateTime(), config['iitc']);
     }
     s();
   }, 2000);
@@ -744,9 +676,9 @@ function cookiesFileExists() {
       var line = stream.readLine();
       var res = line.split('=');
       if(res[0] === 'SACSID') {
-        cookieSACSID = res[1];
+        config['SACSID'] = res[1];
       } else if(res[0] === 'csrftoken') {
-        cookieCSRF = res[1];
+        config['CSRF'] = res[1];
       }
     }
     stream.close();
@@ -779,8 +711,8 @@ function storeCookies() {
 * Fires plain login
 */
 function firePlainLogin() {
-  cookieSACSID = '';
-  cookieCSRF = '';
+  config['SACSID'] = '';
+  config['CSRF'] = '';
   page.open('https://www.ingress.com/intel', function (status) {
 
     if (status !== 'success') {quit('cannot connect to remote server');}
@@ -791,7 +723,7 @@ function firePlainLogin() {
 
     announce('Logging in...');
     page.open(link, function () {
-      login(l, p);
+      login(config['login'], config['password']);
       afterPlainLogin();
     });
   });
@@ -799,16 +731,12 @@ function firePlainLogin() {
 
 //MAIN SCRIPT
 
-checkSettings(minlevel, maxlevel);
 greet();
-
-
-
 
 if (configver !== 2 && !cookiesFileExists()) {
   firePlainLogin();
 } else {
   announce('Using stored cookie');
-  addCookies(cookieSACSID, cookieCSRF);
+  addCookies(config['SACSID'], config['CSRF']);
   afterCookieLogin();
 }
