@@ -22,7 +22,7 @@ var config = configure(args[1]);
 var folder = fs.workingDirectory + '/';
 var ssnum = 0;
 if (args[2]) {
-  ssnum = args[2];
+  ssnum = parseInt(args[2], 10);
 }
 
 var configver = (config.SACSID === '' || config.SACSID === undefined) ? 1 : 2;
