@@ -5,6 +5,7 @@
 * @license MIT
 * @see {@link https://github.com/nibogd/ingress-ice|GitHub }
 * @see {@link https://ingress.divshot.io/|Website }
+* @TODO Add Amazon S3 interface
 */
 
 "use strict";
@@ -17,9 +18,12 @@ var cookiespath = '.iced_cookies';
 
 // Config is a parsed config with login, password, area, minlevel, maxlevel, delay, width, height, iitc, timestamp, hideRes, hideEnl, hideLink, hideField, cookies (SACSID and CSRF)
 var config = configure(args[1]);
-announce(JSON.stringify(config));
+
 var folder = fs.workingDirectory + '/';
 var ssnum = 0;
+if (args[2]) {
+  ssnum = args[2];
+}
 
 var configver = (config.SACSID === '' || config.SACSID === undefined) ? 1 : 2;
 
