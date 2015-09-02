@@ -19,6 +19,11 @@ var cookiespath = '.iced_cookies';
 // Config is a parsed config with login, password, area, minlevel, maxlevel, delay, width, height, iitc, timestamp, hideRes, hideEnl, hideLink, hideField, cookies (SACSID and CSRF)
 var config = configure(args[1]);
 
+// Check if no login/password/link provided
+if (config.login === '' || config.password === '' || config.area === '') {
+  quit('No login/password/area link specified. You need to reconfigure ice:\n - Double-click reconfigure.cmd on Windows;\n - Start ./ingress-ice -r on Linux/Mac OS X/*BSD;');
+}
+
 var folder = fs.workingDirectory + '/';
 var ssnum = 0;
 if (args[2]) {

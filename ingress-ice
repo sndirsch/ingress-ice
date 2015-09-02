@@ -44,7 +44,7 @@ launch() {
       notify-send "Ingress Ice" "ICE is running"
     fi
     ARGS="$1 $2"
-    $PHANTOMJS ice.js $ARGS; exit;
+    $PHANTOMJS $SCRIPT_HOME/ice.js $ARGS; exit;
   else
     if [ ! $TEXT ]; then
       $DIALOG --backtitle "Automatic screenshooter for ingress intel map" --title "Ingress Ice" --clear \
