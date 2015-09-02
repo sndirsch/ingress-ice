@@ -11,7 +11,7 @@ MACHINE_TYPE=`uname -m`
 if [ "$OSTYPE" = "darwin"* ]; then
   PHANTOMJS="$SCRIPT_HOME/phantomjs-osx"
 else
-  if [ MACHINE_TYPE == 'x86_64' ]; then
+  if [ $MACHINE_TYPE == 'x86_64' ]; then
     PHANTOMJS="$SCRIPT_HOME/phantomjs"
   else
     PHANTOMJS="$SCRIPT_HOME/phantomjs64"
@@ -44,7 +44,7 @@ launch() {
       notify-send "Ingress Ice" "ICE is running"
     fi
     ARGS="$1 $2"
-    $PHANTOMJS $SCRIPT_HOME/ice.js $ARGS; exit;
+    $PHANTOMJS "$SCRIPT_HOME/ice.js" $ARGS; exit;
   else
     if [ ! $TEXT ]; then
       $DIALOG --backtitle "Automatic screenshooter for ingress intel map" --title "Ingress Ice" --clear \
