@@ -18,6 +18,7 @@ Features:
  - Timestamp on screenshots (optionally)
  - Fully cross-platform: supports Windows, GNU/Linux and Mac OS X!
  - [Hide some features like fields or links from the map](https://github.com/nibogd/ingress-ice/wiki/Remove-features) (IITC only)
+ - It's portable — you can run ice from a flash drive or a DropBox folder
 
 See our [samples](https://github.com/nibogd/ingress-ice/wiki/Example-Records).
 
@@ -62,13 +63,12 @@ Change 1366 and 768 to your width and height, fps=4 to your FPS (more FPS - fast
 
 #### [Contributors](https://github.com/nibogd/ingress-ice/graphs/contributors)
 
- * @nibogd — authpr;
- * @c2nprds — optimizations; Amazon S3 upload method (will be available in version 4.1)
+ * @nibogd — Author;
+ * @c2nprds — Optimizations; Amazon S3 upload method (will be available in version 4.1)
  * @mfcanovas — Cookies storing for login authentication;
  * @pheanex — First version of Dockerfile;
  * @tom-eagle92 — Mac OS X support;
-
- All contributors of PhantomJS;
+ * All contributors of PhantomJS;
 
 <hr>
 ICE uses [PhantomJS](http://phantomjs.org/), it's binary is packed with the script.

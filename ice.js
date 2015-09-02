@@ -1,7 +1,7 @@
 /**
 * @file Ingress-ICE, the main script
 * @author Nikitakun (https://github.com/nibogd)
-* @version 3.2.1
+* @version 4.0.0
 * @license MIT
 * @see {@link https://github.com/nibogd/ingress-ice|GitHub }
 * @see {@link https://ingress.divshot.io/|Website }
@@ -41,7 +41,7 @@ var configver = (config.SACSID === '' || config.SACSID === undefined) ? 1 : 2;
 * Counter for number of screenshots
 */
 var curnum       = 0;
-var version      = '3.2.1';
+var version      = '4.0.0';
 
 /**
 * Delay between logging in and checking if successful
