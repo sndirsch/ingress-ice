@@ -59,6 +59,17 @@ mencoder mf://*.png -mf w=1366:h=768:fps=4:type=png -ovc lavc -lavcopts vcodec=m
 ```
 
 Change 1366 and 768 to your width and height, fps=4 to your FPS (more FPS - faster video, but shorter)
+
+#### [Contributors](https://github.com/nibogd/ingress-ice/graphs/contributors)
+
+ * @nibogd — authpr;
+ * @c2nprds — optimizations; Amazon S3 upload method (will be available in version 4.1)
+ * @mfcanovas — Cookies storing for login authentication;
+ * @pheanex — First version of Dockerfile;
+ * @tom-eagle92 — Mac OS X support;
+
+ All contributors of PhantomJS;
+
 <hr>
 ICE uses [PhantomJS](http://phantomjs.org/), it's binary is packed with the script.
 

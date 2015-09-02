@@ -94,7 +94,7 @@ user_input() {
     cp "$SCRIPT_HOME/ingress-ice.conf.sample" $1
   fi
   if [ ! $TEXT ]; then
-    $DIALOG --title "Notice" --msgbox "I've created a sample config for you. You will be redirected to a text editor.\nEnter your settings there (don't forget to save it!) and close the editor.\nIce will start automatically." 15 50;
+    $DIALOG --title "Notice" --msgbox "I've created a sample config for you. You will be redirected to a text editor.\nEnter your settings there (don't forget to save it!) and close the editor.\n\nIce will start automatically." 12 50;
     if [ -z "$EDITOR" ]
     then
       nano $1
@@ -123,13 +123,16 @@ while getopts "h?rlc:ai:" opt; do
     	h|\?)  echo_help;;
     	i)     NFILE=$OPTARG;;
 	a)     if [ ! $TEXT ];then
-                    $DIALOG --title "Credits" --msgbox "Ingress ICE (Distributed under the MIT License)\n\nAuthors:\n  Nikitakun (http://github.com/nibogd) @ni_bogd" 10 52;exit;
+                    $DIALOG --title "Credits" --msgbox "Ingress ICE (Distributed under the MIT License)\n\nAuthors:\n  Nikitakun (http://github.com/nibogd) @ni_bogd\n\nContributors:\n  c2nprds, mfcanovas, tom-eagle92, pheanex\n(See https://github.com/nibogd/ingress-ice/graphs/contributors)" 16 52;exit;
                 else
                     echo "Ingress ICE (Distributed under the MIT License)"
                     echo ""
                     echo "Authors:"
                     echo "  Nikitakun (http://github.com/nibogd) @ni_bogd"
                     echo ""
+                    echo "Contributors:"
+                    echo "  c2nprds, mfcanovas, tom-eagle92, pheanex"
+                    echo "(See the full list here: https://github.com/nibogd/ingress-ice/graphs/contributors)"
                     exit;
                 fi;;
 	c)     COUNT=$OPTARG;;

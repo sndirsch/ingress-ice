@@ -1,5 +1,5 @@
 # This is a configuration file for Ingress Ice (github.com/nibogd/ingress-ice)
-# Insert your settings here. Only first three settings (login, password and area link) are mandatory.
+# Insert your settings here (after '=' without spaces). Only first three settings (login, password and area link) are mandatory.
 #
 # After modifying this file, save it and close the editor. Ice will start automatically.
 
