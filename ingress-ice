@@ -50,18 +50,18 @@ launch() {
       $DIALOG --backtitle "Automatic screenshooter for ingress intel map" --title "Ingress Ice" --clear \
         --yesno "Config file for Ice not found. Create one?" 8 36
       case $? in
-        0) user_input $NFILE; break;;
+        0) user_input $1 $2; break;;
         1) clear
            echo "Config file is mandatory. Exiting..."
-          exit;;
+           exit;;
         255) clear; exit;;
       esac
     else
       while true; do
         echo "Ingress ICE, Automatic screenshooter for ingress intel map"
-        read -p "Config file not found ($NFILE). Create one? (y/n) " yn
+        read -p "Config file not found ($1). Create one? (y/n) " yn
         case $yn in
-          [Yy]* ) user_input $NFILE; break;;
+          [Yy]* ) user_input $1 $2; break;;
 	  [Nn]* ) clear;echo "Config file is mandatory. Exiting..."; exit;;
               * ) echo "Please answer y(es) or n(o).";;
         esac
@@ -74,32 +74,34 @@ echo_help() {
   echo "Ingress ICE"
   echo ""
   echo "Usage:"
-  echo "  ingress-ice [-c 100] [-i settings.txt] [-r]"
+  echo "  ingress-ice [-c 100] [-i settings.txt] [-e]"
   echo "  ingress-ice -h | -?"
   echo "  ingress-ice -a"
   echo ""
   echo "Options:"
   echo "  -h -?        Show this help"
-  echo "  -r           Rewrite existing config file with a new one"
+  echo "  -e           Edit your configuration"
   echo "  -a           Show authors"
   echo "  -c <count>   Take <count> screenshots"
   echo "  -i <file>    Read settings from <file> or create config if not exists"
   echo ""
-  echo "Please visit http://ingress.divshot.io/ or http://github.com/nibgd/ingress-ice for additional help\n"
+  echo "Please visit http://ingress.divshot.io/ or http://github.com/nibgd/ingress-ice for additional help"
   exit;
 }
 
 user_input() {
-  cp "$SCRIPT_HOME/ingress-ice.conf.sample" $1
+  if ![ -f "$1" ]; then
+    cp "$SCRIPT_HOME/ingress-ice.conf.sample" $1
+  fi
   if [ ! $TEXT ]; then
-    $DIALOG --title "Notice" --msgbox "I've created a sample config for you. You will be redirected to a text editor (\$EDITOR or nano). Enter your settings there (don't forget to save it!) and close the editor. Ice will start automatically." 10 32;
+    $DIALOG --title "Notice" --msgbox "I've created a sample config for you. You will be redirected to a text editor.\nEnter your settings there (don't forget to save it!) and close the editor.\nIce will start automatically." 15 50;
     if [ -z "$EDITOR" ]
     then
       nano $1
     else
       $EDITOR $1
     fi
-    launch $NFILE $COUNT
+    launch $1 $2
   else
     echo "I've created a sample config for you. You will be redirected to a text editor (\$EDITOR or nano). Enter your settings there (don't forget to save it!) and close the editor. Ice will start automatically."
     if [ -z "$EDITOR" ]
@@ -108,7 +110,7 @@ user_input() {
     else
       $EDITOR $1
     fi
-    launch $NFILE $COUNT
+    launch $1 $2
   fi
 }
 
@@ -132,7 +134,13 @@ while getopts "h?rlc:ai:" opt; do
                 fi;;
 	c)     COUNT=$OPTARG;;
 	l)     TEXT=true;;
-    	r)     user_input $FILE; break;;
+    	r)     if [ -z "$NFILE" ]; then
+                 NFILE=$FILE
+               fi
+               if [ -z "$COUNT" ]; then
+                 COUNT=0
+               fi
+               user_input $NFILE $COUNT; break;;
     esac
 done
 
