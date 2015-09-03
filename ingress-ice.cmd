@@ -15,7 +15,7 @@ GOTO :check
 IF EXIST %FILE% (
 	GOTO :start
 ) else (
-        cp ingress-ice.conf.sample %FILE%
+        copy ingress-ice.conf.sample %FILE%
 	GOTO :config
 )
 :config
