@@ -8,7 +8,7 @@ SCRIPT_HOME=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 COUNT=""
 MACHINE_TYPE=`uname -m`
 
-if [ "$OSTYPE" = "darwin"* ]; then
+if [ "$(uname)" == "Darwin" ]; then
   PHANTOMJS="$SCRIPT_HOME/phantomjs-osx"
 else
   if [ $MACHINE_TYPE == 'x86_64' ]; then
