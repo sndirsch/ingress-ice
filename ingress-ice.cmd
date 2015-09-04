@@ -28,12 +28,10 @@ echo.
 echo You can edit your configuration any time, just start 'reconfigure.cmd'
 echo.
 notepad %FILE%
-PAUSE
 :start
 cls
 echo Existing config file found (%FILE%). Starting ice...
-set /p ARGS=%FILE%
-phantomjs.exe ice.js !ARGS!
+phantomjs.exe ice.js %FILE%
 pause
 goto :eof
 :help
