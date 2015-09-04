@@ -9,12 +9,12 @@ COUNT=""
 MACHINE_TYPE=`uname -m`
 
 if [ "$(uname)" == "Darwin" ]; then
-  PHANTOMJS="$SCRIPT_HOME/phantomjs-osx"
+  PHANTOMJS="$SCRIPT_HOME/phantom-bin/phantomjs-osx"
 else
-  if [ $MACHINE_TYPE == 'x86_64' ]; then
-    PHANTOMJS="$SCRIPT_HOME/phantomjs"
+  if [ MACHINE_TYPE == 'x86_64' ]; then
+    PHANTOMJS="$SCRIPT_HOME/phantom-bin/phantomjs"
   else
-    PHANTOMJS="$SCRIPT_HOME/phantomjs64"
+    PHANTOMJS="$SCRIPT_HOME/phantom-bin/phantomjs64"
   fi
 fi
 
@@ -90,7 +90,7 @@ echo_help() {
 }
 
 user_input() {
-  if ![ -f "$1" ]; then
+  if [ ! -f "$1" ]; then
     cp "$SCRIPT_HOME/ingress-ice.conf.sample" $1
   fi
   if [ ! $TEXT ]; then

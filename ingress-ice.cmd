@@ -31,7 +31,7 @@ notepad %FILE%
 :start
 cls
 echo Existing config file found (%FILE%). Starting ice...
-phantomjs.exe ice.js %FILE%
+phantom-bin\phantomjs.exe ice.js %FILE%
 pause
 goto :eof
 :help
