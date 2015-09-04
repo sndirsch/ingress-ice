@@ -6,7 +6,7 @@ FILE="$HOME/.ingress_ice"
 COUNT=""
 MACHINE_TYPE=`uname -m`
 
-if [ "$OSTYPE" = "darwin"* ]; then
+if [ "$(uname)" == "Darwin"  ]; then
     PHANTOMJS="./phantomjs-osx"
 else
     if [ MACHINE_TYPE == 'x86_64' ]; then
