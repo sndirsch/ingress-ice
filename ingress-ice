@@ -44,7 +44,7 @@ launch() {
       notify-send "Ingress Ice" "ICE is running"
     fi
     ARGS="$1 $2"
-    $PHANTOMJS "$SCRIPT_HOME/ice.js" $ARGS; exit;
+    $PHANTOMJS "$SCRIPT_HOME/ice/ice.js" $ARGS; exit;
   else
     if [ ! $TEXT ]; then
       $DIALOG --backtitle "Automatic screenshooter for ingress intel map" --title "Ingress Ice" --clear \
@@ -91,7 +91,7 @@ echo_help() {
 
 user_input() {
   if [ ! -f "$1" ]; then
-    cp "$SCRIPT_HOME/ingress-ice.conf.sample" $1
+    cp "$SCRIPT_HOME/ice/ingress-ice.conf.sample" $1
   fi
   if [ ! $TEXT ]; then
     $DIALOG --title "Notice" --msgbox "I've created a sample config for you. You will be redirected to a text editor.\nEnter your settings there (don't forget to save it!) and close the editor.\n\nIce will start automatically." 12 50;

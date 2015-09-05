@@ -15,7 +15,7 @@ GOTO :check
 IF EXIST %FILE% (
 	GOTO :start
 ) else (
-        copy ingress-ice.conf.sample %FILE%
+        copy ice\ingress-ice.conf.sample %FILE%
 	GOTO :config
 )
 :config
@@ -31,7 +31,7 @@ notepad %FILE%
 :start
 cls
 echo Existing config file found (%FILE%). Starting ice...
-phantom-bin\phantomjs.exe ice.js %FILE%
+phantom-bin\phantomjs.exe ice\ice.js %FILE%
 pause
 goto :eof
 :help
