@@ -1,8 +1,11 @@
 /**
 * @file Ingress-ICE, Amazon S3 interface
 * @license MIT
+* @author c2nprds
 */
 
+/*global announce */
+/*global fs */
 /*global AWS */
 
 /**

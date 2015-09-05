@@ -3,6 +3,10 @@
 * @license MIT
 */
 
+/*global fs */
+/*global quit */
+/*global args */
+
 var cookiespath = '.iced_cookies';
 var config = configure(args[1]);
 

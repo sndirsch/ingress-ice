@@ -3,6 +3,9 @@
 * @license MIT
 */
 
+/*global version */
+/*global phantom */
+
 /**
 * console.log() wrapper
 * @param {String} str - what to announce

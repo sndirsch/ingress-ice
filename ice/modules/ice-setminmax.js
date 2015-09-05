@@ -3,6 +3,9 @@
 * @license MIT
 */
 
+/*global page */
+/*global announce */
+
 /**
 * Sets minimal and maximal portal levels (filter) by clicking those buttons on filter panel.
 * 10 000 ms will be enough

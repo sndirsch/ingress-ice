@@ -4,6 +4,24 @@
 */
 
 /*global idleReset */
+/*global announce */
+/*global config */
+/*global page */
+/*global folder */
+/*global getDateTime */
+/*global hideDebris */
+/*global setMinMax */
+/*global addIitc */
+/*global twostep */
+/*global loginTimeout */
+/*global quit */
+/*global curnum */
+/*global greet */
+/*global configver */
+/*global cookiesFileExists */
+/*global firePlainLogin */
+/*global addCookies */
+/*global main */
 
 /**
 * Screenshot wrapper
