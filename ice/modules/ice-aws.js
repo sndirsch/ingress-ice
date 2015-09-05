@@ -7,6 +7,7 @@
 /*global announce */
 /*global fs */
 /*global AWS */
+/*global webpage */
 
 /**
 * Upload AWS S3

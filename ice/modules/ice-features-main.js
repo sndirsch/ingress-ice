@@ -10,11 +10,7 @@
 /*global folder */
 /*global getDateTime */
 /*global hideDebris */
-/*global setMinMax */
-/*global addIitc */
-/*global twostep */
 /*global loginTimeout */
-/*global quit */
 /*global curnum */
 /*global greet */
 /*global configver */
@@ -22,6 +18,10 @@
 /*global firePlainLogin */
 /*global addCookies */
 /*global main */
+/*global ssnum */
+/*global phantom */
+/*global addTimestamp */
+/*global afterCookieLogin */
 
 /**
 * Screenshot wrapper

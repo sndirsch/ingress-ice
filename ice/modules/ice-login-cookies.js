@@ -15,6 +15,10 @@
 /*global loginTimeout */
 /*global quit */
 /*global firePlainLogin */
+/*global phantom */
+/*global main */
+/*global fs */
+/*global cookiespath */
 
 
 /**

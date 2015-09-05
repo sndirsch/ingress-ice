@@ -14,6 +14,8 @@
 /*global twostep */
 /*global loginTimeout */
 /*global quit */
+/*global storeCookies */
+/*global main */
 
 /**
 * Fires plain login
