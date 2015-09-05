@@ -35,4 +35,5 @@ function loadModules() {
   }
 }
 
+loadModules();
 ice();
