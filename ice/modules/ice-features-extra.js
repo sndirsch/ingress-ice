@@ -3,6 +3,9 @@
 * @license MIT
 */
 
+/*global page */
+/*global config */
+
 /**
 * Adds a timestamp to a screenshot
 * @since 2.3.0

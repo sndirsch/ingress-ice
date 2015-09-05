@@ -10,7 +10,6 @@
 /*global folder */
 /*global getDateTime */
 /*global hideDebris */
-/*global loginTimeout */
 /*global curnum */
 /*global greet */
 /*global configver */

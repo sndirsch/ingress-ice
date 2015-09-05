@@ -6,12 +6,10 @@
 /*global announce */
 /*global config */
 /*global page */
-/*global system */
 /*global prepare */
 /*global hideDebris */
 /*global setMinMax */
 /*global addIitc */
-/*global twostep */
 /*global loginTimeout */
 /*global quit */
 /*global firePlainLogin */
