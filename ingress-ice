@@ -211,7 +211,7 @@ user_input() {
 			retval=$?
 
 			case $retval in
-			  0) WIDTH=`cat $tempfile`; break;;
+			  0) NUMBER=`cat $tempfile`; break;;
 			  1) exit_ice;;
 			  255) exit_ice;;
 			esac
