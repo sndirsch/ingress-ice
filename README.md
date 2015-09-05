@@ -17,8 +17,9 @@ Features:
  - Use IITC (optionally)
  - Timestamp on screenshots (optionally)
  - Fully cross-platform: supports Windows, GNU/Linux and Mac OS X!
- - [Hide some features like fields or links from the map](https://github.com/nibogd/ingress-ice/wiki/Remove-features) (IITC only)
+ - Hide some features like fields or links from the map (IITC only)
  - It's portable — you can run ice from a flash drive or a DropBox folder
+ - Can be run via [Docker](https://github.com/nibogd/ingress-ice/wiki/Docker)
 
 See our [samples](https://github.com/nibogd/ingress-ice/wiki/Example-Records).
 
