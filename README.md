@@ -4,8 +4,6 @@
 Automatic screenshooter for ingress intel map.
 ![](https://cloud.githubusercontent.com/assets/2771136/7915684/cfaba8c4-0887-11e5-86b9-5b4fe05ababc.png)
 
-> If you have Ice version < 3.0.0 and see errors like `ICE crashed. Reason: login failed: wrong email and/or password :(`, update ice! Google has changed it's login form.
-
 Features:
 =========
  - Captures screenshots of ingress intel map every *n* seconds
@@ -19,7 +17,7 @@ Features:
  - Fully cross-platform: supports Windows, GNU/Linux and Mac OS X!
  - Hide some features like fields or links from the map (IITC only)
  - It's portable — you can run ice from a flash drive or a DropBox folder
- - Can be run via [Docker](https://github.com/nibogd/ingress-ice/wiki/Docker)
+ - Can be run via [Docker](https://github.com/nibogd/ingress-ice/wiki/Docker) ([Docker Hub](https://hub.docker.com/r/nikitakun/ingress-ice/))
 
 See our [samples](https://github.com/nibogd/ingress-ice/wiki/Example-Records).
 
