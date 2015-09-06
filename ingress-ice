@@ -6,7 +6,7 @@ FILE="$HOME/.ingress_ice"
 COUNT=""
 MACHINE_TYPE=`uname -m`
 
-if [ "$OSTYPE" = "darwin"* ]; then
+if [ "$(uname)" == "Darwin"  ]; then
     PHANTOMJS="./phantomjs-osx"
 else
     if [ MACHINE_TYPE == 'x86_64' ]; then
@@ -211,7 +211,7 @@ user_input() {
 			retval=$?
 
 			case $retval in
-			  0) WIDTH=`cat $tempfile`; break;;
+			  0) NUMBER=`cat $tempfile`; break;;
 			  1) exit_ice;;
 			  255) exit_ice;;
 			esac
