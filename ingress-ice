@@ -12,9 +12,9 @@ if [ "$(uname)" == "Darwin" ]; then
   PHANTOMJS="$SCRIPT_HOME/phantom-bin/phantomjs-osx"
 else
   if [ MACHINE_TYPE == 'x86_64' ]; then
-    PHANTOMJS="$SCRIPT_HOME/phantom-bin/phantomjs"
-  else
     PHANTOMJS="$SCRIPT_HOME/phantom-bin/phantomjs64"
+  else
+    PHANTOMJS="$SCRIPT_HOME/phantom-bin/phantomjs"
   fi
 fi
 

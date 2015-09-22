@@ -7,7 +7,7 @@
 #> Your Google login and password
 login=
 password=
-#> Your area link. To get it, visit http://ingress.com/ingress , scroll the map to your location and press [LINK] at the top right corner. Copy that link and paste it here.
+#> Your area link. To get it, visit http://ingress.com/intel, scroll the map to your location and press [LINK] at the top right corner. Copy that link and paste it here.
 #> e. g. https://www.ingress.com/intel?ll=53.502328,49.41516&z=14
 area=
 
