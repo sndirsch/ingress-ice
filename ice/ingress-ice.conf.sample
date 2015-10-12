@@ -33,7 +33,7 @@ hideField=false
 [cookies]
 #> If set, will use cookies for authentication instead of login/password
 SACSID=
-CSRD=
+CSRF=
 
 [version]
 version=40
