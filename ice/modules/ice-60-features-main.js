@@ -12,7 +12,6 @@
 /*global hideDebris */
 /*global curnum */
 /*global greet */
-/*global configver */
 /*global cookiesFileExists */
 /*global firePlainLogin */
 /*global addCookies */
@@ -146,7 +145,7 @@ function humanPresence() {
 }
 
 /**
-* Main function. Wrapper for others.
+* Main function.
 */
 function main() {
   count();
@@ -179,11 +178,11 @@ function main() {
 */
 function ice() {
   greet();
-
-  if (configver !== 2 && !cookiesFileExists()) {
+  loadCookies();
+  if (config.SACSID == undefined || config.SACSID == '') {
     firePlainLogin();
   } else {
-    announce('Using stored cookie');
+    announce('Using cookies to log in');
     addCookies(config.SACSID, config.CSRF);
     afterCookieLogin();
   }

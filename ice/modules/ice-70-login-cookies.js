@@ -103,7 +103,7 @@ function isSignedIn() {
 * @author mfcanovas (github.com/mfcanovas)
 * @since 3.2.0
 */
-function cookiesFileExists() {
+function loadCookies() {
   if(fs.exists(cookiespath)) {
     var stream = fs.open(cookiespath, 'r');
 
@@ -117,9 +117,6 @@ function cookiesFileExists() {
       }
     }
     stream.close();
-    return true;
-  } else {
-    return false;
   }
 }
 

@@ -21,13 +21,10 @@ if (args[2]) {
   ssnum = parseInt(args[2], 10);
 }
 
-var configver = (config.SACSID === '' || config.SACSID === undefined) ? 1 : 2;
-
 /**
 * Counter for number of screenshots
 */
 var curnum       = 0;
-
 
 /**
 * Delay between logging in and checking if successful
@@ -54,8 +51,6 @@ page.onResourceRequested = function(requestData, request) {
     request.abort();
   }
 };
-
-//page.settings.userAgent = 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/45.0.2454.85 Safari/537.36';
 
 /** @function setVieportSize */
 if (!config.iitc) {

@@ -11,7 +11,6 @@
 */
 
 "use strict";
-//Initialize
 
 /*global phantom */
 /*global require */
@@ -28,22 +27,14 @@ var iceModules= fs.list(iceFolder);
 /*
 * Loads all scripts in the 'modules' folder
 */
-phantom.injectJs('ice/modules/ice-utils.js');
-phantom.injectJs('ice/modules/ice-aws.js');
-phantom.injectJs('ice/modules/ice-config.js');
-phantom.injectJs('ice/modules/ice-setminmax.js');
-phantom.injectJs('ice/modules/ice-features-extra.js');
-phantom.injectJs('ice/modules/ice-features-main.js');
-phantom.injectJs('ice/modules/ice-login-cookies.js');
-phantom.injectJs('ice/modules/ice-login-plain.js');
-// function loadModules() {
-//   for(var i = 0; i < iceModules.length; i++) {
-//     var file = iceFolder + iceModules[i];
-//     if(fs.isFile(file)){
-//       phantom.injectJs(file);
-//     }
-//   }
-// }
+function loadModules() {
+  for(var i = 0; i < iceModules.length; i++) {
+    var file = iceFolder + iceModules[i];
+    if(fs.isFile(file)){
+      phantom.injectJs(file);
+    }
+  }
+}
 
-// loadModules();
+loadModules();
 ice();
