@@ -11,8 +11,10 @@ MACHINE_TYPE=`uname -m`
 if [ "$(uname)" == "Darwin" ]; then
   PHANTOMJS="$SCRIPT_HOME/phantom-bin/phantomjs-osx"
 else
-  if [ MACHINE_TYPE == 'x86_64' ]; then
+  if [ $MACHINE_TYPE == 'x86_64' ]; then
     PHANTOMJS="$SCRIPT_HOME/phantom-bin/phantomjs64"
+  elif [ $MACHINE_TYPE == 'armv6l' ]; then
+    PHANTOMJS="$SCRIPT_HOME/phantom-bin/phantomjs-armv6l"
   else
     PHANTOMJS="$SCRIPT_HOME/phantom-bin/phantomjs"
   fi
@@ -123,7 +125,7 @@ while getopts "h?rlc:ai:" opt; do
     	h|\?)  echo_help;;
     	i)     NFILE=$OPTARG;;
 	a)     if [ ! $TEXT ];then
-                    $DIALOG --title "Credits" --msgbox "Ingress ICE (Distributed under the MIT License)\n\nAuthors:\n  Nikitakun (http://github.com/nibogd) @ni_bogd\n\nContributors:\n  c2nprds, mfcanovas, tom-eagle92, pheanex\n(See https://github.com/nibogd/ingress-ice/graphs/contributors)" 16 52;exit;
+                    $DIALOG --title "Credits" --msgbox "Ingress ICE (Distributed under the MIT License)\n\nAuthors:\n  Nikitakun (http://github.com/nibogd) @ni_bogd\n\nContributors:\n(See https://github.com/nibogd/ingress-ice/graphs/contributors)" 16 52;exit;
                 else
                     echo "Ingress ICE (Distributed under the MIT License)"
                     echo ""
@@ -131,7 +133,6 @@ while getopts "h?rlc:ai:" opt; do
                     echo "  Nikitakun (http://github.com/nibogd) @ni_bogd"
                     echo ""
                     echo "Contributors:"
-                    echo "  c2nprds, mfcanovas, tom-eagle92, pheanex"
                     echo "(See the full list here: https://github.com/nibogd/ingress-ice/graphs/contributors)"
                     exit;
                 fi;;
