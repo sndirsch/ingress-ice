@@ -87,3 +87,14 @@ function addIitc() {
   }, !config.hideField, !config.hideLink, !config.hideRes, !config.hideEnl, config.minlevel, config.maxlevel);
 }
 
+function loadIITCplugin(src, params) {
+  page.evaluate(function(src, params) {
+    params.forEach(function(param) {
+      localStorage[param.key] = param.value;
+    });
+    var script = document.createElement('script');
+    script.type='text/javascript';
+    script.src=src;
+    document.head.insertBefore(script, document.head.lastChild);
+  }, src, params);
+}
