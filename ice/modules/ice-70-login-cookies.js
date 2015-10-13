@@ -31,9 +31,9 @@ function loadCookies() {
     while(!stream.atEnd()) {
       var line = stream.readLine().split('=');
       if(line[0] === 'SACSID') {
-        config.SACSID = res[1];
+        config.SACSID = line[1];
       } else if(line[0] === 'csrftoken') {
-        config.CSRF = res[1];
+        config.CSRF = line[1];
       }
     }
     stream.close();

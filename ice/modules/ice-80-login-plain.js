@@ -99,14 +99,10 @@ function login(l, p) {
 * @since 3.1.0
 */
 function afterPlainLogin() {
-  s();
   page.open(config.area, function () {
     if (!isSignedIn()) {
-      announce('Not logged in. Fixing...');
-      var rect = page.evaluate(function() {
-        return document.querySelectorAll('a')[0].getBoundingClientRect();
-      });
-      page.sendEvent('click', rect.left + rect.width / 2, rect.top + rect.height / 2);
+      announce('Something went wrong. Please, sign in to Google via your browser and restart ICE. Don\'t worry, your Ingress account will not be affected.');
+      quit();
     }
     window.setTimeout(function () {
       storeCookies();
