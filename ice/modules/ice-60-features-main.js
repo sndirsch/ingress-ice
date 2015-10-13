@@ -145,6 +145,17 @@ function humanPresence() {
 }
 
 /**
+* Does postprocessing like uploading to AWS, etc.
+* @arg file {String}
+*/
+function postprocess (file) {
+  if (config.S3Key) {
+    announce('Uploading to Amazon S3...');
+    uploadS3(config.S3Key, config.S3Secret, config.S3Bucket, config.S3Alc, file, config.S3Remove);
+  }
+}
+
+/**
 * Main function.
 */
 function main() {
@@ -170,6 +181,8 @@ function main() {
       addTimestamp(getDateTime(), config.iitc);
     }
     s();
+    lastScreen = 'ice-' + getDateTime(1) + '.png';
+    postprocess(lastScreen);
   }, 2000);
 }
 

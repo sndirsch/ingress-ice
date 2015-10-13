@@ -38,6 +38,19 @@ hideField=false
 SACSID=
 CSRF=
 
+[Amazon-S3]
+#> If set, will upload screenshots to Amazon S3 cloud
+#> AWS S3 accessKeyId
+S3Key=
+#> AWS S3 secretKeyId
+S3Secret=
+#> AWS S3 bucket name
+S3Bucket=
+#> AWS S3 access control list
+S3Alc=
+#> Delete files after upload? (true/false)
+S3Remove=false
+
 [version]
-version=40
+version=42
 
