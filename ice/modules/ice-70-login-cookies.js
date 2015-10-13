@@ -18,6 +18,27 @@
 /*global fs */
 /*global cookiespath */
 
+/**
+* Checks if cookies file exists. If so, it sets SACSID and CSRF vars
+* @returns {boolean}
+* @author mfcanovas (github.com/mfcanovas)
+* @since 3.2.0
+*/
+function loadCookies() {
+  if(fs.exists(cookiespath)) {
+    var stream = fs.open(cookiespath, 'r');
+
+    while(!stream.atEnd()) {
+      var line = stream.readLine().split('=');
+      if(line[0] === 'SACSID') {
+        config.SACSID = res[1];
+      } else if(line[0] === 'csrftoken') {
+        config.CSRF = res[1];
+      }
+    }
+    stream.close();
+  }
+}
 
 /**
 * Log in using cookies
@@ -48,14 +69,18 @@ function addCookies(sacsid, csrf) {
 * @since 3.1.0
 */
 function afterCookieLogin() {
-  page.open(config.area, function () {
+  page.open(config.area, function (status) {
+    if (status !== 'success') {quit('unable to connect to remote server')}
+
     if(!isSignedIn()) {
-      removeCookieFile();
+      if(fs.exists(cookiespath)) {
+        fs.remove(cookiespath);
+      }
       if(config.login && config.password) {
         firePlainLogin();
         return;
       } else {
-        quit('User not logged in');
+        quit('Cookies are obsolete. Update your config file.');
       }
     }
     if (config.iitc) {
@@ -82,53 +107,16 @@ function afterCookieLogin() {
 /**
 * Checks if user is signed in by looking for the "Sign in" button
 * @returns {boolean}
-* @author mfcanovas (github.com/mfcanovas)
 * @since 3.2.0
 */
 function isSignedIn() {
   return page.evaluate(function() {
-    var btns = document.getElementsByClassName('button_link');
-    for(var i = 0; i<btns.length;i++) {
-      if(btns[i].innerText.trim() === 'Sign in') return false;
+    if (document.getElementsByTagName('a')[0].innerText.trim() === 'Sign in') {
+      return false;
+    } else {
+      return true;
     }
-    return true;
   });
-
-}
-
-
-/**
-* Checks if cookies file exists. If so, it sets SACSID and CSRF vars
-* @returns {boolean}
-* @author mfcanovas (github.com/mfcanovas)
-* @since 3.2.0
-*/
-function loadCookies() {
-  if(fs.exists(cookiespath)) {
-    var stream = fs.open(cookiespath, 'r');
-
-    while(!stream.atEnd()) {
-      var line = stream.readLine();
-      var res = line.split('=');
-      if(res[0] === 'SACSID') {
-        config.SACSID = res[1];
-      } else if(res[0] === 'csrftoken') {
-        config.CSRF = res[1];
-      }
-    }
-    stream.close();
-  }
-}
-
-/**
-* Remove cookies file if exists
-* @author mfcanovas (github.com/mfcanovas)
-* @since 3.2.0
-*/
-function removeCookieFile() {
-  if(fs.exists(cookiespath)) {
-    fs.remove(cookiespath);
-  }
 }
 
 function storeCookies() {
