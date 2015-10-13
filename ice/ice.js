@@ -5,8 +5,6 @@
 * @license MIT
 * @see {@link https://github.com/nibogd/ingress-ice|GitHub }
 * @see {@link https://ingress.divshot.io/|Website }
-* @TODO Add Amazon S3 interface
-* @TODO Make GIF auto-creation available
 */
 
 "use strict";
