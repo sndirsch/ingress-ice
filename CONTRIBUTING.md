@@ -14,33 +14,37 @@ If your submission is accepted, I will list you in the `README.md` file as a con
 
 ```
 ├── CONTRIBUTING.md
+├── Dockerfile
+├── docker-ingress-ice
 ├── ice
 │   ├── ice.js
 │   ├── ingress-ice.conf.sample
 │   └── modules
-│       ├── ice-aws.js
-│       ├── ice-config.js
-│       ├── ice-features-extra.js
-│       ├── ice-features-main.js
-│       ├── ice-login-cookies.js
-│       ├── ice-login-plain.js
-│       ├── ice-setminmax.js
-│       └── ice-utils.js
+│       ├── ice-10-utils.js
+│       ├── ice-20-aws.js
+│       ├── ice-30-config.js
+│       ├── ice-40-setminmax.js
+│       ├── ice-50-features-extra.js
+│       ├── ice-60-features-main.js
+│       ├── ice-70-login-cookies.js
+│       └── ice-80-login-plain.js
 ├── ingress-ice
 ├── ingress-ice.cmd
 ├── LICENSE
 ├── phantom-bin
 │   ├── phantomjs
 │   ├── phantomjs64
+│   ├── phantomjs-armv6l
 │   ├── phantomjs.exe
 │   └── phantomjs-osx
 ├── README.md
 └── reconfigure.cmd
+
 ```
 
 The root folder contains starting scripts. The main scripts are in the `ice` folder. All modules from the `ice/modules` folder are loaded automatically, so you don't need to edit the `ice.js` file.
 
-In most cases, you create a file named `ice-your-feature-name.js` in the `ice/modules` folder and write all code there. That file should have a header like this (taken from `ice-aws.js`):
+In most cases, you create a file named `ice-[loadingOrderNumber]-your-feature-name.js` in the `ice/modules` folder and write all code there. That file should have a header like this (taken from `ice-20-aws.js`):
 
 ```
 /**

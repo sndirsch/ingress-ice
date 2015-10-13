@@ -37,4 +37,4 @@ function loadModules() {
 }
 
 loadModules();
-ice();
+window.setTimeout(ice, 1000);

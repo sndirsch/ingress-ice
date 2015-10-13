@@ -181,9 +181,11 @@ function ice() {
   loadCookies();
   if (config.SACSID == undefined || config.SACSID == '') {
     firePlainLogin();
+    return;
   } else {
-    announce('Using cookies to log in');
     addCookies(config.SACSID, config.CSRF);
+    announce('Using cookies to log in');
     afterCookieLogin();
+    return;
   }
 }
