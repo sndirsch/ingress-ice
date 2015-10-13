@@ -60,10 +60,6 @@ function afterCookieLogin() {
     }
     if (config.iitc) {
       addIitc();
-      plugins = JSON.parse(config.plugins);
-      plugins.forEach(function(plugin) {
-        loadIITCplugin(plugin.src, plugin.params);
-      });
     }
     setTimeout(function () {
       announce('Will start screenshooting in ' + config.delay/1000 + ' seconds...');

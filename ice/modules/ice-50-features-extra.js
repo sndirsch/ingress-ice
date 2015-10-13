@@ -57,6 +57,8 @@ function addTimestamp(time, iitcz) {
 * @var hideField
 * @var minlevel
 * @var maxlevel
+* @var plugins
+* @var pluginsConfig
 * @author akileos (https://github.com/akileos)
 * @author Nikitakun
 */
@@ -85,16 +87,33 @@ function addIitc() {
     script.src='https://secure.jonatkins.com/iitc/release/total-conversion-build.user.js';
     document.head.insertBefore(script, document.head.lastChild);
   }, !config.hideField, !config.hideLink, !config.hideRes, !config.hideEnl, config.minlevel, config.maxlevel);
+  setupIitcPlugins(JSON.parse(config.pluginsConfig));
+  JSON.parse(config.plugins).forEach(function (plugin) {
+    loadIitcPlugin(plugin);
+  })
 }
 
-function loadIITCplugin(src, params) {
-  page.evaluate(function(src, params) {
-    params.forEach(function(param) {
-      localStorage[param.key] = param.value;
-    });
+/**
+* Loads an IITC plugin
+* @arg src {String}
+*/
+function loadIitcPlugin(src) {
+  page.evaluate(function(src) {
     var script = document.createElement('script');
     script.type='text/javascript';
     script.src=src;
     document.head.insertBefore(script, document.head.lastChild);
-  }, src, params);
+  }, src);
+}
+
+/**
+* Configures IITC plugins
+* @arg settings {array}
+*/
+function setupIitcPlugins(settings) {
+  page.evaluate(function(settings) {
+    settings.forEach(function(param) {
+      localStorage[param.key] = param.value;
+    });
+  }, settings);
 }

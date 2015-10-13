@@ -178,7 +178,9 @@ function main() {
 */
 function ice() {
   greet();
-  loadCookies();
+  if (config.SACSID == undefined || config.SACSID == '') {
+    loadCookies();
+  }
   if (config.SACSID == undefined || config.SACSID == '') {
     firePlainLogin();
     return;

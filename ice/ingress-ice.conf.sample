@@ -22,7 +22,9 @@ width=1366
 height=768
 #> Inject IITC? (true or false)
 iitc=false
-plugins=[{"src":"https://secure.jonatkins.com/iitc/release/plugins/link-show-direction.user.js","params":[{"key":"plugin-linkshowdirection-mode","value":"Static near origin"}]}]
+plugins=["https://secure.jonatkins.com/iitc/release/plugins/link-show-direction.user.js"]
+# Read more at https://github.com/nibogd/ingress-ice/wiki/Loading-IITC-plugins
+pluginsConfig=[{"key":"plugin-linkshowdirection-mode","value":"Static near origin"},{"key":"YourKeyHere","value":""}]
 #> Put a timestamp on your screenshots? (true or false)
 timestamp=true
 #> Hide Resistance portals/links/fields, Enlightened portals/links/fields, links, fields respectively? (true or false)
