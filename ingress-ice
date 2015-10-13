@@ -76,16 +76,17 @@ echo_help() {
   echo "Ingress ICE"
   echo ""
   echo "Usage:"
-  echo "  ingress-ice [-c 100] [-i settings.txt] [-e]"
+  echo "  ingress-ice [-c 100] [-i settings.txt] [-r]"
   echo "  ingress-ice -h | -?"
   echo "  ingress-ice -a"
   echo ""
   echo "Options:"
   echo "  -h -?        Show this help"
-  echo "  -e           Edit your configuration"
+  echo "  -r           Edit your configuration"
   echo "  -a           Show authors"
   echo "  -c <count>   Take <count> screenshots"
   echo "  -i <file>    Read settings from <file> or create config if not exists"
+  echo "  -o           Delete old config and configure ice from scratch"
   echo ""
   echo "Please visit http://ingress.divshot.io/ or http://github.com/nibgd/ingress-ice for additional help"
   exit;
@@ -120,7 +121,7 @@ OPTIND=1
 NFILE=""
 COUNT=""
 
-while getopts "h?rlc:ai:" opt; do
+while getopts "h?rolc:ai:" opt; do
     case "$opt" in
     	h|\?)  echo_help;;
     	i)     NFILE=$OPTARG;;
@@ -136,6 +137,14 @@ while getopts "h?rlc:ai:" opt; do
                     echo "(See the full list here: https://github.com/nibogd/ingress-ice/graphs/contributors)"
                     exit;
                 fi;;
+        o)     if [ -z "$NFILE" ]; then
+                 NFILE=$FILE
+               fi
+               rm $NFILE
+               if [ -z "$COUNT" ]; then
+                 COUNT=0
+               fi
+               user_input $NFILE $COUNT; break;;
 	c)     COUNT=$OPTARG;;
 	l)     TEXT=true;;
     	r)     if [ -z "$NFILE" ]; then
