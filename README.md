@@ -1,4 +1,4 @@
-[ingress-ice](http://ingress.divshot.io/) [![Join the chat at https://gitter.im/nibogd/ingress-ice](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/nibogd/ingress-ice?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+[ingress-ice](http://ingress.netlify.com/) [![Join the chat at https://gitter.im/nibogd/ingress-ice](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/nibogd/ingress-ice?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 ===========
 
 Automatic screenshooter for ingress intel map.
