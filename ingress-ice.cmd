@@ -45,5 +45,5 @@ echo Options:
 echo   -r      Edit the configuration
 echo   -h      Print this help
 echo.
-echo Please visit http://ingress.divshot.io/ or http://github.com/nibgd/ingress-ice for additional help
+echo Please visit https://ingress.netlify.com/ or http://github.com/nibogd/ingress-ice for more information
 :eof
