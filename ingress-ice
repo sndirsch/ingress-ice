@@ -88,7 +88,7 @@ echo_help() {
   echo "  -i <file>    Read settings from <file> or create config if not exists"
   echo "  -o           Delete old config and configure ice from scratch"
   echo ""
-  echo "Please visit http://ingress.divshot.io/ or http://github.com/nibgd/ingress-ice for additional help"
+  echo "Please visit https://ingress.netlify.com/ or http://github.com/nibogd/ingress-ice for more information"
   exit;
 }
 
