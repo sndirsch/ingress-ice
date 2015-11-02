@@ -46,11 +46,13 @@ page.onError  = function () {};
 * @since 4.0.0
 * @author c2nprds
 */
-page.onResourceRequested = function(requestData, request) {
-  if (requestData.url.match(/(getGameScore|getPlexts|getPortalDetails)/g)) {
-    request.abort();
-  }
-};
+if (!config.iitc) {
+  page.onResourceRequested = function(requestData, request) {
+    if (requestData.url.match(/(getGameScore|getPlexts|getPortalDetails)/g)) {
+      request.abort();
+    }
+  };
+}
 
 /** @function setVieportSize */
 if (!config.iitc) {
