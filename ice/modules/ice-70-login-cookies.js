@@ -77,6 +77,8 @@ function afterCookieLogin() {
         fs.remove(cookiespath);
       }
       if(config.login && config.password) {
+        page.deleteCookie('SACSID');
+        page.deleteCookie('csrftoken');
         firePlainLogin();
         return;
       } else {
