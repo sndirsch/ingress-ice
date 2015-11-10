@@ -27,6 +27,7 @@ function addTimestamp(time, iitcz) {
       water.style.marginTop = '0';
       water.style.paddingTop = '0';
       water.style.fontFamily = 'monospace';
+      water.style.textShadow = '2px 2px 5px #111717';
       document.querySelector('#map_canvas').appendChild(water);
     }, time);
   } else {
@@ -44,6 +45,7 @@ function addTimestamp(time, iitcz) {
       water.style.fontSize = '40px';
       water.style.opacity = '0.8';
       water.style.fontFamily = 'monospace';
+      water.style.textShadow = '2px 2px 5px #111717';
       document.querySelectorAll('body')[0].appendChild(water);
     }, time);
   }
