@@ -16,7 +16,7 @@ function announce(str) {
 
 /**
 * Returns Date and time
-* @param {number} format - the format of output, 0 for DD.MM.YYY HH:MM:SS, 1 for YYYY-MM-DD--HH-MM-SS (for filenames)
+* @param {number} format - the format of output, 0 for DD.MM.YYY HH:MM:SS T, 1 for YYYY-MM-DD--HH-MM-SS (for filenames)
 * @returns {String} date
 */
 function getDateTime(format) {
@@ -27,6 +27,7 @@ function getDateTime(format) {
   var hour    = now.getHours();
   var minute  = now.getMinutes();
   var second  = now.getSeconds();
+  var timeZone = now.toTimeString().substr(9);
   if(month.toString().length === 1) {
     month = '0' + month;
   }
@@ -46,7 +47,7 @@ function getDateTime(format) {
   if (format === 1) {
     dateTime = year + '-' + month + '-' + day + '--' + hour + '-' + minute + '-' + second;
   } else {
-    dateTime = day + '.' + month + '.' + year + ' '+hour+':'+minute+':'+second;
+    dateTime = day + '.' + month + '.' + year + ' ' + hour + ':' + minute + ':' + second + ' ' + timeZone;
   }
   return dateTime;
 }

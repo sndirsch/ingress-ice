@@ -178,7 +178,7 @@ function main() {
   }
   window.setTimeout(function () {
     if (config.timestamp) {
-      addTimestamp(getDateTime(), config.iitc);
+      addTimestamp(getDateTime(0), config.iitc);
     }
     s();
     lastScreen = 'ice-' + getDateTime(1) + '.png';
