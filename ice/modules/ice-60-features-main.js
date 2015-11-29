@@ -26,7 +26,11 @@
 */
 function s() {
   announce('Screen saved');
-  page.render(folder + 'ice-' + getDateTime(1) + '.png');
+  if (config.format == undefined || config.format == '') {
+      page.render(folder + 'ice-' + getDateTime(1) + '.png');
+  } else {
+      page.render(folder + 'ice-' + getDateTime(1) + '.' + config.format);
+  }
 }
 
 /**
@@ -181,7 +185,11 @@ function main() {
       addTimestamp(getDateTime(0), config.iitc);
     }
     s();
-    lastScreen = 'ice-' + getDateTime(1) + '.png';
+    if (config.format == undefined || config.format == '') {
+      lastScreen = 'ice-' + getDateTime(1) + '.png';
+    } else {
+      lastScreen = 'ice-' + getDateTime(1) + '.' + config.format;
+    }
     postprocess(lastScreen);
   }, 2000);
 }

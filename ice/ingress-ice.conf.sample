@@ -32,6 +32,8 @@ hideRes=false
 hideEnl=false
 hideLink=false
 hideField=false
+# Picture format (png/jpg)
+format=png
 
 [cookies]
 #> If set, will use cookies for authentication instead of login/password
