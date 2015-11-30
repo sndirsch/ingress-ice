@@ -24,13 +24,9 @@
 /**
 * Screenshot wrapper
 */
-function s() {
+function s(file) {
   announce('Screen saved');
-  if (config.format == undefined || config.format == '') {
-      page.render(folder + 'ice-' + getDateTime(1) + '.png');
-  } else {
-      page.render(folder + 'ice-' + getDateTime(1) + '.' + config.format);
-  }
+  page.render(file);
 }
 
 /**
@@ -184,12 +180,13 @@ function main() {
     if (config.timestamp) {
       addTimestamp(getDateTime(0), config.iitc);
     }
-    s();
     if (config.format == undefined || config.format == '') {
       lastScreen = 'ice-' + getDateTime(1) + '.png';
     } else {
       lastScreen = 'ice-' + getDateTime(1) + '.' + config.format;
     }
+    file = folder + lastScreen;
+    s(file);
     postprocess(lastScreen);
   }, 2000);
 }
