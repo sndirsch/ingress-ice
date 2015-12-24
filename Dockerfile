@@ -10,7 +10,7 @@ RUN pacman-key --populate archlinux
 RUN pacman-key --refresh-keys
 RUN pacman -Sy phantomjs ttf-droid --noconfirm
 ADD . /ingress-ice/
-RUN chmod +x /ingress-ice/docker-ingress-ice
+RUN chmod +x /ingress-ice/docker-ingress-ice.sh
 RUN mkdir /screenshots
 VOLUME /screenshots
-CMD ["/ingress-ice/docker-ingress-ice"]
+CMD ["/ingress-ice/docker-ingress-ice.sh"]
