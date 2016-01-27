@@ -11,7 +11,18 @@ var cookiespath = '.iced_cookies';
 var config = configure(args[1]);
 
 // Check if no login/password/link provided
-if (config.login === '' || config.password === '' || config.area === '') {
+if (
+  (
+    (
+      typeof config.login == 'undefined' || config.login === '' ||
+      typeof config.password == 'undefined' || config.password === ''
+    ) && (
+      typeof config.SACSID == 'undefined' || config.SACSID === '' ||
+      typeof config.CSRF == 'undefined' || config.CSRF === ''
+    )
+  ) || (
+    typeof config.area == 'undefined' || config.area === ''
+  )) {
   quit('No login/password/area link specified. You need to reconfigure ice:\n - Double-click reconfigure.cmd on Windows;\n - Start ./ingress-ice -r on Linux/Mac OS X/*BSD;');
 }
 
