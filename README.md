@@ -24,10 +24,14 @@ See our [samples](https://github.com/nibogd/ingress-ice/wiki/Example-Records).
 [<img src="https://developers.google.com/+/images/branding/g+128.png" width="16"> +Ingress ICE](https://plus.google.com/u/0/115529923593338751190/posts)
 
 [<img src="https://g.twimg.com/Twitter_logo_blue.png" width="16"> @ingress_ice](https://twitter.com/ingress_ice)
-[Download](https://github.com/nibogd/ingress-ice/archive/master.zip) 
+Download
 ========
+### Stable
+See [releases](https://github.com/nibogd/ingress-ice/releases) to download the latest stable version. On linux, you may need to install these [dependencies](https://github.com/nibogd/ingress-ice/wiki/Dependencies-(Linux)).
+### Development
+> *WARNING!* the development version may be unstable. It is also much bigger (contains executables for every platform).
 
-[Dependencies (Linux)](https://github.com/nibogd/ingress-ice/wiki/Dependencies-(Linux))
+You can download the whole ingress-ice using the [![Download ZIP](https://cloud.githubusercontent.com/assets/2771136/12703381/36d9adb4-c85b-11e5-81b1-ec0dbef9f679.png)](https://github.com/nibogd/ingress-ice/archive/master.zip) button on the top or clone this repo via git from the link on top. 
 
 Usage
 =====
@@ -38,7 +42,7 @@ Usage
 
  1. Unpack the archieve wherever you want
  2. Double-Click `ingress-ice.cmd` and follow the instructions
- 4. It will save captured screenshots with into `Ice-2014-07-13--09-13-37.png`, `Ice-2014-07-13--09-14-07.png`...
+ 3. It will save captured screenshots with into `ice-2014-07-13--09-13-37.png`, `ice-2014-07-13--09-14-07.png`...
 
 If you want to reconfigure the script, just double click `reconfigure.cmd`. If you want to use cookies instead of login and password, see [cookies authentication](https://github.com/nibogd/ingress-ice/wiki/Cookies-Authentication).
 
@@ -46,7 +50,7 @@ If you want to reconfigure the script, just double click `reconfigure.cmd`. If y
 
  1. Unpack the archieve wherever you want
  2. Run `chmod +x ingress-ice.sh&&./ingress-ice.sh` in console and follow the instructions
- 4. It will save captured screenshots with into `Ice-2014-07-13--09-13-37.png`, `Ice-2014-07-13--09-14-07.png`...
+ 3. It will save captured screenshots with into `ice-2014-07-13--09-13-37.png`, `ice-2014-07-13--09-14-07.png`...
  5. You can run it from any folder where you want to save screenshots.
 
 If you want to reconfigure the script, run `./ingress-ice.sh -r` . See [CLI usage](https://github.com/nibogd/ingress-ice/wiki/Linux-CLI). If you want to use cookies instead of login and password, see [cookies authentication](https://github.com/nibogd/ingress-ice/wiki/Cookies-Authentication).
@@ -61,14 +65,8 @@ mencoder mf://*.png -mf w=1366:h=768:fps=4:type=png -ovc lavc -lavcopts vcodec=m
 
 Change 1366 and 768 to your width and height, fps=4 to your FPS (more FPS - faster video, but shorter)
 
-#### [Contributors](https://github.com/nibogd/ingress-ice/graphs/contributors)
-
- * @nibogd — Author;
- * @c2nprds — Optimizations; Amazon S3 upload method;
- * @mfcanovas — Cookies storing for login authentication;
- * @pheanex — First version of Dockerfile;
- * @tom-eagle92 — Mac OS X support;
- * All contributors of PhantomJS;
+#### Contributors
+You can see the list [here](https://github.com/nibogd/ingress-ice/graphs/contributors).
 
 <hr>
 ICE uses [PhantomJS](http://phantomjs.org/), it's binary is packed with the script.
