@@ -3,7 +3,7 @@
 Thanks for taking the time to contribute! :heart:
 
 If you want to contribute, do the following:
- 1. Fork the repo (https://github.com/nibogd/ingress-ice.git or git@github.com:nibogd/ingress-ice.git (for SSH))
+ 1. Fork the repo (https://github.com/nibogd/ingress-ice)
  2. Create a new branch named with the name of the feature you want to add, based on the `master` branch
  3. Add your code
  4. Make a pull-request
