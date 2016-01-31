@@ -15,6 +15,8 @@ else
     PHANTOMJS="$SCRIPT_HOME/phantom-bin/phantomjs64"
   elif [ $MACHINE_TYPE == 'armv6l' ]; then
     PHANTOMJS="$SCRIPT_HOME/phantom-bin/phantomjs-armv6l"
+  elif [ $MACHINE_TYPE == 'armv7l' ]; then
+    PHANTOMJS="$SCRIPT_HOME/phantom-bin/phantomjs-armv6l"
   else
     PHANTOMJS="$SCRIPT_HOME/phantom-bin/phantomjs"
   fi
