@@ -3,8 +3,8 @@
 Thanks for taking the time to contribute! :heart:
 
 If you want to contribute, do the following:
- 1. Fork the repo
- 2. Make a new branch named with the name of the feature you want to add, based on the `master` branch
+ 1. Fork the repo (https://github.com/nibogd/ingress-ice.git or git@github.com:nibogd/ingress-ice.git (for SSH))
+ 2. Create a new branch named with the name of the feature you want to add, based on the `master` branch
  3. Add your code
  4. Make a pull-request
 
@@ -15,7 +15,7 @@ If your submission is accepted, I will list you in the `README.md` file as a con
 ```
 ├── CONTRIBUTING.md
 ├── Dockerfile
-├── docker-ingress-ice
+├── docker-ingress-ice.sh
 ├── ice
 │   ├── ice.js
 │   ├── ingress-ice.conf.sample
@@ -28,7 +28,7 @@ If your submission is accepted, I will list you in the `README.md` file as a con
 │       ├── ice-60-features-main.js
 │       ├── ice-70-login-cookies.js
 │       └── ice-80-login-plain.js
-├── ingress-ice
+├── ingress-ice.sh
 ├── ingress-ice.cmd
 ├── LICENSE
 ├── phantom-bin
@@ -68,6 +68,4 @@ $ jsdoc ice/ ice/modules/
 
 ### Workflow
 
-We are using [Feature Branches](https://www.atlassian.com/git/tutorials/comparing-workflows/feature-branch-workflow) workflow. Simply create a feature branch, it will be merged with `master` once.
-
-Thank you for contributing! :+1:
+We use [Feature Branches](https://www.atlassian.com/git/tutorials/comparing-workflows/feature-branch-workflow) workflow. Simply create a feature branch, it will be merged with `master` once.
