@@ -26,6 +26,10 @@ if (
   quit('No login/password/area link specified. You need to reconfigure ice:\n - Double-click reconfigure.cmd on Windows;\n - Start ./ingress-ice -r on Linux/Mac OS X/*BSD;');
 }
 
+if (config.directory == '' || config.directory == undefined) {
+  config.directory = 'screenshots/'
+}
+
 var folder = fs.workingDirectory + '/' + config.directory;
 var ssnum = 0;
 if (args[2]) {
@@ -42,6 +46,9 @@ var curnum       = 0;
 * @default 10000
 */
 var loginTimeout = config.loginTimeout;
+if (loginTimeout == undefined || loginTimeout == '') {
+  loginTimeout = 10000;
+}
 
 /**
 * twostep auth trigger
