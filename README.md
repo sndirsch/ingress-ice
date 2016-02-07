@@ -43,6 +43,7 @@ Usage
  1. Unpack the archieve wherever you want
  2. Double-Click `ingress-ice.cmd` and follow the instructions
  3. It will save captured screenshots with into `ice-2014-07-13--09-13-37.png`, `ice-2014-07-13--09-14-07.png`...
+ 4. You can copy `ice/ingress-ice.conf.sample` to `ingress-ice.conf` in the ice root and enter your settings there, so you can have different configurations for every `ingress-ice`
 
 If you want to reconfigure the script, just double click `reconfigure.cmd`. If you want to use cookies instead of login and password, see [cookies authentication](https://github.com/nibogd/ingress-ice/wiki/Cookies-Authentication).
 
