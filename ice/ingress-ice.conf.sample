@@ -36,6 +36,9 @@ hideField=false
 format=png
 #> Log in timeout. Default is 10 000 (ms). If you have problems with signing in, increasing this may help
 loginTimeout=10000
+#> Directory (folder) where to save screenshots. Note the trailing slash. Relative to the current location. In linux, you can start it from any folder like this:
+# $ some-folder/ingress-ice/ingress-ice.sh
+directory=screenshots/
 
 [cookies]
 #> If set, will use cookies for authentication instead of login/password
