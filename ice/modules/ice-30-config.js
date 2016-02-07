@@ -39,9 +39,9 @@ var curnum       = 0;
 
 /**
 * Delay between logging in and checking if successful
-* @default
+* @default 10000
 */
-var loginTimeout = 10 * 1000;
+var loginTimeout = config.loginTimeout;
 
 /**
 * twostep auth trigger
