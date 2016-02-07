@@ -4,7 +4,7 @@
 * @version 4.2.0
 * @license MIT
 * @see {@link https://github.com/nibogd/ingress-ice|GitHub }
-* @see {@link https://ingress.divshot.io/|Website }
+* @see {@link https://ingress.netlify.com/|Website }
 */
 
 "use strict";
