@@ -1,7 +1,7 @@
 
 @echo off
 SETLOCAL EnableDelayedExpansion
-REM ingress-ice start script by Nikitakun
+REM ingress-ice start script
 REM (http://github.com/nibogd/ingress-ice)
 REM Double-click this file and follow the
 REM instructions
@@ -12,6 +12,10 @@ IF '%1'=='-h' GOTO :help
 IF '%1'=='-r' GOTO :config
 GOTO :check
 :check
+IF EXIST "ingress-ice.conf" (
+        set FILE="ingress-ice.conf"
+        GOTO :start
+)
 IF EXIST %FILE% (
 	GOTO :start
 ) else (
