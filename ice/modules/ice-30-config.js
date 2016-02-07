@@ -26,7 +26,7 @@ if (
   quit('No login/password/area link specified. You need to reconfigure ice:\n - Double-click reconfigure.cmd on Windows;\n - Start ./ingress-ice -r on Linux/Mac OS X/*BSD;');
 }
 
-var folder = fs.workingDirectory + '/';
+var folder = fs.workingDirectory + '/' + config.directory;
 var ssnum = 0;
 if (args[2]) {
   ssnum = parseInt(args[2], 10);
