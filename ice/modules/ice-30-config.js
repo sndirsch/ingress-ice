@@ -51,6 +51,13 @@ if (loginTimeout == undefined || loginTimeout == '') {
 }
 
 /**
+* Presets for settings not present in old versions of ice
+*/
+if (config.timezone == undefined || config.timezone == '') {
+  config.timezone = false;
+}
+
+/**
 * twostep auth trigger
 */
 var twostep      = 0;

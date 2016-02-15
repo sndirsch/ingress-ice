@@ -20,14 +20,14 @@ maxlevel=8
 #> Width and height of the resulting screenshot
 width=1366
 height=768
-#> Inject IITC? (true or false)
+#> Inject IITC? (true/false)
 iitc=false
 plugins=["https://secure.jonatkins.com/iitc/release/plugins/link-show-direction.user.js"]
 # Read more at https://github.com/nibogd/ingress-ice/wiki/Loading-IITC-plugins
 pluginsConfig=[{"key":"plugin-linkshowdirection-mode","value":"Static near origin"},{"key":"YourKeyHere","value":""}]
-#> Put a timestamp on your screenshots? (true or false)
+#> Put a timestamp on your screenshots? (true/false)
 timestamp=true
-#> Hide Resistance portals/links/fields, Enlightened portals/links/fields, links, fields respectively? (true or false)
+#> Hide Resistance portals/links/fields, Enlightened portals/links/fields, links, fields respectively? (true/false)
 hideRes=false
 hideEnl=false
 hideLink=false
@@ -39,6 +39,8 @@ loginTimeout=10000
 #> Directory (folder) where to save screenshots. Note the trailing slash. Relative to the current location. In linux, you can start it from any folder like this:
 # $ some-folder/ingress-ice/ingress-ice.sh
 directory=screenshots/
+#> Add timezone to timestamp? (true/false)
+timezone=false
 
 [cookies]
 #> If set, will use cookies for authentication instead of login/password
@@ -60,4 +62,3 @@ S3Remove=false
 
 [version]
 version=42
-

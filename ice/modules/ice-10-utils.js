@@ -11,7 +11,7 @@
 * @param {String} str - what to announce
 */
 function announce(str) {
-  console.log(getDateTime(0) + ': ' + str);
+  console.log(getDateTime(0, config.timezone) + ': ' + str);
 }
 
 /**
@@ -19,7 +19,7 @@ function announce(str) {
 * @param {number} format - the format of output, 0 for DD.MM.YYY HH:MM:SS T, 1 for YYYY-MM-DD--HH-MM-SS (for filenames)
 * @returns {String} date
 */
-function getDateTime(format) {
+function getDateTime(format, timezone) {
   var now     = new Date();
   var year    = now.getFullYear();
   var month   = now.getMonth()+1;
@@ -27,7 +27,10 @@ function getDateTime(format) {
   var hour    = now.getHours();
   var minute  = now.getMinutes();
   var second  = now.getSeconds();
-  var timeZone = now.toTimeString().substr(9);
+  var timeZone = '';
+  if (timezone) {
+    timeZone = now.toTimeString().substr(9);
+  }
   if(month.toString().length === 1) {
     month = '0' + month;
   }

@@ -178,12 +178,12 @@ function main() {
   }
   window.setTimeout(function () {
     if (config.timestamp) {
-      addTimestamp(getDateTime(0), config.iitc);
+      addTimestamp(getDateTime(0, config.timezone), config.iitc);
     }
     if (config.format == undefined || config.format == '') {
-      lastScreen = 'ice-' + getDateTime(1) + '.png';
+      lastScreen = 'ice-' + getDateTime(1, config.timezone) + '.png';
     } else {
-      lastScreen = 'ice-' + getDateTime(1) + '.' + config.format;
+      lastScreen = 'ice-' + getDateTime(1, config.timezone) + '.' + config.format;
     }
     file = folder + lastScreen;
     s(file);
