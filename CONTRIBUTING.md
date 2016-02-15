@@ -24,10 +24,7 @@ If your submission is accepted, I will list you in the `README.md` file as a con
 │       ├── ice-20-aws.js
 │       ├── ice-30-config.js
 │       ├── ice-40-setminmax.js
-│       ├── ice-50-features-extra.js
-│       ├── ice-60-features-main.js
-│       ├── ice-70-login-cookies.js
-│       └── ice-80-login-plain.js
+│       └── ...
 ├── ingress-ice.sh
 ├── ingress-ice.cmd
 ├── LICENSE
