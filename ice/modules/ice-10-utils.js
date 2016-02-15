@@ -29,7 +29,7 @@ function getDateTime(format, timezone) {
   var second  = now.getSeconds();
   var timeZone = '';
   if (timezone) {
-    timeZone = now.toTimeString().substr(9);
+    timeZone = ' ' + now.toTimeString().substr(9);
   }
   if(month.toString().length === 1) {
     month = '0' + month;
@@ -50,7 +50,7 @@ function getDateTime(format, timezone) {
   if (format === 1) {
     dateTime = year + '-' + month + '-' + day + '--' + hour + '-' + minute + '-' + second;
   } else {
-    dateTime = day + '.' + month + '.' + year + ' ' + hour + ':' + minute + ':' + second + ' ' + timeZone;
+    dateTime = day + '.' + month + '.' + year + ' ' + hour + ':' + minute + ':' + second + timeZone;
   }
   return dateTime;
 }
