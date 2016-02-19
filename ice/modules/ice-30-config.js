@@ -48,7 +48,7 @@ var curnum       = 0;
 if (config.delay == -1) {
   ssnum = 1;
   config.delay = 300000;
-  announce('Will take a single screenshot and exit');
+  //announce('Will take a single screenshot and exit');
 }
 
 /**
