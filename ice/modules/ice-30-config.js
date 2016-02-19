@@ -42,6 +42,16 @@ if (args[2]) {
 var curnum       = 0;
 
 /**
+* Take single screenshot and exit via setting delay=-1
+* @since 4.3.0
+*/
+if (config.delay == -1) {
+  ssnum = 1;
+  config.delay = 300000;
+  announce('Will take a single screenshot and exit');
+}
+
+/**
 * Delay between logging in and checking if successful
 * @default 10000
 */

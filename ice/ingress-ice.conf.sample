@@ -12,7 +12,7 @@ password=
 area=
 
 [ice-optional]
-#> The delay between taking screenshots in milliseconds (1 second = 1000 milliseconds)
+#> The delay between taking screenshots in milliseconds (1 second = 1000 milliseconds). Set to -1 to take a single screenshot and exit
 delay=300000
 #> Minimal and maximal portal levels to display
 minlevel=1
