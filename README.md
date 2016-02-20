@@ -69,6 +69,9 @@ Change 1366 and 768 to your width and height, fps=4 to your FPS (more FPS - fast
 #### Contributors
 You can see the list [here](https://github.com/nibogd/ingress-ice/graphs/contributors).
 
+#### Support
+If you like Ingress Ice, [support us at Bountysource](https://salt.bountysource.com/teams/ingress-ice)!
+
 <hr>
 ICE uses [PhantomJS](http://phantomjs.org/), it's binary is packed with the script.
 
