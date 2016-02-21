@@ -7,10 +7,17 @@ REM Double-click this file and follow the
 REM instructions
 
 set FILE="%APPDATA%\.ingress-ice.conf"
+:args
 IF '%1'=='/?' GOTO :help
 IF '%1'=='-h' GOTO :help
 IF '%1'=='-r' GOTO :config
+if '%1'=='-c' GOTO :count
 GOTO :check
+:count
+shift
+set COUNT=%1
+shift
+goto :args
 :check
 IF EXIST "ingress-ice.conf" (
         set FILE="ingress-ice.conf"
@@ -35,7 +42,8 @@ notepad %FILE%
 :start
 cls
 echo Existing config file found (%FILE%). Starting ice...
-phantom-bin\phantomjs.exe ice\ice.js %FILE%
+if '%COUNT%' NEQ '' echo Taking %COUNT% screenshots...
+phantom-bin\phantomjs.exe ice\ice.js %FILE% %COUNT%
 pause
 goto :eof
 :help
