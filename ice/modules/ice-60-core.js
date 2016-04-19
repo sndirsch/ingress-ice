@@ -151,7 +151,7 @@ function humanPresence() {
 function postprocess (file) {
   if (config.S3Key) {
     announce('Uploading to Amazon S3...');
-    uploadS3(config.S3Key, config.S3Secret, config.S3Bucket, config.S3Alc, file, config.S3Remove);
+    uploadS3(config.S3Key, config.S3Secret, config.S3Bucket, config.S3Alc, config.directory+file, config.S3Remove);
   }
 }
 
