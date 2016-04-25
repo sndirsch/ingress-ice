@@ -1,8 +1,8 @@
 /**
-* @file Ingress-ICE, Amazon S3 interface
-* @license MIT
-* @author c2nprds
-*/
+ * @file Ingress-ICE, Amazon S3 interface
+ * @license MIT
+ * @author c2nprds
+ */
 
 /*global announce */
 /*global fs */
@@ -10,17 +10,17 @@
 /*global webpage */
 
 /**
-* Upload AWS S3
-* @see http://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/S3.html
-* @see ALC https://docs.aws.amazon.com/AmazonS3/latest/dev/acl-overview.html#canned-acl
-* @param {String} key - AWS S3 accessKeyId
-* @param {String} secret - AWS S3 secretKeyId
-* @param {String} bucket - AWS S3 bucket name
-* @param {String} alc - AWS S3 access control list
-* @param {String} path - Screenshot filepath
-* @param {Boolean} remove - delete current file
-* @author c2nprds
-*/
+ * Upload AWS S3
+ * @see http://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/S3.html
+ * @see ALC https://docs.aws.amazon.com/AmazonS3/latest/dev/acl-overview.html#canned-acl
+ * @param {String} key - AWS S3 accessKeyId
+ * @param {String} secret - AWS S3 secretKeyId
+ * @param {String} bucket - AWS S3 bucket name
+ * @param {String} alc - AWS S3 access control list
+ * @param {String} path - Screenshot filepath
+ * @param {Boolean} remove - delete current file
+ * @author c2nprds
+ */
 function uploadS3(key, secret, bucket, alc, path, remove) {
   var s3 = webpage.create();
   s3.onError = function(msg, trace) {};

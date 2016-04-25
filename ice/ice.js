@@ -1,11 +1,11 @@
 /**
-* @file Ingress-ICE, the main script
-* @author Nikitakun (https://github.com/nibogd)
-* @version 4.3.0
-* @license MIT
-* @see {@link https://github.com/nibogd/ingress-ice|GitHub }
-* @see {@link https://ingress.netlify.com/|Website }
-*/
+ * @file Ingress-ICE, the main script
+ * @author Nikitakun (https://github.com/nibogd)
+ * @version 4.3.0
+ * @license MIT
+ * @see {@link https://github.com/nibogd/ingress-ice|GitHub }
+ * @see {@link https://ingress.netlify.com/|Website }
+ */
 
 "use strict";
 
@@ -22,8 +22,8 @@ var iceFolder = args[0].substring(0, args[0].length - filename.length) + 'module
 var iceModules= fs.list(iceFolder);
 
 /*
-* Loads all scripts in the 'modules' folder
-*/
+ * Loads all scripts in the 'modules' folder
+ */
 function loadModules() {
   for(var i = 0; i < iceModules.length; i++) {
     var file = iceFolder + iceModules[i];

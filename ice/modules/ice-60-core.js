@@ -1,7 +1,7 @@
 /**
-* @file Ingress-ICE, mandatory features
-* @license MIT
-*/
+ * @file Ingress-ICE, mandatory features
+ * @license MIT
+ */
 
 /*global idleReset */
 /*global announce */
@@ -22,18 +22,18 @@
 /*global afterCookieLogin */
 
 /**
-* Screenshot wrapper
-*/
+ * Screenshot wrapper
+ */
 function s(file) {
   announce('Screen saved');
   page.render(file);
 }
 
 /**
-* Screenshots counter
-* @var {number} curnum
-* @var {number} ssnum
-*/
+ * Screenshots counter
+ * @var {number} curnum
+ * @var {number} ssnum
+ */
 function count() {
   if ((curnum >= ssnum)&&(ssnum !== 0)) {
     announce('Finished sucessfully. Exiting...\nThanks for using ingress-ice!');
@@ -45,12 +45,12 @@ function count() {
 }
 
 /**
-* Hide debris on the map like selectors
-* @param {boolean} iitcz
-*/
+ * Hide debris on the map like selectors
+ * @param {boolean} iitcz
+ */
 function hideDebris(iitcz) {
   if (!iitcz) {
-    page.evaluate(function () {
+    page.evaluate(function() {
       if (document.querySelector('#comm'))             {document.querySelector('#comm').style.display = 'none';}
       if (document.querySelector('#player_stats'))     {document.querySelector('#player_stats').style.display = 'none';}
       if (document.querySelector('#game_stats'))       {document.querySelector('#game_stats').style.display = 'none';}
@@ -60,15 +60,15 @@ function hideDebris(iitcz) {
       if (document.querySelectorAll('.img_snap')[0])   {document.querySelectorAll('.img_snap')[0].style.display = 'none';}
       if (document.querySelector('#display_msg_text')) {document.querySelector('#display_msg_text').style.display = 'none';}
     });
-    page.evaluate(function () {
+    page.evaluate(function() {
       var hide = document.querySelectorAll('.gmnoprint');
       for (var index = 0; index < hide.length; ++index) {
         hide[index].style.display = 'none';
       }
     });
   } else {
-    window.setTimeout(function () {
-      page.evaluate(function () {
+    window.setTimeout(function() {
+      page.evaluate(function() {
         if (document.querySelector('#chat'))                      {document.querySelector('#chat').style.display = 'none';}
         if (document.querySelector('#chatcontrols'))              {document.querySelector('#chatcontrols').style.display = 'none';}
         if (document.querySelector('#chatinput'))                 {document.querySelector('#chatinput').style.display = 'none';}
@@ -82,19 +82,19 @@ function hideDebris(iitcz) {
 }
 
 /**
-* Prepare map for screenshooting. Make screenshots same width and height with map_canvas
-* If IITC, also set width and height
-* @param {boolean} iitcz
-* @param {number} widthz
-* @param {number} heightz
-*/
+ * Prepare map for screenshooting. Make screenshots same width and height with map_canvas
+ * If IITC, also set width and height
+ * @param {boolean} iitcz
+ * @param {number} widthz
+ * @param {number} heightz
+ */
 function prepare(iitcz, widthz, heightz) {
   if (!iitcz) {
     var selector = "#map_canvas";
     setElementBounds(selector);
   } else {
-    window.setTimeout(function () {
-      page.evaluate(function (w, h) {
+    window.setTimeout(function() {
+      page.evaluate(function(w, h) {
         var water = document.createElement('p');
         water.id='viewport-ice';
         water.style.position = 'absolute';
@@ -113,9 +113,9 @@ function prepare(iitcz, widthz, heightz) {
 }
 
 /**
-* Sets element bounds
-* @param selector
-*/
+ * Sets element bounds
+ * @param selector
+ */
 function setElementBounds(selector) {
   page.clipRect = page.evaluate(function(selector) {
     var clipRect = document.querySelector(selector).getBoundingClientRect();
@@ -129,15 +129,15 @@ function setElementBounds(selector) {
 }
 
 /**
-* Checks if human presence not detected and makes a human present
-* @since 2.3.0
-*/
+ * Checks if human presence not detected and makes a human present
+ * @since 2.3.0
+ */
 function humanPresence() {
-  var outside = page.evaluate(function () {
+  var outside = page.evaluate(function() {
     return !!(document.getElementById('butterbar') && (document.getElementById('butterbar').style.display !== 'none'));
   });
   if (outside) {
-    var rekt = page.evaluate(function () {
+    var rekt = page.evaluate(function() {
       return document.getElementById('butterbar').getBoundingClientRect();
     });
     page.sendEvent('click', rekt.left + rekt.width / 2, rekt.top + rekt.height / 2);
@@ -145,9 +145,9 @@ function humanPresence() {
 }
 
 /**
-* Does postprocessing like uploading to AWS, etc.
-* @arg file {String}
-*/
+ * Does postprocessing like uploading to AWS, etc.
+ * @arg file {String}
+ */
 function postprocess (file) {
   if (config.S3Key) {
     announce('Uploading to Amazon S3...');
@@ -156,12 +156,12 @@ function postprocess (file) {
 }
 
 /**
-* Main function.
-*/
+ * Main function.
+ */
 function main() {
   count();
   if (config.timestamp) {
-    page.evaluate(function () {
+    page.evaluate(function() {
       if (document.getElementById('watermark-ice')) {
         var oldStamp = document.getElementById('watermark-ice');
         oldStamp.parentNode.removeChild(oldStamp);
@@ -172,11 +172,11 @@ function main() {
     humanPresence();
     hideDebris(config.iitc);
   } else {
-    page.evaluate(function () {
+    page.evaluate(function() {
       idleReset();
     });
   }
-  window.setTimeout(function () {
+  window.setTimeout(function() {
     if (config.timestamp) {
       addTimestamp(getDateTime(0, config.timezone), config.iitc);
     }
@@ -192,8 +192,8 @@ function main() {
 }
 
 /**
-* Starter
-*/
+ * Starter
+ */
 function ice() {
   greet();
   if (config.SACSID == undefined || config.SACSID == '') {
@@ -201,11 +201,9 @@ function ice() {
   }
   if (config.SACSID == undefined || config.SACSID == '') {
     firePlainLogin();
-    return;
   } else {
     addCookies(config.SACSID, config.CSRF);
     announce('Using cookies to log in');
     afterCookieLogin();
-    return;
   }
 }

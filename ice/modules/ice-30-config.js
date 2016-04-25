@@ -1,7 +1,7 @@
 /**
-* @file Ingress-ICE, configurations
-* @license MIT
-*/
+ * @file Ingress-ICE, configurations
+ * @license MIT
+ */
 
 /*global fs */
 /*global quit */
@@ -37,14 +37,14 @@ if (args[2]) {
 }
 
 /**
-* Counter for number of screenshots
-*/
+ * Counter for number of screenshots
+ */
 var curnum       = 0;
 
 /**
-* Take single screenshot and exit via setting delay=-1
-* @since 4.3.0
-*/
+ * Take single screenshot and exit via setting delay=-1
+ * @since 4.3.0
+ */
 if (config.delay == -1) {
   ssnum = 1;
   config.delay = 300000;
@@ -52,35 +52,35 @@ if (config.delay == -1) {
 }
 
 /**
-* Delay between logging in and checking if successful
-* @default 10000
-*/
+ * Delay between logging in and checking if successful
+ * @default 10000
+ */
 var loginTimeout = config.loginTimeout;
 if (loginTimeout == undefined || loginTimeout == '') {
   loginTimeout = 10000;
 }
 
 /**
-* Presets for settings not present in old versions of ice
-*/
+ * Presets for settings not present in old versions of ice
+ */
 if (config.timezone == undefined || config.timezone == '') {
   config.timezone = false;
 }
 
 /**
-* twostep auth trigger
-*/
+ * twostep auth trigger
+ */
 var twostep      = 0;
 var webpage      = require('webpage');
 var page         = webpage.create();
-page.onConsoleMessage = function () {};
-page.onError  = function () {};
+page.onConsoleMessage = function() {};
+page.onError  = function() {};
 
 /**
-* aborting unnecessary API
-* @since 4.0.0
-* @author c2nprds
-*/
+ * aborting unnecessary API
+ * @since 4.0.0
+ * @author c2nprds
+ */
 if (!config.iitc) {
   page.onResourceRequested = function(requestData, request) {
     if (requestData.url.match(/(getGameScore|getPlexts|getPortalDetails)/g)) {
@@ -103,10 +103,10 @@ if (!config.iitc) {
 }
 
 /**
-* Parse the configuration .conf file
-* @since 4.0.0
-* @param {String} path
-*/
+ * Parse the configuration .conf file
+ * @since 4.0.0
+ * @param {String} path
+ */
 function configure(path) {
   var settings = {};
   var settingsfile = fs.open(path, 'r');

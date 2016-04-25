@@ -1,7 +1,7 @@
 /**
-* @file Ingress-ICE, everything related to plain login
-* @license MIT
-*/
+ * @file Ingress-ICE, everything related to plain login
+ * @license MIT
+ */
 
 /*global announce */
 /*global config */
@@ -18,8 +18,8 @@
 /*global main */
 
 /**
-* Fires plain login
-*/
+ * Fires plain login
+ */
 function firePlainLogin() {
   page.open('https://www.ingress.com/intel', function (status) {
 
@@ -32,17 +32,16 @@ function firePlainLogin() {
     announce('Logging in...');
     page.open(link, function () {
       login(config.login, config.password);
-      return;
     });
   });
 }
 
 /**
-* Log in to google. Doesn't use post, because URI may change.
-* Fixed in 3.0.0 -- obsolete versions will not work (google changed login form)
-* @param l - google login
-* @param p - google password
-*/
+ * Log in to google. Doesn't use post, because URI may change.
+ * Fixed in 3.0.0 -- obsolete versions will not work (google changed login form)
+ * @param l - google login
+ * @param p - google password
+ */
 function login(l, p) {
   page.evaluate(function (l) {
     document.getElementById('Email').value = l;
@@ -89,32 +88,31 @@ function login(l, p) {
         });
       }
       window.setTimeout(afterPlainLogin, loginTimeout);
-      return;
     }, loginTimeout)
   }, loginTimeout / 10);
 }
 
 /**
-* Does all stuff needed after login/password authentication
-* @since 3.1.0
-*/
+ * Does all stuff needed after login/password authentication
+ * @since 3.1.0
+ */
 function afterPlainLogin() {
-  page.open(config.area, function () {
+  page.open(config.area, function() {
     if (!isSignedIn()) {
       announce('Something went wrong. Please, sign in to Google via your browser and restart ICE. Don\'t worry, your Ingress account will not be affected.');
       quit();
     }
-    window.setTimeout(function () {
+    window.setTimeout(function() {
       storeCookies();
       if (config.iitc) {
         addIitc();
       }
-      setTimeout(function () {
+      setTimeout(function() {
         announce('Will start screenshooting in ' + config.delay/1000 + ' seconds...');
         if (((config.minlevel > 1)||(config.maxlevel < 8)) && !config.iitc) {
           setMinMax(config.minlevel, config.maxlevel);
         } else if (!config.iitc) {
-          page.evaluate(function () {
+          page.evaluate(function() {
             document.querySelector("#filters_container").style.display= 'none';
           });
         }

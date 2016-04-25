@@ -1,24 +1,25 @@
 /**
-* @file Ingress-ICE, common utilities, not related to Google/Niantic
-* @license MIT
-*/
+ * @file Ingress-ICE, common utilities, not related to Google/Niantic
+ * @license MIT
+ */
 
 /*global version */
 /*global phantom */
 
 /**
-* console.log() wrapper
-* @param {String} str - what to announce
-*/
+ * console.log() wrapper
+ * @param {String} str - what to announce
+ */
 function announce(str) {
   console.log(getDateTime(0, config.timezone) + ': ' + str);
 }
 
 /**
-* Returns Date and time
-* @param {number} format - the format of output, 0 for DD.MM.YYY HH:MM:SS T, 1 for YYYY-MM-DD--HH-MM-SS (for filenames)
-* @returns {String} date
-*/
+ * Returns Date and time
+ * @param {number} format - the format of output, 0 for DD.MM.YYY HH:MM:SS T, 1 for YYYY-MM-DD--HH-MM-SS (for filenames)
+ * @param {boolean} timezone
+ * @returns {String} date
+ */
 function getDateTime(format, timezone) {
   var now     = new Date();
   var year    = now.getFullYear();
@@ -56,9 +57,9 @@ function getDateTime(format, timezone) {
 }
 
 /**
-* Quit if an error occured
-* @param {String} err - the error text
-*/
+ * Quit if an error occured
+ * @param {String} err - the error text
+ */
 function quit(err) {
   if (err) {
     announce('ICE crashed. Reason: ' + err + ' :(');
@@ -69,8 +70,8 @@ function quit(err) {
 }
 
 /**
-* Greeter. Beautiful ASCII-Art logo.
-*/
+ * Greeter. Beautiful ASCII-Art logo.
+ */
 function greet() {
   console.log('\n     _____ )   ___      _____) \n    (, /  (__/_____)  /        \n      /     /         )__      \n  ___/__   /        /          \n(__ /     (______) (_____)  v' + version + '\n\nIf you need help or want a new feature, visit https://github.com/nibogd/ingress-ice/issues');
 }

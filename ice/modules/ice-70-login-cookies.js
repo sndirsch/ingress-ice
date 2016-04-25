@@ -1,7 +1,7 @@
 /**
-* @file Ingress-ICE, everything related to cookies login
-* @license MIT
-*/
+ * @file Ingress-ICE, everything related to cookies login
+ * @license MIT
+ */
 
 /*global announce */
 /*global config */
@@ -19,11 +19,11 @@
 /*global cookiespath */
 
 /**
-* Checks if cookies file exists. If so, it sets SACSID and CSRF vars
-* @returns {boolean}
-* @author mfcanovas (github.com/mfcanovas)
-* @since 3.2.0
-*/
+ * Checks if cookies file exists. If so, it sets SACSID and CSRF vars
+ * @returns {boolean}
+ * @author mfcanovas (github.com/mfcanovas)
+ * @since 3.2.0
+ */
 function loadCookies() {
   if(fs.exists(cookiespath)) {
     var stream = fs.open(cookiespath, 'r');
@@ -41,11 +41,11 @@ function loadCookies() {
 }
 
 /**
-* Log in using cookies
-* @param {String} sacsid
-* @param {String} csrf
-* @since 3.1.0
-*/
+ * Log in using cookies
+ * @param {String} sacsid
+ * @param {String} csrf
+ * @since 3.1.0
+ */
 function addCookies(sacsid, csrf) {
   phantom.addCookie({
     name: 'SACSID',
@@ -65,11 +65,11 @@ function addCookies(sacsid, csrf) {
 
 
 /**
-* Does all stuff needed after cookie authentication
-* @since 3.1.0
-*/
+ * Does all stuff needed after cookie authentication
+ * @since 3.1.0
+ */
 function afterCookieLogin() {
-  page.open(config.area, function (status) {
+  page.open(config.area, function(status) {
     if (status !== 'success') {quit('unable to connect to remote server')}
 
     if(!isSignedIn()) {
@@ -88,12 +88,12 @@ function afterCookieLogin() {
     if (config.iitc) {
       addIitc();
     }
-    setTimeout(function () {
+    setTimeout(function() {
       announce('Will start screenshooting in ' + config.delay/1000 + ' seconds...');
       if (((config.minlevel > 1)||(config.maxlevel < 8)) && !config.iitc) {
         setMinMax(config.minlevel, config.maxlevel, config.iitc);
       } else if (!config.iitc) {
-        page.evaluate(function () {
+        page.evaluate(function() {
           document.querySelector("#filters_container").style.display= 'none';
         });
       }
@@ -107,17 +107,13 @@ function afterCookieLogin() {
 }
 
 /**
-* Checks if user is signed in by looking for the "Sign in" button
-* @returns {boolean}
-* @since 3.2.0
-*/
+ * Checks if user is signed in by looking for the "Sign in" button
+ * @returns {boolean}
+ * @since 3.2.0
+ */
 function isSignedIn() {
   return page.evaluate(function() {
-    if (document.getElementsByTagName('a')[0].innerText.trim() === 'Sign in') {
-      return false;
-    } else {
-      return true;
-    }
+    return document.getElementsByTagName('a')[0].innerText.trim() !== 'Sign in';
   });
 }
 

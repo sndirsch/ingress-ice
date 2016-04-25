@@ -1,20 +1,20 @@
 /**
-* @file Ingress-ICE, extra features
-* @license MIT
-*/
+ * @file Ingress-ICE, extra features
+ * @license MIT
+ */
 
 /*global page */
 /*global config */
 
 /**
-* Adds a timestamp to a screenshot
-* @since 2.3.0
-* @param {String} time
-* @param {boolean} iitcz
-*/
+ * Adds a timestamp to a screenshot
+ * @since 2.3.0
+ * @param {String} time
+ * @param {boolean} iitcz
+ */
 function addTimestamp(time, iitcz) {
   if (!iitcz) {
-    page.evaluate(function (dateTime) {
+    page.evaluate(function(dateTime) {
       var water = document.createElement('p');
       water.id='watermark-ice';
       water.innerHTML = dateTime;
@@ -31,7 +31,7 @@ function addTimestamp(time, iitcz) {
       document.querySelector('#map_canvas').appendChild(water);
     }, time);
   } else {
-    page.evaluate(function (dateTime) {
+    page.evaluate(function(dateTime) {
       var water = document.createElement('p');
       water.id='watermark-ice';
       water.innerHTML = dateTime;
@@ -52,18 +52,18 @@ function addTimestamp(time, iitcz) {
 }
 
 /**
-* Inserts IITC and defines settings
-* @var hideRes
-* @var hideEnl
-* @var hideLink
-* @var hideField
-* @var minlevel
-* @var maxlevel
-* @var plugins
-* @var pluginsConfig
-* @author akileos (https://github.com/akileos)
-* @author Nikitakun
-*/
+ * Inserts IITC and defines settings
+ * @var hideRes
+ * @var hideEnl
+ * @var hideLink
+ * @var hideField
+ * @var minlevel
+ * @var maxlevel
+ * @var plugins
+ * @var pluginsConfig
+ * @author akileos (https://github.com/akileos)
+ * @author Nikitakun
+ */
 function addIitc() {
   page.evaluate(function(field, link, res, enl, min, max) {
     localStorage['ingress.intelmap.layergroupdisplayed'] = JSON.stringify({
@@ -90,15 +90,15 @@ function addIitc() {
     document.head.insertBefore(script, document.head.lastChild);
   }, !config.hideField, !config.hideLink, !config.hideRes, !config.hideEnl, config.minlevel, config.maxlevel);
   setupIitcPlugins(JSON.parse(config.pluginsConfig));
-  JSON.parse(config.plugins).forEach(function (plugin) {
+  JSON.parse(config.plugins).forEach(function(plugin) {
     loadIitcPlugin(plugin);
   })
 }
 
 /**
-* Loads an IITC plugin
-* @arg src {String}
-*/
+ * Loads an IITC plugin
+ * @arg src {String}
+ */
 function loadIitcPlugin(src) {
   page.evaluate(function(src) {
     var script = document.createElement('script');
@@ -109,9 +109,9 @@ function loadIitcPlugin(src) {
 }
 
 /**
-* Configures IITC plugins
-* @arg settings {array}
-*/
+ * Configures IITC plugins
+ * @arg settings {array}
+ */
 function setupIitcPlugins(settings) {
   page.evaluate(function(settings) {
     settings.forEach(function(param) {
