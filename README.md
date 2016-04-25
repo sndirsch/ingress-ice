@@ -54,7 +54,7 @@ If you want to reconfigure the script, just double click `reconfigure.cmd`. If y
  3. It will save captured screenshots with into `ice-2014-07-13--09-13-37.png`, `ice-2014-07-13--09-14-07.png`...
  5. You can run it from any folder where you want to save screenshots.
 
-If you want to reconfigure the script, run `./ingress-ice.sh -r` . See [CLI usage](https://github.com/nibogd/ingress-ice/wiki/Linux-CLI). If you want to use cookies instead of login and password, see [cookies authentication](https://github.com/nibogd/ingress-ice/wiki/Cookies-Authentication).
+If you want to reconfigure the script, run `./ingress-ice.sh -r`. If you want to use cookies instead of login and password, see [cookies authentication](https://github.com/nibogd/ingress-ice/wiki/Cookies-Authentication). In case Ingress ICE crashes sometimes, run it with option `-s`: it will run ICE in an endless loop.
 
 #### Creating videos
 
