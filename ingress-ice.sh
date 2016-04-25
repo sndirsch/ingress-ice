@@ -131,7 +131,7 @@ OPTIND=1
 NFILE=""
 COUNT=""
 
-while getopts "h?rolc:ai:" opt; do
+while getopts "h?rolsc:ai:" opt; do
     case "$opt" in
     	h|\?)  echo_help;;
     	i)     NFILE=$OPTARG;;
