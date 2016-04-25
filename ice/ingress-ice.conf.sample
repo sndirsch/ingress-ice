@@ -41,6 +41,8 @@ loginTimeout=10000
 directory=screenshots/
 #> Add timezone to timestamp? (true/false)
 timezone=false
+#> Path to a log file for saving JS console messages (will not save if empty)
+consoleLog=
 
 [cookies]
 #> If set, will use cookies for authentication instead of login/password
@@ -61,4 +63,4 @@ S3Alc=
 S3Remove=false
 
 [version]
-version=43
+version=44

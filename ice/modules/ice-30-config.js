@@ -76,6 +76,16 @@ var page         = webpage.create();
 page.onConsoleMessage = function() {};
 page.onError  = function() {};
 
+if (config.consoleLog !== undefined && config.consoleLog !== '') {
+  page.onConsoleMessage = function(msg, lineNum, sourceId) {
+    try {
+      fs.write(config.consoleLog, msg + '\n', 'a');
+    } catch(e) {
+      announce(e);
+    }
+  };
+}
+
 /**
  * aborting unnecessary API
  * @since 4.0.0
