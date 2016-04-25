@@ -41,14 +41,21 @@ launch() {
     if [ "$2" = "0" ]; then
       echo "Existing config file found ($1). Starting ice..."
     else
-      echo "Existing config file found ($1). Starting ice...(Take $2 screenshots)"
+      echo "Existing config file found ($1). Starting ice... (Take $2 screenshots)"
     fi
     if (command -v notify-send >/dev/null)
     then
       notify-send "Ingress Ice" "ICE is running"
     fi
     ARGS="$1 $2"
-    $PHANTOMJS "$SCRIPT_HOME/ice/ice.js" $ARGS; exit;
+    if [ ! $LOOP ]
+    then
+      $PHANTOMJS "$SCRIPT_HOME/ice/ice.js" $ARGS; exit;
+    else
+      while :; do
+        $PHANTOMJS "$SCRIPT_HOME/ice/ice.js" $ARGS
+      done
+    fi
   else
     if [ ! $TEXT ]; then
       $DIALOG --backtitle "Automatic screenshooter for ingress intel map" --title "Ingress Ice" --clear \
@@ -89,6 +96,7 @@ echo_help() {
   echo "  -c <count>   Take <count> screenshots"
   echo "  -i <file>    Read settings from <file> or create config if not exists"
   echo "  -o           Delete old config and configure ice from scratch"
+  echo "  -s           Run Ingress ICE in an endless loop (it will restart automatically after an error)"
   echo ""
   echo "Please visit https://ingress.netlify.com/ or http://github.com/nibogd/ingress-ice for more information"
   exit;
@@ -100,7 +108,7 @@ user_input() {
   fi
   if [ ! $TEXT ]; then
     $DIALOG --title "Notice" --msgbox "I've created a sample config for you. You will be redirected to a text editor.\nEnter your settings there (don't forget to save it!) and close the editor.\n\nIce will start automatically." 12 50;
-    if [ -z "$EDITOR" ]
+    if [ -z "$EDITOR" ] || [ "x$EDITOR" == "x" ]
     then
       nano $1
     else
@@ -127,35 +135,36 @@ while getopts "h?rolc:ai:" opt; do
     case "$opt" in
     	h|\?)  echo_help;;
     	i)     NFILE=$OPTARG;;
-	a)     if [ ! $TEXT ];then
-                    $DIALOG --title "Credits" --msgbox "Ingress ICE (Distributed under the MIT License)\n\nAuthors:\n  Nikitakun (http://github.com/nibogd) @ni_bogd\n\nContributors:\n(See https://github.com/nibogd/ingress-ice/graphs/contributors)" 16 52;exit;
-                else
-                    echo "Ingress ICE (Distributed under the MIT License)"
-                    echo ""
-                    echo "Authors:"
-                    echo "  Nikitakun (http://github.com/nibogd) @ni_bogd"
-                    echo ""
-                    echo "Contributors:"
-                    echo "(See the full list here: https://github.com/nibogd/ingress-ice/graphs/contributors)"
-                    exit;
-                fi;;
-        o)     if [ -z "$NFILE" ]; then
-                 NFILE=$FILE
-               fi
-               rm $NFILE
-               if [ -z "$COUNT" ]; then
-                 COUNT=0
-               fi
-               user_input $NFILE $COUNT; break;;
-	c)     COUNT=$OPTARG;;
-	l)     TEXT=true;;
+	    a)     if [ ! $TEXT ]; then
+               $DIALOG --title "Credits" --msgbox "Ingress ICE (Distributed under the MIT License)\n\nAuthors:\n  Nikitakun (http://github.com/nibogd) @ni_bogd\n\nContributors:\n(See https://github.com/nibogd/ingress-ice/graphs/contributors)" 16 52;exit;
+             else
+               echo "Ingress ICE (Distributed under the MIT License)"
+               echo ""
+               echo "Authors:"
+               echo "  Nikitakun (http://github.com/nibogd)"
+               echo ""
+               echo "Contributors:"
+               echo "(See the full list here: https://github.com/nibogd/ingress-ice/graphs/contributors)"
+               exit;
+             fi;;
+      o)     if [ -z "$NFILE" ]; then
+               NFILE=$FILE
+             fi
+             rm $NFILE
+             if [ -z "$COUNT" ]; then
+               COUNT=0
+             fi
+             user_input $NFILE $COUNT; break;;
+	    c)     COUNT=$OPTARG;;
+	    l)     TEXT=true;;
     	r)     if [ -z "$NFILE" ]; then
-                 NFILE=$FILE
-               fi
-               if [ -z "$COUNT" ]; then
-                 COUNT=0
-               fi
-               user_input $NFILE $COUNT; break;;
+               NFILE=$FILE
+             fi
+             if [ -z "$COUNT" ]; then
+               COUNT=0
+             fi
+             user_input $NFILE $COUNT; break;;
+      s)     LOOP=true;;
     esac
 done
 
