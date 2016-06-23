@@ -8,19 +8,7 @@ SCRIPT_HOME=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 COUNT=""
 MACHINE_TYPE=`uname -m`
 
-if [ "$(uname)" == "Darwin" ]; then
-  PHANTOMJS="$SCRIPT_HOME/phantom-bin/phantomjs-osx"
-else
-  if [ $MACHINE_TYPE == 'x86_64' ]; then
-    PHANTOMJS="$SCRIPT_HOME/phantom-bin/phantomjs64"
-  elif [ $MACHINE_TYPE == 'armv6l' ]; then
-    PHANTOMJS="$SCRIPT_HOME/phantom-bin/phantomjs-armv6l"
-  elif [ $MACHINE_TYPE == 'armv7l' ]; then
-    PHANTOMJS="$SCRIPT_HOME/phantom-bin/phantomjs-armv6l"
-  else
-    PHANTOMJS="$SCRIPT_HOME/phantom-bin/phantomjs"
-  fi
-fi
+PHANTOMJS="$SCRIPT_HOME/phantomjs"
 
 if (command -v dialog >/dev/null)
 then

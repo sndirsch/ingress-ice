@@ -29,9 +29,11 @@ Download
 ### Stable
 See [releases](https://github.com/nibogd/ingress-ice/releases) to download the latest stable version. On linux, you may need to install these [dependencies](https://github.com/nibogd/ingress-ice/wiki/Dependencies-(Linux)).
 ### Development
-> *WARNING!* the development version may be unstable. It is also much bigger (contains executables for every platform).
+> *WARNING!* the development version may be unstable.
 
-You can download the whole ingress-ice using the [![Download ZIP](https://cloud.githubusercontent.com/assets/2771136/12703381/36d9adb4-c85b-11e5-81b1-ec0dbef9f679.png)](https://github.com/nibogd/ingress-ice/archive/master.zip) button on the top or clone this repo via git from the link on top. 
+You can download the whole ingress-ice using the [![Download ZIP](https://cloud.githubusercontent.com/assets/2771136/12703381/36d9adb4-c85b-11e5-81b1-ec0dbef9f679.png)](https://github.com/nibogd/ingress-ice/archive/master.zip) button on the top or clone this repo via git from the link on top. You will need to manually download PhantomJS binary for your platform and put it into `phantomjs.exe` at the root of repo if you are using windows or `phantomjs` otherwise.
+
+PhantomJS binaries' downloads are located [here](http://phantomjs.org/download.html).
 
 Usage
 =====
