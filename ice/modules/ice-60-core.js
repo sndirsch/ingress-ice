@@ -49,7 +49,19 @@ function count() {
  * @param {boolean} iitcz
  */
 function hideDebris(iitcz) {
-  if (!iitcz) {
+  if (iitcz) {
+    window.setTimeout(function() {
+      page.evaluate(function() {
+        if (document.querySelector('#chat'))                      {document.querySelector('#chat').style.display = 'none';}
+        if (document.querySelector('#chatcontrols'))              {document.querySelector('#chatcontrols').style.display = 'none';}
+        if (document.querySelector('#chatinput'))                 {document.querySelector('#chatinput').style.display = 'none';}
+        if (document.querySelector('#updatestatus'))              {document.querySelector('#updatestatus').style.display = 'none';}
+        if (document.querySelector('#sidebartoggle'))             {document.querySelector('#sidebartoggle').style.display = 'none';}
+        if (document.querySelector('#scrollwrapper'))             {document.querySelector('#scrollwrapper').style.display = 'none';}
+        if (document.querySelector('.leaflet-control-container')) {document.querySelector('.leaflet-control-container').style.display = 'none';}
+      });
+    }, 2000);
+  } else {
     page.evaluate(function() {
       if (document.querySelector('#comm'))             {document.querySelector('#comm').style.display = 'none';}
       if (document.querySelector('#player_stats'))     {document.querySelector('#player_stats').style.display = 'none';}
@@ -66,18 +78,6 @@ function hideDebris(iitcz) {
         hide[index].style.display = 'none';
       }
     });
-  } else {
-    window.setTimeout(function() {
-      page.evaluate(function() {
-        if (document.querySelector('#chat'))                      {document.querySelector('#chat').style.display = 'none';}
-        if (document.querySelector('#chatcontrols'))              {document.querySelector('#chatcontrols').style.display = 'none';}
-        if (document.querySelector('#chatinput'))                 {document.querySelector('#chatinput').style.display = 'none';}
-        if (document.querySelector('#updatestatus'))              {document.querySelector('#updatestatus').style.display = 'none';}
-        if (document.querySelector('#sidebartoggle'))             {document.querySelector('#sidebartoggle').style.display = 'none';}
-        if (document.querySelector('#scrollwrapper'))             {document.querySelector('#scrollwrapper').style.display = 'none';}
-        if (document.querySelector('.leaflet-control-container')) {document.querySelector('.leaflet-control-container').style.display = 'none';}
-      });
-    }, 2000);
   }
 }
 
@@ -89,10 +89,7 @@ function hideDebris(iitcz) {
  * @param {number} heightz
  */
 function prepare(iitcz, widthz, heightz) {
-  if (!iitcz) {
-    var selector = "#map_canvas";
-    setElementBounds(selector);
-  } else {
+  if (iitcz) {
     window.setTimeout(function() {
       page.evaluate(function(w, h) {
         var water = document.createElement('p');
@@ -109,6 +106,9 @@ function prepare(iitcz, widthz, heightz) {
       var selector = "#viewport-ice";
       setElementBounds(selector);
     }, 4000);
+  } else {
+    var selector = "#map_canvas";
+    setElementBounds(selector);
   }
 }
 
@@ -168,13 +168,17 @@ function main() {
       }
     });
   }
-  if (!config.iitc) {
-    humanPresence();
-    hideDebris(config.iitc);
-  } else {
+  if (config.iitc) {
     page.evaluate(function() {
       idleReset();
+      // If 'Reload IITC' window appears...
+      if (window.blockOutOfDateRequests) {
+        window.location.reload();
+      }
     });
+  } else {
+    humanPresence();
+    hideDebris(config.iitc);
   }
   window.setTimeout(function() {
     if (config.timestamp) {
