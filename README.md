@@ -35,6 +35,8 @@ You can download the whole ingress-ice using the [![Download ZIP](https://cloud.
 
 PhantomJS binaries' downloads are located [here](http://phantomjs.org/download.html).
 
+To build archives for every operating system, launch `./build.sh`. It will automatically download PhantomJS executables and pack them with Ingress ICE.
+
 Usage
 =====
 
