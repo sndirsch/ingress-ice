@@ -1,4 +1,4 @@
-FROM base/archlinux
+FROM pritunl/archlinux:latest
 
 # Based on Dockerfile by pheanex
 # Usage:
