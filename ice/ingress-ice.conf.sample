@@ -62,5 +62,14 @@ S3Alc=
 #> Delete files after upload? (true/false)
 S3Remove=false
 
+[Dropbox]
+#> If set, will upload screenshots to Dropbox
+#> Dropbox access-token
+DropboxToken=
+#> Dropbox upload Directory path (/path/)
+DropboxPath=
+#> Delete files after upload? (true/false)
+DropboxRemove=false
+
 [version]
 version=44

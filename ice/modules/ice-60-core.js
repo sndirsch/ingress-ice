@@ -145,13 +145,17 @@ function humanPresence() {
 }
 
 /**
- * Does postprocessing like uploading to AWS, etc.
+ * Does postprocessing like uploading to AWS, Dropbox, etc.
  * @arg file {String}
  */
 function postprocess (file) {
+  // The reason why only one of them can be processed is because the file may be deleted.
   if (config.S3Key) {
     announce('Uploading to Amazon S3...');
     uploadS3(config.S3Key, config.S3Secret, config.S3Bucket, config.S3Alc, config.directory+file, config.S3Remove);
+  } else if (config.DropboxToken) {
+    announce('Uploading to Dropbox...');
+    uploadDropbox(config.DropboxToken, config.DropboxPath+file, config.directory+file, config.DropboxRemove);
   }
 }
 
