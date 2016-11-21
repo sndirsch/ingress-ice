@@ -39,26 +39,34 @@ function uploadDropbox(token, remotepath, path, remove) {
     var fileChooser = document.querySelector('#file-chooser');
 
     fileChooser.addEventListener('change', function() {
-      var xhr = new XMLHttpRequest();
+      var file = new FileReader();
 
-      xhr.onload = function() {
-        if (xhr.status === 200) {
-          window.callPhantom({ status: 200, data: JSON.parse(xhr.response) });
-        } else {
-          window.callPhantom({ status: 500 });
-        }
-      };
+      file.addEventListener("load", function(e) {
+        var xhr = new XMLHttpRequest();
+        var buffer = new Uint8Array(file.result);
 
-      xhr.open('POST', 'https://content.dropboxapi.com/2/files/upload');
-      xhr.setRequestHeader('Authorization', 'Bearer ' + token);
-      xhr.setRequestHeader('Content-Type', 'application/octet-stream');
-      xhr.setRequestHeader('Dropbox-API-Arg', JSON.stringify({
-        path: remotepath,
-        mode: 'add'
-      }));
+        xhr.onload = function() {
+          if (xhr.status === 200) {
+            window.callPhantom({ status: 200, data: JSON.parse(xhr.response) });
+          } else {
+            window.callPhantom({ status: 500 });
+          }
+        };
 
-      xhr.send(fileChooser);
+        xhr.open('POST', 'https://content.dropboxapi.com/2/files/upload');
+        xhr.setRequestHeader('Authorization', 'Bearer ' + token);
+        xhr.setRequestHeader('Content-Type', 'application/octet-stream');
+        xhr.setRequestHeader('Dropbox-API-Arg', JSON.stringify({
+          path: remotepath,
+          mode: 'add'
+        }));
+
+        xhr.send(buffer);
+      });
+
+      file.readAsArrayBuffer(fileChooser.files[0]);
     }, false);
+
   }, token, remotepath);
 
   dropbox.uploadFile("input[name=file-chooser]", path);
