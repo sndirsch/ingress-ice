@@ -19,7 +19,7 @@ var fs        = require('fs');
 var version   = '4.4.1';
 var filename  = 'ice.js';
 var iceFolder = args[0].substring(0, args[0].length - filename.length) + 'modules/';
-var iceModules= fs.list(iceFolder);
+var iceModules= fs.list(iceFolder).sort();
 
 /*
  * Loads all scripts in the 'modules' folder
