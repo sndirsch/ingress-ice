@@ -23,9 +23,9 @@ declare -A cmds=(
 )
 
 declare -A pack=(
-["ingress-ice-linux32"]="tar cvzf ingress-ice-linux32.tar.gz"
-["ingress-ice-linux64"]="tar cvzf ingress-ice-linux64.tar.gz"
-["ingress-ice-armv6l"]="tar cvzf ingress-ice-armv6l.tar.gz"
+["ingress-ice-linux32"]="tar cvzf ingress-ice-linux32.tar.gz --owner=0 --group=0"
+["ingress-ice-linux64"]="tar cvzf ingress-ice-linux64.tar.gz --owner=0 --group=0"
+["ingress-ice-armv6l"]="tar cvzf ingress-ice-armv6l.tar.gz --owner=0 --group=0"
 ["ingress-ice-osx"]="zip -r ingress-ice-osx.zip"
 ["ingress-ice-win32"]="zip -r ingress-ice-win32.zip"
 )
