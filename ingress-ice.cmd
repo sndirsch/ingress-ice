@@ -43,7 +43,7 @@ notepad %FILE%
 cls
 echo Existing config file found (%FILE%). Starting ice...
 if '%COUNT%' NEQ '' echo Taking %COUNT% screenshots...
-phantomjs.exe ice\ice.js %FILE% %COUNT%
+phantomjs.exe --ignore-ssl-errors=true ice\ice.js %FILE% %COUNT%
 pause
 goto :eof
 :help
