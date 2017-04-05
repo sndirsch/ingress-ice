@@ -1,6 +1,5 @@
 [ingress-ice](http://ingress.netlify.com/)
 ===========
-
 Automatic screenshooter for ingress intel map.
 ![](https://cloud.githubusercontent.com/assets/2771136/7915684/cfaba8c4-0887-11e5-86b9-5b4fe05ababc.png)
 
@@ -24,6 +23,7 @@ See our [samples](https://github.com/nibogd/ingress-ice/wiki/Example-Records).
 [<img src="https://developers.google.com/+/images/branding/g+128.png" width="16"> +Ingress ICE](https://plus.google.com/u/0/115529923593338751190/posts)
 
 [<img src="https://g.twimg.com/Twitter_logo_blue.png" width="16"> @ingress_ice](https://twitter.com/ingress_ice)
+
 Download
 ========
 ### Stable
@@ -39,11 +39,9 @@ To build archives for every operating system, launch `./build.sh`. It will autom
 
 Usage
 =====
-
 > *WARNING!* ingress-ice may be considered against Ingress ToS (although it hasn't happened before). Use it at your own risk!
 
 ### Windows
-
  1. Unpack the archieve wherever you want
  2. Double-Click `ingress-ice.cmd` and follow the instructions
  3. It will save captured screenshots with into `ice-2014-07-13--09-13-37.png`, `ice-2014-07-13--09-14-07.png`...
@@ -52,7 +50,6 @@ Usage
 If you want to reconfigure the script, just double click `reconfigure.cmd`. If you want to use cookies instead of login and password, see [cookies authentication](https://github.com/nibogd/ingress-ice/wiki/Cookies-Authentication).
 
 ### Linux/Mac OS X
-
  1. Unpack the archieve wherever you want
  2. Run `chmod +x ingress-ice.sh&&./ingress-ice.sh` in console and follow the instructions
  3. It will save captured screenshots with into `ice-2014-07-13--09-13-37.png`, `ice-2014-07-13--09-14-07.png`...
@@ -61,7 +58,6 @@ If you want to reconfigure the script, just double click `reconfigure.cmd`. If y
 If you want to reconfigure the script, run `./ingress-ice.sh -r`. If you want to use cookies instead of login and password, see [cookies authentication](https://github.com/nibogd/ingress-ice/wiki/Cookies-Authentication). In case Ingress ICE crashes sometimes, run it with option `-s`: it will run ICE in an endless loop.
 
 #### Creating videos
-
 To create a video from your screenshots, you can use *MPlayer* [(Windows download)](http://oss.netfarm.it/mplayer-win32.php) (install from your repo if on linux). It includes a `mencoder` command. The following will produce an `.avi` video:
 (Detailed instruction for windows [here](https://github.com/nibogd/ingress-ice/wiki/Creating-videos-(Windows)))
 ```
@@ -69,6 +65,11 @@ mencoder mf://*.png -mf w=1366:h=768:fps=4:type=png -ovc lavc -lavcopts vcodec=m
 ```
 
 Change 1366 and 768 to your width and height, fps=4 to your FPS (more FPS - faster video, but shorter)
+
+#### Troubleshooting
+If you have problems logging in, that may be a CAPTCHA (see [#106](https://github.com/nibogd/ingress-ice/issues/106#issuecomment-282949206)). Try visiting https://accounts.google.com/displayunlockcaptcha and following the instructions.
+
+If that doesn't help or you have a different problem, feel free to [open an issue](https://github.com/nibogd/ingress-ice/issues/new).
 
 #### Contributors
 You can see the list [here](https://github.com/nibogd/ingress-ice/graphs/contributors).
@@ -78,5 +79,3 @@ If you like Ingress Ice, [support us at Bountysource](https://salt.bountysource.
 
 <hr>
 ICE uses [PhantomJS](http://phantomjs.org/), it's binary is packed with the script.
-
-Ingress trademark belongs to Google, Inc.
