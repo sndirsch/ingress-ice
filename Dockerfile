@@ -7,6 +7,7 @@ FROM pritunl/archlinux:latest
 MAINTAINER nibogd <nibogd@users.noreply.github.com>
 
 RUN pacman-key --populate archlinux
+RUN pacman -Syu --noconfirm
 RUN pacman-key --refresh-keys
 RUN pacman -Sy phantomjs ttf-droid libstdc++5 gperf icu libjpeg-turbo libpng python2 ruby gcc gcc-libs freetype2 texinfo zlib gdbm expat libffi gmp libyaml curl pcre perl --noconfirm
 ADD . /ingress-ice/
