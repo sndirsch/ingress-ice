@@ -55,6 +55,7 @@ function hideDebris(iitcz) {
         if (document.querySelector('#chat'))                      {document.querySelector('#chat').style.display = 'none';}
         if (document.querySelector('#chatcontrols'))              {document.querySelector('#chatcontrols').style.display = 'none';}
         if (document.querySelector('#chatinput'))                 {document.querySelector('#chatinput').style.display = 'none';}
+        if (document.querySelector('#portal_highlight_select'))   {document.querySelector('#portal_highlight_select').style.display = 'none';}
         if (document.querySelector('#updatestatus'))              {document.querySelector('#updatestatus').style.display = 'none';}
         if (document.querySelector('#sidebartoggle'))             {document.querySelector('#sidebartoggle').style.display = 'none';}
         if (document.querySelector('#scrollwrapper'))             {document.querySelector('#scrollwrapper').style.display = 'none';}
