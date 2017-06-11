@@ -22,7 +22,7 @@ width=1366
 height=768
 #> Inject IITC? (true/false)
 iitc=false
-plugins=["https://secure.jonatkins.com/iitc/release/plugins/link-show-direction.user.js"]
+plugins=["https://static.iitc.me/build/release/plugins/link-show-direction.user.js"]
 # Read more at https://github.com/nibogd/ingress-ice/wiki/Loading-IITC-plugins
 pluginsConfig=[{"key":"plugin-linkshowdirection-mode","value":"Static near origin"},{"key":"iitc-base-map","value":"Google Roads"}]
 #> Put a timestamp on your screenshots? (true/false)
