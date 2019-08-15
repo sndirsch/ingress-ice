@@ -50,7 +50,7 @@ function addCookies(sacsid, csrf) {
   phantom.addCookie({
     name: 'SACSID',
     value: sacsid,
-    domain: 'www.ingress.com',
+    domain: 'intel.ingress.com',
     path: '/',
     httponly: true,
     secure: true
@@ -58,7 +58,7 @@ function addCookies(sacsid, csrf) {
   phantom.addCookie({
     name: 'csrftoken',
     value: csrf,
-    domain: 'www.ingress.com',
+    domain: 'intel.ingress.com',
     path: '/'
   });
 }
