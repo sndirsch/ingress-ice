@@ -1,9 +1,7 @@
 /**
  * @file Ingress-ICE, the main script
- * @author nibogd (https://github.com/nibogd)
- * @version 4.5.1
+ * @version 4.5.3
  * @license MIT
- * @see {@link https://github.com/nibogd/ingress-ice|GitHub }
  * @see {@link https://ingress.netlify.com/|Website }
  */
 
@@ -16,7 +14,7 @@
 var system    = require('system');
 var args      = system.args;
 var fs        = require('fs');
-var version   = '4.5.2';
+var version   = '4.5.3';
 var filename  = 'ice.js';
 var iceFolder = args[0].substring(0, args[0].length - filename.length) + 'modules/';
 var iceModules= fs.list(iceFolder).sort();

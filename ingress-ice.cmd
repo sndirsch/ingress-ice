@@ -2,7 +2,6 @@
 @echo off
 SETLOCAL EnableDelayedExpansion
 REM ingress-ice start script
-REM (http://github.com/nibogd/ingress-ice)
 REM Double-click this file and follow the
 REM instructions
 
@@ -48,7 +47,7 @@ pause
 goto :eof
 :help
 echo Ingress ICE, an automated screenshooter for ingress intel map
-echo Copyright (c) Nikitakun (github.com/nibogd)
+echo Copyright (c) https://ingress.netlify.com
 echo.
 echo Usage:
 echo   ingress-ice.cmd [-r] [-h]
@@ -57,5 +56,5 @@ echo Options:
 echo   -r      Edit the configuration
 echo   -h      Print this help
 echo.
-echo Please visit https://ingress.netlify.com/ or http://github.com/nibogd/ingress-ice for more information
+echo Please visit https://ingress.netlify.com/ for more information
 :eof

@@ -1,4 +1,4 @@
-# This is a configuration file for Ingress Ice (github.com/nibogd/ingress-ice)
+# This is a configuration file for Ingress Ice (https://ingress.netlify.com)
 # Insert your settings here (after '=' without spaces). Only first three settings (login, password and area link) are mandatory.
 #
 # After modifying this file, save it and close the editor. Ice will start automatically.
@@ -23,7 +23,6 @@ height=768
 #> Inject IITC? (true/false)
 iitc=false
 plugins=["https://static.iitc.me/build/release/plugins/link-show-direction.user.js"]
-# Read more at https://github.com/nibogd/ingress-ice/wiki/Loading-IITC-plugins
 pluginsConfig=[{"key":"plugin-linkshowdirection-mode","value":"Static near origin"},{"key":"iitc-base-map","value":"Google Roads"}]
 #> Put a timestamp on your screenshots? (true/false)
 timestamp=true

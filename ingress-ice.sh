@@ -87,7 +87,7 @@ echo_help() {
   echo "  -o           Delete old config and configure ice from scratch"
   echo "  -s           Run Ingress ICE in an endless loop (it will restart automatically after an error)"
   echo ""
-  echo "Please visit https://ingress.netlify.com/ or http://github.com/nibogd/ingress-ice for more information"
+  echo "Please visit https://ingress.netlify.com/ for more information"
   exit;
 }
 
@@ -125,15 +125,12 @@ while getopts "h?rolsc:ai:" opt; do
     	h|\?)  echo_help;;
     	i)     NFILE=$OPTARG;;
 	    a)     if [ ! $TEXT ]; then
-               $DIALOG --title "Credits" --msgbox "Ingress ICE (Distributed under the MIT License)\n\nAuthors:\n  Nikitakun (http://github.com/nibogd) @ni_bogd\n\nContributors:\n(See https://github.com/nibogd/ingress-ice/graphs/contributors)" 16 52;exit;
+               $DIALOG --title "Credits" --msgbox "Ingress ICE (Distributed under the MIT License)\n\nAuthors:\n  https://ingress.netlify.com" 16 52;exit;
              else
                echo "Ingress ICE (Distributed under the MIT License)"
                echo ""
                echo "Authors:"
-               echo "  Nikitakun (http://github.com/nibogd)"
-               echo ""
-               echo "Contributors:"
-               echo "(See the full list here: https://github.com/nibogd/ingress-ice/graphs/contributors)"
+               echo "  https://ingress.netlify.com"
                exit;
              fi;;
       o)     if [ -z "$NFILE" ]; then

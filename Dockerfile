@@ -4,7 +4,7 @@ FROM pritunl/archlinux:latest
 # Usage:
 # $ docker build -t ingress-ice .
 # $ docker run -v /path/to/.ingress-ice.conf:/.ingress-ice.conf -v /path/to/screenshots/:/screenshots ingress-ice
-MAINTAINER nibogd <nibogd@users.noreply.github.com>
+MAINTAINER ingress.netlify.com
 
 RUN pacman-key --populate archlinux
 RUN pacman -Syu --noconfirm
