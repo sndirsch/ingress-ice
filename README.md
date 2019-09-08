@@ -25,17 +25,27 @@ Usage
 
 ### Windows
  1. Unpack the archieve wherever you want
- 2. Double-Click `ingress-ice.cmd` and follow the instructions
- 3. It will save captured screenshots with into `ice-2014-07-13--09-13-37.png`, `ice-2014-07-13--09-14-07.png`...
- 4. You can copy `ice/ingress-ice.conf.sample` to `ingress-ice.conf` in the ice root and enter your settings there, so you can have different configurations for every `ingress-ice`
+ 2. Download and extract phantomjs archive: https://bitbucket.org/ariya/phantomjs/downloads/phantomjs-2.1.1-windows.zip
+ 3. Move `phantomjs-2.1.1-windows/bin/phantomjs.exe` to the same directory where you extracted the ingress-ice archive,
+    so it can be found by `ingress-ice.cmd`
+ 4. Double-Click `ingress-ice.cmd` and follow the instructions
+ 5. It will save captured screenshots with into `ice-2014-07-13--09-13-37.png`, `ice-2014-07-13--09-14-07.png`...
+ 6. You can copy `ice/ingress-ice.conf.sample` to `ingress-ice.conf` in the ice root and enter your settings there, so you can have different configurations for every `ingress-ice`
 
 If you want to reconfigure the script, just double click `reconfigure.cmd`.
 
 ### Linux/Mac OS X
  1. Unpack the archieve wherever you want
- 2. Run `chmod +x ingress-ice.sh&&./ingress-ice.sh` in console and follow the instructions
- 3. It will save captured screenshots with into `ice-2014-07-13--09-13-37.png`, `ice-2014-07-13--09-14-07.png`...
- 5. You can run it from any folder where you want to save screenshots.
+ 2. Download and extract phantomjs archive
+    - linux64: https://bitbucket.org/ariya/phantomjs/downloads/phantomjs-2.1.1-linux-x86_64.tar.bz2
+    - linux32: https://bitbucket.org/ariya/phantomjs/downloads/phantomjs-2.1.1-linux-i686.tar.bz2
+    - armv6l:  https://github.com/spfaffly/phantomjs-linux-armv6l/blob/master/phantomjs-2.0.1-development-linux-armv6l.tar.gz?raw=true
+    - osx:     https://bitbucket.org/ariya/phantomjs/downloads/phantomjs-2.1.1-macosx.zip
+ 3. Move `phantomjs-*/bin/phantomjs` to the same directory where you extracted the ingress-ice archive,
+    so it can be found by `ingress-ice.sh`
+ 4. Run `chmod +x ingress-ice.sh&&./ingress-ice.sh` in console and follow the instructions
+ 5. It will save captured screenshots with into `ice-2014-07-13--09-13-37.png`, `ice-2014-07-13--09-14-07.png`...
+ 6. You can run it from any folder where you want to save screenshots.
 
 If you want to reconfigure the script, run `./ingress-ice.sh -r`. In case Ingress ICE crashes sometimes, run it with option `-s`: it will run ICE in an endless loop.
 
