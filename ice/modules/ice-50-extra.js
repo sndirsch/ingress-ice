@@ -89,6 +89,12 @@ function addIitc() {
     script.src='https://static.iitc.me/build/release/total-conversion-build.user.js';
     document.head.insertBefore(script, document.head.lastChild);
   }, !config.hideField, !config.hideLink, !config.hideRes, !config.hideEnl, config.minlevel, config.maxlevel);
+  if( typeof config.plugins == 'undefined' || config.plugins === '' ) {
+    config.plugins='[]';
+  }
+  if( typeof config.pluginsConfig == 'undefined' || config.pluginsConfig === '' ) {
+    config.pluginsConfig='[{"key":"iitc-base-map","value":"Google Default Ingress Map"}]';
+  }
   setupIitcPlugins(JSON.parse(config.pluginsConfig));
   JSON.parse(config.plugins).forEach(function(plugin) {
     loadIitcPlugin(plugin);
