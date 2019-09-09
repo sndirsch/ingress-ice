@@ -23,10 +23,15 @@ width=1366
 height=768
 #> Inject IITC? (true/false)
 iitc=false
-#needed for hideRes/hideEnl/hideLink/hideField options below (issue #2)
-plugins=["https://static.iitc.me/build/release/plugins/draw-tools.user.js"]
-pluginsConfig=[{"key":"iitc-base-map","value":"Google Default Ingress Map"}]
+# IITC Settings/Plugin Defaults
+#plugins=[]
+#pluginsConfig=[{"key":"iitc-base-map","value":"Google Default Ingress Map"}]
+#
+# Examples for IITC Settings/Plugins
 #pluginsConfig=[{"key":"iitc-base-map","value":"Google Roads"}]
+#plugins=["https://static.iitc.me/build/release/plugins/link-show-direction.user.js"]
+#pluginsConfig=[{"key":"plugin-linkshowdirection-mode","value":"Static near origin"},{"key":"iitc-base-map","value":"Google Roads"}]
+#
 #> Put a timestamp on your screenshots? (true/false)
 timestamp=true
 #> Hide Resistance portals/links/fields, Enlightened portals/links/fields, links, fields respectively? (true/false)
