@@ -5,7 +5,7 @@
 
 [ice]
 #> Your Google login and password
-# Authentication via login/password currently not working at all; use cookies, i.e. SACSID/CSRF options below (issue #1)
+# Authentication via login/password currently not working at all; use cookies, i.e. SACSID/sessionid and CSRF options below (issue #1)
 #login=
 #password=
 #> Your area link. To get it, visit https://intel.ingress.com/intel, scroll the map to your location and press [LINK] at the top right corner. Copy that link and paste it here.
@@ -53,8 +53,12 @@ consoleLog=
 
 [cookies]
 #> If set, will use cookies for authentication instead of login/password
-# Firefox: use Webdeveloper/Storage Inspector on https://intel.ingress.com/intel (csrftoken/SACSID)
+# Firefox: use Webdeveloper/Storage Inspector on https://intel.ingress.com/intel (csrftoken/SACSID/sessionid)
+# Either specify 'SACSID' or 'sessionid' cookie (or both)
+# SACSID already expires after 24 hours!
 SACSID=
+# 'sessionid' expires after two weeks, so this is preferred
+sessionid=
 CSRF=
 
 [Amazon-S3]

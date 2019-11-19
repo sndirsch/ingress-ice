@@ -19,7 +19,7 @@
 /*global cookiespath */
 
 /**
- * Checks if cookies file exists. If so, it sets SACSID and CSRF vars
+ * Checks if cookies file exists. If so, it sets SACSID/sessionid and CSRF vars
  * @returns {boolean}
  * @author mfcanovas (github.com/mfcanovas)
  * @since 3.2.0
@@ -34,6 +34,8 @@ function loadCookies() {
         config.SACSID = line[1];
       } else if(line[0] === 'csrftoken') {
         config.CSRF = line[1];
+      } else if(line[0] === 'sessionid') {
+        config.sessionid = line[1];
       }
     }
     stream.close();
@@ -46,7 +48,7 @@ function loadCookies() {
  * @param {String} csrf
  * @since 3.1.0
  */
-function addCookies(sacsid, csrf) {
+function addCookies(sacsid, csrf, sessionid) {
   phantom.addCookie({
     name: 'SACSID',
     value: sacsid,
@@ -60,6 +62,14 @@ function addCookies(sacsid, csrf) {
     value: csrf,
     domain: 'intel.ingress.com',
     path: '/'
+  });
+  phantom.addCookie({
+    name: 'sessionid',
+    value: sessionid,
+    domain: 'intel.ingress.com',
+    path: '/',
+    httponly: true,
+    secure: true
   });
 }
 
@@ -79,6 +89,7 @@ function afterCookieLogin() {
       if(config.login && config.password) {
         page.deleteCookie('SACSID');
         page.deleteCookie('csrftoken');
+        page.deleteCookie('sessionid');
         firePlainLogin();
         return;
       } else {

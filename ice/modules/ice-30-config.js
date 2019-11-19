@@ -19,6 +19,9 @@ if (
     ) && (
       typeof config.SACSID == 'undefined' || config.SACSID === '' ||
       typeof config.CSRF == 'undefined' || config.CSRF === ''
+    ) && (
+      typeof config.sessionid == 'undefined' || config.sessionid === '' ||
+      typeof config.CSRF == 'undefined' || config.CSRF === ''
     )
   ) || (
     typeof config.area == 'undefined' || config.area === ''
