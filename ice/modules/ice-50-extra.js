@@ -67,7 +67,7 @@ function addTimestamp(time, iitcz) {
 function addIitc() {
   page.evaluate(function(field, link, res, enl, min, max) {
     localStorage['ingress.intelmap.layergroupdisplayed'] = JSON.stringify({
-      "Unclaimed Portals":Boolean(min === 1),
+      "Unclaimed/Placeholder Portals":Boolean(min === 1),
       "Level 1 Portals":Boolean(min === 1),
       "Level 2 Portals":Boolean((min <= 2) && (max >= 2)),
       "Level 3 Portals":Boolean((min <= 3) && (max >= 3)),
