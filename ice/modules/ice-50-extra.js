@@ -82,7 +82,7 @@ function addIitc() {
       "Enlightened":enl,
       "DEBUG Data Tiles":false,
       "Artifacts":true,
-      "Ornaments":true
+      "Ornaments":false
     });
     var script = document.createElement('script');
     script.type='text/javascript';
