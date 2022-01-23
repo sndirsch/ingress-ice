@@ -86,7 +86,7 @@ function addIitc() {
     });
     var script = document.createElement('script');
     script.type='text/javascript';
-    script.src='https://static.iitc.me/build/release/total-conversion-build.user.js';
+    script.src='https://iitc.app/build/beta/total-conversion-build.user.js';
     document.head.insertBefore(script, document.head.lastChild);
   }, !config.hideField, !config.hideLink, !config.hideRes, !config.hideEnl, config.minlevel, config.maxlevel);
   if( typeof config.plugins == 'undefined' || config.plugins === '' ) {
