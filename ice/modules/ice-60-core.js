@@ -205,21 +205,16 @@ function main() {
  */
 function ice() {
   greet();
-  if ((config.SACSID == undefined    || config.SACSID == '') &&
-      (config.sessionid == undefined || config.sessionid == '')) {
+  if (config.sessionid == undefined || config.sessionid == '') {
     loadCookies();
   }
-  if ((config.SACSID == undefined    || config.SACSID == '') &&
-      (config.sessionid == undefined || config.sessionid == '')) {
+  if (config.sessionid == undefined || config.sessionid == '') {
     firePlainLogin();
   } else {
-    if (config.SACSID == undefined) {
-	config.SACSID=''
-    }
     if (config.sessionid == undefined) {
         config.sessionid=''
     }
-    addCookies(config.SACSID, config.CSRF, config.sessionid);
+    addCookies(config.CSRF, config.sessionid);
     announce('Using cookies to log in');
     afterCookieLogin();
   }

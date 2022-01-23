@@ -22,7 +22,7 @@
  */
 function firePlainLogin() {
   page.settings.userAgent = 'Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1b3) Gecko/20090305 Firefox/3.1b3 GTB5';
-  page.open('https://intel.ingress.com/intel', function (status) {
+  page.open('https://intel.ingress.com/', function (status) {
 
     if (status !== 'success') {quit('unable to connect to remote server')}
 
