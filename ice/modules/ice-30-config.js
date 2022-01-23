@@ -17,9 +17,6 @@ if (
       typeof config.login == 'undefined' || config.login === '' ||
       typeof config.password == 'undefined' || config.password === ''
     ) && (
-      typeof config.SACSID == 'undefined' || config.SACSID === '' ||
-      typeof config.CSRF == 'undefined' || config.CSRF === ''
-    ) && (
       typeof config.sessionid == 'undefined' || config.sessionid === '' ||
       typeof config.CSRF == 'undefined' || config.CSRF === ''
     )
