@@ -65,7 +65,7 @@ function addTimestamp(time, iitcz) {
  * @author Nikitakun
  */
 function addIitc() {
-  page.evaluate(function(field, link, res, enl, ornaments, beacons, min, max) {
+  page.evaluate(function(field, link, res, enl, ornaments, beacons, artifacts, frackers, min, max) {
     localStorage['ingress.intelmap.layergroupdisplayed'] = JSON.stringify({
       "Unclaimed/Placeholder Portals":Boolean(min === 1),
       "Level 1 Portals":Boolean(min === 1),
@@ -81,15 +81,16 @@ function addIitc() {
       "Resistance":res,
       "Enlightened":enl,
       "DEBUG Data Tiles":false,
-      "Artifacts":true,
+      "Artifacts":artifacts,
       "Ornaments":ornaments,
-      "Beacons": beacons
+      "Beacons": beacons,
+      "Frackers": frackers
     });
     var script = document.createElement('script');
     script.type='text/javascript';
     script.src='https://iitc.app/build/beta/total-conversion-build.user.js';
     document.head.insertBefore(script, document.head.lastChild);
-  }, !config.hideField, !config.hideLink, !config.hideRes, !config.hideEnl, !config.hideOrnaments, !config.hideBeacons, config.minlevel, config.maxlevel);
+  }, !config.hideField, !config.hideLink, !config.hideRes, !config.hideEnl, !config.hideOrnaments, !config.hideBeacons, !config.hideArtifacts, !config.hideFrackers, config.minlevel, config.maxlevel);
   if( typeof config.plugins == 'undefined' || config.plugins === '' ) {
     config.plugins='[]';
   }

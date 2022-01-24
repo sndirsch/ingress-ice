@@ -41,6 +41,8 @@ hideLink=false
 hideField=false
 hideOrnaments=false
 hideBeacons=false
+hideArtifacts=false
+hideFrackers=false
 # Picture format (png/jpg)
 format=png
 #> Log in timeout. Default is 10 000 (ms). If you have problems with signing in, increasing this may help
